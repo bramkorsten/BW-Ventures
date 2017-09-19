@@ -3,8 +3,27 @@
   <head>
     <meta charset="utf-8">
     <title>BW-Ventures WebApp</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="assets/js/bluewhale.js"></script>
   </head>
   <body>
-
+    <header>
+      <div id="background-img" class="background-img"></div>
+      <div class="login-wrap">
+        <div id="login-background" class="login-background"></div>
+        <img class="form-logo" src="assets/img/bw-logo.svg">
+        <div id="login-form" class="login-form">
+          <span onClick="expandForm();" id="login-title" class="login-title">LOGIN</span>
+          <form id="true-form" class="true-form class-gone">
+            <input id="user-input" type="text" class="input-text" placeholder="USERNAME" name="bw-user" autocomplete="off">
+            <label for="user-input"></label>
+            <input id="user-password" type="password" class="input-text" placeholder="PASSWORD" name="bw-pass" autocomplete="off">
+            <label for="user-password"></label>
+            <input type="submit" class="submit-btn" value="LOGIN">
+          </form>
+        </div>
+      </div>
+    </header>
   </body>
 </html>
