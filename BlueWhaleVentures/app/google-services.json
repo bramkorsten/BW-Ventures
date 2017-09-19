@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "573936868876",
+    "firebase_url": "https://blue-whale-ventures.firebaseio.com",
+    "project_id": "blue-whale-ventures",
+    "storage_bucket": "blue-whale-ventures.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573936868876:android:d205ad0bbfa2fee6",
+        "android_client_info": {
+          "package_name": "com.hizmet.bluewhaleventures"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573936868876-bipndc5dt11csmj0beo536tdga524e64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hizmet.bluewhaleventures",
+            "certificate_hash": "ebed9621f4a29d0c1b4109a175a9cd7eaa834d0a"
+          }
+        },
+        {
+          "client_id": "573936868876-a63poh8b67qlaq0cu8ldnutq9elv5g7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hizmet.bluewhaleventures",
+            "certificate_hash": "8a166870ad8a00723f530465405d1eac89ea7bbe"
+          }
+        },
+        {
+          "client_id": "573936868876-mavvi9sf8iv6ufccos6blrvu892qrv5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-EDlQHKlUWTcTGEE4EYYfn2M85UTx91I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573936868876-mavvi9sf8iv6ufccos6blrvu892qrv5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
