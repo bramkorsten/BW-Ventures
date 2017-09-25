@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "573936868876-f0ait9v79dldkhf8ilqgk2nbvk9inil2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hizmet.bluewhaleventures",
+            "certificate_hash": "a87c571959504dee22dde9eff8bf6d525e65cbeb"
+          }
+        },
+        {
           "client_id": "573936868876-bipndc5dt11csmj0beo536tdga524e64.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -47,6 +55,13 @@
         "appinvite_service": {
           "status": 2,
           "other_platform_oauth_client": [
+            {
+              "client_id": "573936868876-jicfvsk6kqenoo01cau9b1rbfgvib0oe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hizmet.bluewhaleventures"
+              }
+            },
             {
               "client_id": "573936868876-mavvi9sf8iv6ufccos6blrvu892qrv5h.apps.googleusercontent.com",
               "client_type": 3
