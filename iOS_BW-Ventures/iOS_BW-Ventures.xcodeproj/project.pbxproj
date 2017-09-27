@@ -14,6 +14,7 @@
 		F56832A41F6FD609004A10F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56832A21F6FD609004A10F8 /* Main.storyboard */; };
 		F56832A61F6FD609004A10F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F56832A51F6FD609004A10F8 /* Assets.xcassets */; };
 		F56832A91F6FD609004A10F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56832A71F6FD609004A10F8 /* LaunchScreen.storyboard */; };
+		F597B0491F7BC33F00FE83A4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		F56832A51F6FD609004A10F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F56832A81F6FD609004A10F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F56832AA1F6FD609004A10F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		FB81BD5AA101ED674FF7215B /* Pods_iOS_BW_Ventures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_BW_Ventures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 		F568329D1F6FD609004A10F8 /* iOS_BW-Ventures */ = {
 			isa = PBXGroup;
 			children = (
+				F597B0471F7BC2FA00FE83A4 /* Fonts */,
 				F568329E1F6FD609004A10F8 /* AppDelegate.swift */,
 				F56832A01F6FD609004A10F8 /* ViewController.swift */,
 				F56832A21F6FD609004A10F8 /* Main.storyboard */,
@@ -89,6 +92,14 @@
 				F55ACCD61F71029D00AEF151 /* GoogleService-Info.plist */,
 			);
 			path = "iOS_BW-Ventures";
+			sourceTree = "<group>";
+		};
+		F597B0471F7BC2FA00FE83A4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +167,7 @@
 				F56832A91F6FD609004A10F8 /* LaunchScreen.storyboard in Resources */,
 				F55ACCD71F71029D00AEF151 /* GoogleService-Info.plist in Resources */,
 				F56832A61F6FD609004A10F8 /* Assets.xcassets in Resources */,
+				F597B0491F7BC33F00FE83A4 /* Montserrat-Regular.ttf in Resources */,
 				F56832A41F6FD609004A10F8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
