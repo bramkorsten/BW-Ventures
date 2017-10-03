@@ -14,7 +14,10 @@
 		F56832A41F6FD609004A10F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56832A21F6FD609004A10F8 /* Main.storyboard */; };
 		F56832A61F6FD609004A10F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F56832A51F6FD609004A10F8 /* Assets.xcassets */; };
 		F56832A91F6FD609004A10F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56832A71F6FD609004A10F8 /* LaunchScreen.storyboard */; };
+		F583D24E1F7E520500B84558 /* LoginContainerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583D24D1F7E520500B84558 /* LoginContainerClass.swift */; };
 		F597B0491F7BC33F00FE83A4 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */; };
+		F5F4F52B1F839A2100CECCAB /* ExperimentsClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F4F52A1F839A2100CECCAB /* ExperimentsClass.swift */; };
+		F5F4F52D1F839C5F00CECCAB /* Intro.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5F4F52C1F839C5F00CECCAB /* Intro.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +31,10 @@
 		F56832A51F6FD609004A10F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F56832A81F6FD609004A10F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F56832AA1F6FD609004A10F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F583D24D1F7E520500B84558 /* LoginContainerClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginContainerClass.swift; sourceTree = "<group>"; };
 		F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		F5F4F52A1F839A2100CECCAB /* ExperimentsClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentsClass.swift; sourceTree = "<group>"; };
+		F5F4F52C1F839C5F00CECCAB /* Intro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.otf; sourceTree = "<group>"; };
 		FB81BD5AA101ED674FF7215B /* Pods_iOS_BW_Ventures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_BW_Ventures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -64,6 +70,7 @@
 		F56832921F6FD608004A10F8 = {
 			isa = PBXGroup;
 			children = (
+				F5F4F52A1F839A2100CECCAB /* ExperimentsClass.swift */,
 				F568329D1F6FD609004A10F8 /* iOS_BW-Ventures */,
 				F568329C1F6FD609004A10F8 /* Products */,
 				4D477B7BEEB49749D6E47DE5 /* Pods */,
@@ -85,6 +92,7 @@
 				F597B0471F7BC2FA00FE83A4 /* Fonts */,
 				F568329E1F6FD609004A10F8 /* AppDelegate.swift */,
 				F56832A01F6FD609004A10F8 /* ViewController.swift */,
+				F583D24D1F7E520500B84558 /* LoginContainerClass.swift */,
 				F56832A21F6FD609004A10F8 /* Main.storyboard */,
 				F56832A51F6FD609004A10F8 /* Assets.xcassets */,
 				F56832A71F6FD609004A10F8 /* LaunchScreen.storyboard */,
@@ -98,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				F597B0481F7BC33F00FE83A4 /* Montserrat-Regular.ttf */,
+				F5F4F52C1F839C5F00CECCAB /* Intro.otf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -164,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5F4F52D1F839C5F00CECCAB /* Intro.otf in Resources */,
 				F56832A91F6FD609004A10F8 /* LaunchScreen.storyboard in Resources */,
 				F55ACCD71F71029D00AEF151 /* GoogleService-Info.plist in Resources */,
 				F56832A61F6FD609004A10F8 /* Assets.xcassets in Resources */,
@@ -237,6 +247,8 @@
 			files = (
 				F56832A11F6FD609004A10F8 /* ViewController.swift in Sources */,
 				F568329F1F6FD609004A10F8 /* AppDelegate.swift in Sources */,
+				F583D24E1F7E520500B84558 /* LoginContainerClass.swift in Sources */,
+				F5F4F52B1F839A2100CECCAB /* ExperimentsClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
