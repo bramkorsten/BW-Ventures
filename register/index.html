@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0099ff">
+    <title>Register to access your venture | Blue Whale Ventures</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="jquery.min.js" charset="utf-8"></script>
+    <script src="ventures.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="page_wrap">
+      <div class="header">
+        <h2>Time to setup your new venture</h2>
+        <p>
+          Welcome to <span class="colorized">Blue Whale Ventures</span>, we have set up a new venture for you, and we need you to create your personal account with it!
+        </p>
+      </div>
+      <div class="personal">
+        <h3 class="subtitle">Lets start with the basics!</h3>
+        <form id="basic-form" class="register-form">
+          <p class="label">What is your <span class="colorized">name</span>?</p>
+          <input class="text-input" type="text" name="new-name" required placeholder="Morty Smith" value="">
+          <p class="label">And what is your <span class="colorized">email adress</span>?</p>
+          <input class="text-input" type="email" name="new-email" required placeholder="you@example.com" value="">
+          <p class="label">Lets create your new <span class="colorized">password</span>! (Please type it twice)</p>
+          <input class="text-input half" type="password" name="password" placeholder="xxxxxxxx" value="">
+          <input class="text-input half" type="password" name="password-verify" placeholder="xxxxxxxx" value="">
+        </form>
+      </div>
+      <div class="personal">
+        <h3 class="subtitle">We also need some personal details.</h3>
+        <form id="detail-form" class="register-form">
+          <p class="label">Please enter your <span class="colorized">phone number</span>?</p>
+          <input class="text-input" type="tel" name="number" required placeholder="+31612345678" value="">
+          <p class="label">And your <span class="colorized">age</span>?</p>
+          <input class="text-input" type="number" name="age" required placeholder="25" value="">
+          <p class="label">Last we need to know your <span class="colorized">gender</span>.</p>
+          <select class="select-input" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="none">I'd rather not tell</option>
+          </select>
+        </form>
+        <div class="terms">
+          <input type="checkbox" name="terms" class="terms-checker">
+          <p>
+            I agree with the <span class="colorized">terms of service</span>
+          </p>
+        </div>
+        <p class="submit-register">
+          <a>SIGN UP</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

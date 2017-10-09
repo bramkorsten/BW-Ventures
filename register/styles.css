@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:300,400,400i,700');
+
+@font-face {
+    font-family: 'Intro';
+    src: url('intro.otf');
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.page_wrap {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  background-color: #f9f9fb;
+}
+
+.header {
+  width: 100%;
+  border-bottom: 1px solid #ececec;
+  background-color: #fff;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+  background: url(logo_blue_whale.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header h2 {
+  font-family: 'Intro';
+  text-align: center;
+  margin: 0;
+  padding: 50px 50px;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.header p {
+  font-family: 'Montserrat';
+  text-align: center;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 0px 50px 50px;
+  font-weight: 400;
+  color: #929292;
+  line-height: 1.5;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+
+.colorized {
+  color: #0099ff;
+  white-space: nowrap;
+}
+
+.personal {
+  border-bottom: 1px solid #ececec;
+}
+
+.subtitle {
+  text-align: center;
+  font-family: 'Montserrat';
+  color: #929292;
+  margin: 0;
+  padding: 100px 20px;
+}
+
+.register-form {
+  max-width: 460px;
+  padding: 0 20px;
+  margin: 0 auto 100px;
+  display: flow-root;
+}
+
+.select-input {
+  border: none;
+  background-color: transparent;
+  font-family: 'Montserrat';
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px 20px 0;
+  padding: 0 0 5px;
+  width: calc(100% - 40px);
+  color: #0099ff;
+  border-bottom: 2px solid #929292;
+}
+
+.text-input {
+  width: calc(100% - 40px);
+  height: 40px;
+  margin: 0 20px 40px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 15px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #929292;
+  letter-spacing: 1px;
+  padding: 0;
+  box-sizing: border-box;
+  color: #000;
+  transition: 0.3s all;
+}
+
+.text-input.half {
+  width: calc(50% - 40px);
+  margin: 0 20px;
+  float: left;
+
+}
+
+.text-input:focus {
+  border-bottom: 2px solid #0099ff;
+}
+
+:focus {
+    outline: none;
+}
+
+.label {
+  font-family: 'Montserrat', sans-serif;
+  padding: 0 20px;
+  font-weight: 500;
+  color: #929292;
+  line-height: 1;
+  margin: 0;
+  clear: both;
+  font-size: 0.8em;
+}
+
+.login-input:-webkit-autofill, input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: #fff !important;
+    color: #7126b2 !important;
+}
+
+.terms {
+  max-width: 420px;
+  margin: 50px auto 100px;
+  padding: 0 40px;
+  display: flow-root;
+}
+
+.terms .terms-checker {
+  float: right;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.terms p {
+  font-family: 'Montserrat', sans-serif;
+  padding: 3px 20px;
+  font-weight: 500;
+  color: #929292;
+  margin: 0;
+  float: right;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.submit-register {
+  max-width: 420px;
+  padding: 0 40px;
+  margin: 50px auto;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  padding: 3px 20px;
+  font-weight: 500;
+  color: #0099ff;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.submit-register a {
+  padding: 10px 20px;
+  border-radius: 3px;
+  transition: 0.3s all;
+  cursor: pointer;
+  user-select: none;
+}
+
+.submit-register a:hover {
+  background: #ececec;
+}
