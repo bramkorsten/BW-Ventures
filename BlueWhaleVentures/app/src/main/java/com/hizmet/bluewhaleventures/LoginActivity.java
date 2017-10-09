@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
@@ -19,7 +20,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Log.d(TAG, "onCreate: " + database.getApp().getName());
+        DatabaseReference dbReference = database.getReference("message");
+        Log.d(TAG, "onCreate: " + dbReference + " this is a log");
+
 
         buttonLogin = (Button) this.findViewById(R.id.button_login);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -31,4 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
