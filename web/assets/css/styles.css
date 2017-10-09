@@ -10,13 +10,17 @@ header {
   height: 100%;
 }
 
+/*===================================================================================================
+LOGIN
+===================================================================================================*/
+
 .background-img {
   width: calc(100% + 30px);
   height: calc(100% + 30px);
   margin: -30px;
   background: url("../img/naomi-hutchinson-261792.jpg");
   background-size: cover;
-  filter: blur(10px);
+  filter: blur(5px);
   position: absolute;
   top: 0;
   z-index: -10;
@@ -51,8 +55,11 @@ header {
   margin: auto;
   display: block;
   width: 35%;
-  top: 50px;
+  top: 50%;
   position: relative;
+  transform: translateY(-140px);
+  transition: 1s;
+  transition-timing-function: cubic-bezier(0,1,0,1);
 }
 
 .login-form {
@@ -60,7 +67,7 @@ header {
   height: 200px;
   position: absolute;
   top: calc(100% - 50px);
-  background: #0092F5;
+  background: #0099ff;
   cursor: pointer;
   transition: 0.5s;
   transition-timing-function: cubic-bezier(0,1,0,1)
@@ -89,7 +96,7 @@ header {
 }
 
 .form-filter {
-  filter: blur(2px);
+  filter: blur(4px);
 }
 
 .true-form {
@@ -100,7 +107,7 @@ header {
   box-sizing: border-box;
 }
 
-.input-text {
+input[type=text] {
   width: 100%;
   background: none;
   border: 0;
@@ -112,6 +119,24 @@ header {
   font-size: 11px;
   box-sizing: border-box;
   padding-bottom: 3px;
+}
+
+input[type=password] {
+  width: 100%;
+  background: none;
+  border: 0;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  font-family: 'Montserrat';
+  letter-spacing: 1px;
+  margin: 20px 0;
+  font-size: 11px;
+  box-sizing: border-box;
+  padding-bottom: 3px;
+}
+
+::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.6);
 }
 
 label {
@@ -138,4 +163,330 @@ label {
   margin-top: 30px;
   letter-spacing: 1px;
   cursor: pointer;
+}
+
+.wrong-login {
+  animation-name: wiggle;
+  animation-duration: 0.5s;
+}
+
+.wrong-login::placeholder{
+  opacity: 0;
+}
+
+@keyframes wiggle {
+  0% {transform: translate(5px, -50%);}
+  20% {transform: translate(-5px, -50%);}
+  40% {transform: translate(5px, -50%);}
+  60% {transform: translate(-5px, -50%);}
+  80% {transform: translate(5px, -50%);}
+  100% {transform: translate(0, -50%);}
+}
+
+.form-login-succes {
+  transform: translateY(50px);
+}
+
+.form-logo-center {
+  transform: translateY(-50%);
+}
+
+/*===================================================================================================
+DASHBOARD
+===================================================================================================*/
+
+.menu-wrap {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  background: #34495e;
+}
+
+.top-profile-wrap {
+  width: 100%;
+  height: 100px;
+  background: #0099ff;
+  box-sizing: border-box;
+  padding: 20px 10px;
+  overflow: hidden;
+}
+
+.profile-letters {
+  border-radius: 50%;
+  background: #fff;
+  display: block;
+  text-align: center;
+  font-family: 'Montserrat';
+  color: #929292;
+}
+
+.profile-letters-small {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 20px;
+  float: left;
+}
+
+.profile-letters-big {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 25px;
+  background: #0099ff;
+  color: #fff;
+  margin: 20px;
+  float: left;
+}
+
+.top-profile-name {
+  color: #fff;
+  display: block;
+  float: left;
+  font-family: 'Intro';
+  top: 30px;
+  position: relative;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  max-width: 115px;
+  font-size: 12px;
+}
+
+.menu-item {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  color: #93a5a5;
+  font-family: 'Intro';
+  font-size: 14px;
+}
+
+.menu-item:hover {
+  background: #293847;
+  cursor: pointer;
+}
+
+.menu-item i {
+  margin-left: 25px;
+  margin-right: 20px;
+  font-size: 20px;
+  line-height: 40px;
+  float: left;
+  width: 25px;
+}
+
+.menu-item span {
+  float: left;
+  line-height: 40px;
+}
+
+.menu-item-top {
+  margin-top: 20px;
+}
+
+.menu-item-active {
+  background: #233342;
+  color: #fff;
+}
+
+.menu-item-active i {
+  color: #0099ff;
+}
+
+.rest-wrap {
+  width: calc(100% - 200px);
+  height: 100%;
+  float: right;
+  background: #ecf0f1;
+  position: relative;
+}
+
+.logo-top-wrap {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  border-bottom: 1px solid #d6d7d9;
+  line-height: 100px;
+  background: #fff;
+}
+
+.logo-top-wrap img {
+  height: 75px;
+  width: auto;
+  position: relative;
+  top: 12.5px;
+}
+
+.profile-bar-wrap {
+  height: 150px;
+  width: 100%;
+  border-bottom: 1px solid #d6d7d9;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+}
+
+.profile-info-wrap {
+  float: left;
+  position: relative;
+  top: 25px;
+}
+
+.profile-info-name {
+  margin: 0;
+  font-family: 'Intro';
+  font-size: 20px;
+  color: #34495e;
+}
+
+.profile-info-function {
+  font-family: 'Montserrat';
+  color: #D6D7D9;
+  display: block;
+}
+
+.profile-info-company {
+  display: block;
+  font-family: 'Montserrat';
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+.right-icons-wrap {
+  float: right;
+  height: 100%;
+  width: auto;
+  margin-right: 20px;
+}
+
+.right-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #c4c4c4;
+  float: left;
+  line-height: 40px;
+  text-align: center;
+  font-size: 20px;
+  color: #c4c4c4;
+  margin-right: 5px;
+  top: 25px;
+  position: relative;
+}
+
+.right-icon:hover {
+  cursor: pointer;
+  background: #0099ff;
+  color: #fff;
+}
+
+.profile-titles-contain {
+  height: 30px;
+  width: 500px;
+  margin: auto;
+  top: 100%;
+  transform: translateY(-100%);
+  position: absolute;
+  text-align: center;
+  left: calc(50% - 250px);
+  font-family: 'Montserrat';
+  user-select: none;
+}
+
+.profile-titles-contain span {
+  /*margin: 0 5px;*/
+  padding-bottom: 7px;
+  width: 110px;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.profile-titles-contain p {
+  margin: 0;
+  padding: 0;
+}
+
+.profile-titles-contain span:hover {
+  cursor: pointer;
+}
+
+#profile-title-active {
+  position: relative;
+  width: 110px;
+  border-bottom: 2px solid #0099ff;
+  margin: auto;
+  transition: 0.3s;
+}
+
+.title-border-right {
+  transform: translateX(100%);
+}
+
+.title-border-left {
+  transform: translateX(-100%);
+}
+
+.title-mid-active {
+  color: #0099ff;
+}
+
+.cards-wrap {
+  width: 100%;
+  height: auto;
+  background: #ecf0f1;
+  display: flex;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.single-card {
+  width: 300px;
+  height: 200px;
+  background: #fff;
+  border: 1px solid #d6d7d9;
+  margin: 12.5px;
+  box-sizing: border-box;
+  padding: 30px 20px 20px 20px;
+  font-family: 'Montserrat';
+  color: #34495E;
+}
+
+.card-company-name {
+  margin: 0;
+}
+
+.projects-amount-wrap {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  bottom: 0;
+  top: 55px;
+}
+
+.projects-number {
+  display: block;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+.projects-number::after {
+  content: 'Experiments';
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  top: -10px;
+  position: relative;
+}
+
+.card-plus {
+  padding: 0;
+  text-align: center;
+  line-height: 200px;
+  font-size: 100px;
+  color: #c4c4c4;
 }

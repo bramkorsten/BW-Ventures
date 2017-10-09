@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BW-Ventures WebApp</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAcs8FGJQ64vgvhvwf2wOgj_fwSVhD_2SU",
+        authDomain: "blue-whale-ventures.firebaseapp.com",
+        databaseURL: "https://blue-whale-ventures.firebaseio.com",
+        projectId: "blue-whale-ventures",
+        storageBucket: "blue-whale-ventures.appspot.com",
+        messagingSenderId: "573936868876"
+      };
+      firebase.initializeApp(config);
+
+    </script>
+    <script src="assets/js/bluewhale.js"></script>
+  </head>
+  <body>
+    <div class="menu-wrap">
+      <div class="top-profile-wrap">
+        <span class="profile-letters profile-letters-small">MK</span>
+        <span class="top-profile-name">Maarten van Kroonenburg</span>
+      </div>
+
+      <div id="menu-item-clients" class="menu-item menu-item-top menu-item-active" onClick="getTab('clients');"><i class="fa fa-users" aria-hidden="true"></i><span>CLIENTS</span></div>
+      <div id="menu-item-experiments" class="menu-item" onClick="getTab('experiments');"><i class="fa fa-flask" aria-hidden="true"></i><span>EXPERIMENTS</span></div>
+      <div id="menu-item-people" class="menu-item" onClick="getTab('people');"><i class="fa fa-user-o" aria-hidden="true"></i><span>PEOPLE</span></div>
+    </div>
+    <div class="rest-wrap">
+      <div class="logo-top-wrap">
+        <img src="assets/img/logo_big.png" alt="BW-logo">
+      </div>
+
+      <div class="profile-bar-wrap">
+        <span class="profile-letters profile-letters-big">MK</span>
+        <div class="profile-info-wrap">
+          <h2 class="profile-info-name">Maarten van Kroonenburg</h2>
+          <span class="profile-info-function">CEO</span>
+          <span class="profile-info-company">Blue Whale Ventures</span>
+        </div>
+        <div class="right-icons-wrap">
+          <div class="right-icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+          <div class="right-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
+        </div>
+        <div class="profile-titles-contain">
+          <span onClick="getTab('clients');" id="title-clients"><p>CLIENTS</p></span><span onClick="getTab('experiments');" id="title-experiments" class="title-mid-active"><p>EXPERIMENTS</p></span><span onClick="getTab('people');" id="title-people"><p>PEOPLE</p></span>
+          <div id="profile-title-active"></div>
+        </div>
+      </div>
+
+      <div class="cards-wrap">
+        <div class="single-card"><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
+        <div class="single-card"><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
+        <div class="single-card"><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
+        <div class="single-card"><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
+        <div class="single-card"><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
+        <div class="single-card card-plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+      </div>
+    </div>
+  </body>
+</html>

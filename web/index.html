@@ -5,23 +5,38 @@
     <title>BW-Ventures WebApp</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <script src="assets/js/bluewhale.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAcs8FGJQ64vgvhvwf2wOgj_fwSVhD_2SU",
+        authDomain: "blue-whale-ventures.firebaseapp.com",
+        databaseURL: "https://blue-whale-ventures.firebaseio.com",
+        projectId: "blue-whale-ventures",
+        storageBucket: "blue-whale-ventures.appspot.com",
+        messagingSenderId: "573936868876"
+      };
+      firebase.initializeApp(config);
+      </script>
+      <script src="assets/js/bluewhale.js"></script>
+
   </head>
   <body>
     <header>
       <div id="background-img" class="background-img"></div>
-      <div class="login-wrap">
+      <div id="login-wrap" class="login-wrap">
         <div id="login-background" class="login-background"></div>
-        <img class="form-logo" src="assets/img/bw-logo.svg">
+        <img id="form-logo" class="form-logo" src="assets/img/logo_big.png">
         <div id="login-form" class="login-form">
           <span onClick="expandForm();" id="login-title" class="login-title">LOGIN</span>
-          <form id="true-form" class="true-form class-gone">
+          <div id="true-form" class="true-form class-gone">
             <input id="user-input" type="text" class="input-text" placeholder="USERNAME" name="bw-user" autocomplete="off">
             <label for="user-input"></label>
             <input id="user-password" type="password" class="input-text" placeholder="PASSWORD" name="bw-pass" autocomplete="off">
             <label for="user-password"></label>
-            <input type="submit" class="submit-btn" value="LOGIN">
-          </form>
+            <input onClick="tryLogin();" type="submit" class="submit-btn" value="LOGIN">
+          </div>
         </div>
       </div>
     </header>
