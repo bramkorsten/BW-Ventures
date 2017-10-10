@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference dbReference = database.getReference("message");
         Log.d(TAG, "onCreate: " + dbReference + " this is a log");
 
-
         buttonLogin = (Button) this.findViewById(R.id.button_login);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

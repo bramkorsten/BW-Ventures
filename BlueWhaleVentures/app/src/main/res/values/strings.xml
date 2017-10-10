@@ -5,4 +5,8 @@
     <string name="chevron_left">Chevron left</string>
     <string name="nu_starten">Nu starten</string>
     <string name="tijd_om_vragen_in_te_vullen">Het is tijd om weer een paar vragen in te vullen! \n Geen zorgen, het duurt maar een paar minuten</string>
+    <string name="title_activity_experiments">ExperimentsActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
