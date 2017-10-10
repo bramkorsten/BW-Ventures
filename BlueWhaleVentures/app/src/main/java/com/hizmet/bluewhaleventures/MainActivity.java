@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         buttonStartNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ExperimentsActivity.class);
+                Intent intent = new Intent(v.getContext(), HomeActivity.class);
                 startActivity(intent);
             }
         });
@@ -46,10 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCustomFontsOfElements() {
         textViewTitle = (TextView) findViewById(R.id.textView_title_main);
-        textViewTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Intro.ttf"));
+        textViewTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/intro.ttf"));
         textViewInfo = (TextView) findViewById(R.id.textView_info_main);
-        textViewInfo.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Helvetica-Regular.ttf"));
-        buttonStartNow = (Button) findViewById(R.id.button_start_now_main);
-        buttonStartNow.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Helvetica-Regular.ttf"));
+        textViewInfo.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/helvetica_regular.ttf"));
     }
 }
