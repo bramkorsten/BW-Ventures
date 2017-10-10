@@ -2,4 +2,7 @@
     <string name="app_name">Blue Whale Ventures</string>
     <string name="login">LOGIN</string>
     <string name="login_background_image">Login Background Image</string>
+    <string name="chevron_left">Chevron left</string>
+    <string name="nu_starten">Nu starten</string>
+    <string name="tijd_om_vragen_in_te_vullen">Het is tijd om weer een paar vragen in te vullen! \n Geen zorgen, het duurt maar een paar minuten</string>
 </resources>
