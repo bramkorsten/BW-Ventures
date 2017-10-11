@@ -1,4 +1,4 @@
-package com.hizmet.bluewhaleventures;
+package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,16 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.hizmet.bluewhaleventures.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SettingsFragment.OnFragmentInteractionListener} interface
+ * {@link InformationFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
+ * Use the {@link InformationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment {
+public class InformationFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +33,7 @@ public class SettingsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SettingsFragment() {
+    public InformationFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +43,11 @@ public class SettingsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
+     * @return A new instance of fragment InformationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
+    public static InformationFragment newInstance(String param1, String param2) {
+        InformationFragment fragment = new InformationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,12 +68,12 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        Button buttonSettings = (Button) view.findViewById(R.id.button_frag_settings);
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        Button buttonInformation = (Button) view.findViewById(R.id.button_frag_information);
+        buttonInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Settings Button Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -91,7 +93,7 @@ public class SettingsFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Settings Fragment Attached", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Information Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 

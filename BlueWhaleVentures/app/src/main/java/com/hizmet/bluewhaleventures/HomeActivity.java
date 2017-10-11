@@ -8,6 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.hizmet.bluewhaleventures.fragments.ExperimentsFragment;
+import com.hizmet.bluewhaleventures.fragments.InformationFragment;
+import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
+
 public class HomeActivity extends AppCompatActivity {
 
     // Bottom navigation
@@ -50,5 +54,6 @@ public class HomeActivity extends AppCompatActivity {
         // Go to the Information Fragment
         transaction.replace(R.id.content, new InformationFragment()).commit();
     }
+
 
 }

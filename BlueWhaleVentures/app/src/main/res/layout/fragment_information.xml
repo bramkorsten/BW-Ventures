@@ -1,10 +1,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/frameLayout_information"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hizmet.bluewhaleventures.InformationFragment">
+    tools:context="com.hizmet.bluewhaleventures.fragments.InformationFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

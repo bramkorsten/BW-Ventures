@@ -1,37 +1,47 @@
-package com.hizmet.bluewhaleventures;
+package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hizmet.bluewhaleventures.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link InformationFragment.OnFragmentInteractionListener} interface
+ * {@link ExperimentsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link InformationFragment#newInstance} factory method to
+ * Use the {@link ExperimentsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InformationFragment extends Fragment {
+public class ExperimentsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    TextView textViewExperiments;
+    Toolbar toolbar;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public InformationFragment() {
+    public ExperimentsFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +51,11 @@ public class InformationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment InformationFragment.
+     * @return A new instance of fragment ExperimentsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static InformationFragment newInstance(String param1, String param2) {
-        InformationFragment fragment = new InformationFragment();
+    public static ExperimentsFragment newInstance(String param1, String param2) {
+        ExperimentsFragment fragment = new ExperimentsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,16 +76,48 @@ public class InformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_information, container, false);
-        Button buttonInformation = (Button) view.findViewById(R.id.button_frag_information);
-        buttonInformation.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_experiments, container, false);
+
+        Button buttonExperiments = (Button) view.findViewById(R.id.button_frag_experiments);
+        buttonExperiments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Experiments Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setCustomFontsOfElements();
+    }
+
+    private void setCustomFontsOfElements() {
+        textViewExperiments = (TextView) getView().findViewById(R.id.textView_title_experiments);
+        textViewExperiments.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,7 +133,7 @@ public class InformationFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Information Fragment Attached", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Experiments Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 
