@@ -22,7 +22,39 @@
     </script>
     <script src="assets/js/bluewhale.js"></script>
   </head>
-  <body>
+  <body id="body">
+    <div id="loadscreen-wrap" class="loadscreen-wrap">
+      <video class="splash-vid" autoplay>
+       <source src="assets/img/BW_Splash_Cube_Gif_V3.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div id="popup-background" class="popup-background">
+      <div class="popup-wrap">
+        <div class="close-btn-wrap">
+          <i onClick="startNewCompany();" class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <h3>New Company</h3>
+        <div class="seperation-border"></div>
+        <div id="new-company-form" class="new-company-form">
+          <label for="input-company-name" class="new-company-label">Company Name</label>
+          <input type="text" id="input-company-name" class="new-company-input" autocomplete="off" placeholder="" required>
+          <label for="input-company-location" class="new-company-label">Company Location</label>
+          <input type="text" id="input-company-location" class="new-company-input" autocomplete="off" placeholder="" required>
+          <label for="input-company-street" class="new-company-label">Streetname + Number</label>
+          <input type="text" id="input-company-street" class="new-company-input" autocomplete="off" placeholder="" required>
+          <label for="input-company-zip" class="new-company-label">ZIP-code</label>
+          <input type="text" id="input-company-zip" class="new-company-input" autocomplete="off" placeholder="" required>
+        </div>
+        <div id="company-success" class="new-company-form form-not-yet-here gone-form">
+          <p id="success-title" class="success-title">[COMPANY] succesfully created!</p>
+          <p id="success-code" class="success-code">PH4T4S5</p>
+          <p class="send-email">We can send an email containing the code for you. Enter up to 5 email adresses below.</p>
+          <label for="input-emails" class="new-company-label">Enter email addresses</label>
+          <input type="text" id="input-emails" class="new-company-input" autocomplete="off" placeholder="" required>
+        </div>
+        <div id="create-company-div" class="create-company-div" onClick="verifyCompany();">CREATE COMPANY</div>
+      </div>
+    </div>
     <div class="menu-wrap">
       <div class="top-profile-wrap">
         <span class="profile-letters profile-letters-small">MK</span>
@@ -38,30 +70,38 @@
         <img src="assets/img/logo_big.png" alt="BW-logo">
       </div>
 
-      <div class="profile-bar-wrap">
-        <span class="profile-letters profile-letters-big">MK</span>
-        <div class="profile-info-wrap">
-          <h2 class="profile-info-name">Maarten van Kroonenburg</h2>
-          <span class="profile-info-function">CEO</span>
-          <span class="profile-info-company">Blue Whale Ventures</span>
-        </div>
-        <div class="right-icons-wrap">
-          <div class="right-icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
-          <div class="right-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
-        </div>
-        <div class="profile-titles-contain">
-          <span onClick="getTab('clients');" id="title-clients"><p>CLIENTS</p></span><span onClick="getTab('experiments');" id="title-experiments" class="title-mid-active"><p>EXPERIMENTS</p></span><span onClick="getTab('people');" id="title-people"><p>PEOPLE</p></span>
-          <div id="profile-title-active"></div>
+      <div class="profile-bar-contain">
+        <div class="profile-bar-wrap">
+          <span class="profile-letters profile-letters-big">MK</span>
+          <div class="profile-info-wrap">
+            <h2 class="profile-info-name">Maarten van Kroonenburg</h2>
+            <span class="profile-info-function">CEO</span>
+            <span class="profile-info-company">Blue Whale Ventures</span>
+          </div>
+          <div class="right-icons-wrap">
+            <div class="right-icon" onClick="prepLogout();"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+            <div class="right-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
+          </div>
+          <div class="profile-titles-contain">
+            <span onClick="getTab('clients');" id="title-clients" class="title-mid-active"><p>CLIENTS</p></span><span id="title-experiments" class="title-experiments"><p>EXPERIMENTS</p></span><span onClick="getTab('people');" id="title-people"><p>PEOPLE</p></span>
+            <div id="profile-title-active" class="title-border-left"></div>
+          </div>
         </div>
       </div>
+      <div class="cards-contain">
+        <div id="cards-wrap-clients" class="cards-wrap">
+          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
+          <div class="single-card"><span class="card-circle">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
+          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
+          <div class="single-card"><span class="card-circle">M</span><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
+          <div class="single-card"><span class="card-circle">F</span><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
+          <div class="single-card card-plus" onClick="startNewCompany();"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+        </div>
 
-      <div class="cards-wrap">
-        <div class="single-card"><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
-        <div class="single-card"><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
-        <div class="single-card"><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
-        <div class="single-card"><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
-        <div class="single-card"><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
-        <div class="single-card card-plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+        <!-- <div id="cards-wrap-experiments" class="cards-wrap cards-wrap-right">
+          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">EXPERIMENT</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
+          <div class="single-card"><span class="card-circle">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
+        </div> -->
       </div>
     </div>
   </body>
