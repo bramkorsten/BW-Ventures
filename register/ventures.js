@@ -108,6 +108,18 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 function createUserProfile(user) {
+  var venturesRef = database.collection('Startups').doc(hash.toString());
+  venturesRef.get().then(function(doc) {
+      if (doc.exists) {
+        if (doc.data()['hashValid']) {
+
+        }
+      } else {
+
+      }
+  }).catch(function(error) {
+
+  });
   usersRef.doc(user.uid).set({
     name: name,
     email: email,
