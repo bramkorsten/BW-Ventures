@@ -2,6 +2,11 @@
   if(isset($_GET['h'])) {
     $hash = $_GET['h'];
   }
+  else {
+    header("Location: invalid.html");
+    die();
+    $hash = NULL;
+  }
 ?>
 <html>
   <head>
@@ -30,6 +35,11 @@
     <script src="ventures.js" charset="utf-8"></script>
   </head>
   <body>
+    <div id="loader" class="loader">
+      <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </div>
     <div id="page-succes" class="page-succes">
       <h2>All done!</h2>
       <h3 class="subtitle"><span class="colorized">Thanks for signing up!</span></h3>

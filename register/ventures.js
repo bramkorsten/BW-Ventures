@@ -8,38 +8,38 @@ function registerUser() {
 
   $('.register-form').each(function(){
 
-      $(this).validate({
-        rules: {
-            name: {
-                required: true
-            },
-            password: {
-                required: true,
-                minlength: 4
-            },
-            passwordverify: {
-                required: true,
-                minlength: 4
-            },
-            number: {
-                required: true,
-                minlength: 4
-            },
-            age: {
-                required: true,
-                minlength: 2
-            },
-            gender: {
-                required: true
-            },
-            terms: {
-                required: true
-            }
+    $(this).validate({
+      rules: {
+        name: {
+          required: true
         },
-        errorPlacement: function(error, element) {
-
+        password: {
+          required: true,
+          minlength: 4
+        },
+        passwordverify: {
+          required: true,
+          minlength: 4
+        },
+        number: {
+          required: true,
+          minlength: 4
+        },
+        age: {
+          required: true,
+          minlength: 2
+        },
+        gender: {
+          required: true
+        },
+        terms: {
+          required: true
         }
-      });
+      },
+      errorPlacement: function(error, element) {
+
+      }
+    });
 
   });
 
@@ -61,17 +61,20 @@ function registerUser() {
 
   else {
 
-  $('#form_errors').text("");
-  email = $('#email').val().trim();
-  var password = $('#password').val().trim();
-  name = $('#name').val().trim();
-  gender = $('#gender').val().trim();
-  number = $('#phone').val().trim();
-  age = $('#age').val().trim();
+    $('#loader').addClass('visible');
 
-  firebase.auth().signInWithEmailAndPassword(email, " ").catch(function(error) {
+    $('#form_errors').text("");
+    email = $('#email').val().trim();
+    var password = $('#password').val().trim();
+    name = $('#name').val().trim();
+    gender = $('#gender').val().trim();
+    number = $('#phone').val().trim();
+    age = $('#age').val().trim();
+
+    firebase.auth().signInWithEmailAndPassword(email, " ").catch(function(error) {
       if(error.code === "auth/wrong-password") {
-          $('#form_errors').text("the email adress you've entered already exists.");
+        $('#loader').removeClass('visible');
+        $('#form_errors').text("the email adress you've entered already exists.");
       } else if(error.code === "auth/user-not-found"){
         registering = true;
 
@@ -82,22 +85,13 @@ function registerUser() {
           // ...
         });
       }
-  });
-}
+    });
+  }
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    // User is signed in.
     user = user;
-    // var displayName = user.displayName;
-    // var email = user.email;
-    // var emailVerified = user.emailVerified;
-    // var photoURL = user.photoURL;
-    // var isAnonymous = user.isAnonymous;
-    // var uid = user.uid;
-    // var providerData = user.providerData;
-
     if (registering) {
       createUserProfile(user);
     }
@@ -108,45 +102,67 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 function createUserProfile(user) {
+  var userRef = usersRef.doc(user.uid);
   var venturesRef = database.collection('Startups').doc(hash.toString());
   venturesRef.get().then(function(doc) {
-      if (doc.exists) {
-        if (doc.data()['hashValid']) {
+    if (doc.exists) {
+      if (doc.data()['hashValid']) {
+        venturesRef.collection('members').doc(user.uid).set({
+          ref: userRef
+        }).then(function() {
+          console.log("User added to venture");
+          usersRef.doc(user.uid).set({
+            name: name,
+            email: email,
+            phoneNumber: number,
+            age: age,
+            gender: gender,
+            uid: user.uid
+          })
+          .then(function() {
+            sendVerification(user);
+          })
+          .catch(function(error) {
+          });
 
-        }
-      } else {
-
+          user.updateProfile({
+            displayName: name,
+            phoneNumber: number
+          }).then(function() {
+            user = user;
+          }).catch(function(error) {
+            // An error happened.
+          });
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
       }
-  }).catch(function(error) {
+      else {
+        console.log("hash is not valid");
+        user.delete().then(function() {
+          window.location.replace("invalid.html");
+        }).catch(function(error) {
 
-  });
-  usersRef.doc(user.uid).set({
-    name: name,
-    email: email,
-    phoneNumber: number,
-    age: age,
-    gender: gender,
-    uid: user.uid
-  })
-  .then(function() {
-      sendVerification(user);
-  })
-  .catch(function(error) {
-  });
+        });
+      }
+    } else {
+      console.log('hash is not valid');
+      user.delete().then(function() {
+        window.location.replace("invalid.html");
+      }).catch(function(error) {
 
-  user.updateProfile({
-    displayName: name,
-    phoneNumber: number
-  }).then(function() {
-    user = user;
+      });
+    }
   }).catch(function(error) {
-    // An error happened.
+    console.log("something went wrong. " + error);
   });
 }
 
 function sendVerification(user) {
   user.sendEmailVerification().then(function() {
     $('#page-succes').addClass('visible');
+    $('#loader').removeClass('visible');
     logOut();
   }).catch(function(error) {
     // An error happened.
