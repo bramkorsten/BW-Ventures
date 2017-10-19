@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.hizmet.bluewhaleventures.R;
 
@@ -73,7 +72,7 @@ public class InformationFragment extends Fragment {
         buttonInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,7 +92,7 @@ public class InformationFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Information Fragment Attached", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Information Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blue Whale Ventures</string>
+    <string name="app_name">Ventures</string>
     <string name="login">LOGIN</string>
     <string name="login_background_image">Login Background Image</string>
     <string name="chevron_left">Chevron left</string>

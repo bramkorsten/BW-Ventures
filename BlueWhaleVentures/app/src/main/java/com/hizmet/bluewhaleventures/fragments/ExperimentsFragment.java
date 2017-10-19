@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hizmet.bluewhaleventures.R;
 
@@ -82,7 +81,7 @@ public class ExperimentsFragment extends Fragment {
         buttonExperiments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Experiments Button Clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Experiments Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -133,7 +132,7 @@ public class ExperimentsFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Experiments Fragment Attached", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Experiments Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 
