@@ -1,14 +1,21 @@
 package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hizmet.bluewhaleventures.R;
 
 
@@ -29,6 +36,7 @@ public class InformationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Typeface Montserrat;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,20 +69,21 @@ public class InformationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Montserrat = Typeface.createFromAsset(getActivity().getAssets(), "fonts/montserrat.ttf");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_information, container, false);
-        Button buttonInformation = (Button) view.findViewById(R.id.button_frag_information);
-        buttonInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        View view = inflater.inflate(R.layout.fragment_user_information, container, false);
+//        Button buttonInformation = (Button) view.findViewById(R.id.button_frag_information);
+//        buttonInformation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getActivity(), "Information Button Clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return view;
     }
@@ -100,6 +109,64 @@ public class InformationFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setCustomFontsOfElements();
+        getUserInfo();
+    }
+
+    private void setCustomFontsOfElements() {
+        TextView toolbarTitle = (TextView) getView().findViewById(R.id.toolbarTitle);
+        toolbarTitle.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
+    }
+
+    private void getUserInfo(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            fillUserInfo(user);
+
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private void fillUserInfo(FirebaseUser user){
+        String name = user.getDisplayName();
+        String nameCharacters;
+        String email = user.getEmail();
+
+        String lastName = "";
+        String firstName= "";
+
+        if(name.split("\\w+").length>1){
+
+            lastName = name.substring(name.lastIndexOf(" ")+1);
+            firstName = name.substring(0, name.lastIndexOf(' '));
+            nameCharacters = firstName.substring(0,1) + lastName.substring(0,1);
+        }
+        else{
+            nameCharacters = firstName.substring(0,1);
+        }
+
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .useFont(Montserrat)
+                .fontSize(50) /* size in px */
+                .toUpperCase()
+                .endConfig()
+                .buildRound(nameCharacters, Color.parseColor("#0099ff"));
+
+        ImageView image = (ImageView) getView().findViewById(R.id.userImage);
+        image.setImageDrawable(drawable);
+
+        TextView userName = (TextView) getView().findViewById(R.id.userName);
+        TextView userEmail = (TextView) getView().findViewById(R.id.userEmail);
+
+        userName.setText(name);
+        userEmail.setText(email);
     }
 
     /**

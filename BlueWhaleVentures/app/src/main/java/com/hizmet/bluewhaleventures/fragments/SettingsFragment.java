@@ -92,7 +92,7 @@ public class SettingsFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-//            Toast.makeText(context, "Settings Fragment Attached", Toast.LENGTH_SHORT).show();
+
         }
     }
 

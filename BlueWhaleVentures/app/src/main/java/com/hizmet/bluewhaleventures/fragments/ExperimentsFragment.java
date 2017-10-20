@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.hizmet.bluewhaleventures.R;
@@ -77,16 +75,6 @@ public class ExperimentsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiments, container, false);
 
-        Button buttonExperiments = (Button) view.findViewById(R.id.button_frag_experiments);
-        buttonExperiments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getActivity(), "Experiments Button Clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return view;
     }
@@ -115,8 +103,8 @@ public class ExperimentsFragment extends Fragment {
     }
 
     private void setCustomFontsOfElements() {
-        textViewExperiments = (TextView) getView().findViewById(R.id.textView_title_experiments);
-        textViewExperiments.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
+        TextView toolbarTitle = (TextView) getView().findViewById(R.id.toolbarTitle);
+        toolbarTitle.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
