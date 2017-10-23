@@ -1,27 +1,44 @@
 package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
+import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
 import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
+import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -54,6 +71,8 @@ public class ExperimentFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView textViewTitle;
 
     public ExperimentFragment() {
         // Required empty public constructor
@@ -94,12 +113,117 @@ public class ExperimentFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        setRefreshLayout();
+//        setExperimentsRecyclerView();
+    }
+
+    private void setRefreshLayout() {
+        refresher = getView().findViewById(R.id.refreshLayout);
+        refresher.setColorSchemeResources(
+                R.color.colorPrimary
+        );
+        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                getExperimentData();
+            }
+        });
+    }
+
+    private void setExperimentsRecyclerView(){
+        experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
+        adapter = new ExperimentAdapter(experimentList);
+        experimentsLayoutManager = new LinearLayoutManager(this.getContext());
+        experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
+        experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        experimentsRecyclerView.setAdapter(adapter);
+
+        experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Experiment experiment = experimentList.get(position);
+                Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                // Go to Experiment Activity which controls single Experiments etc.
+                Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        getUserData();
+    }
+
+    private void getUserData() {
+
+        experimentList.clear();
+
+        DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ventureId = (String) task.getResult().getData().get("ventureID");
+                        getExperimentData();
+                    } else {
+                        Log.d("ventures", "No such document");
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void getExperimentData() {
+        experimentList.clear();
+        if (ventureId.isEmpty()) {
+            return;
+        } else {
+            CollectionReference experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments");
+            experiments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        int i = 0;
+                        for (DocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                Map experimentData = document.getData();
+                                Log.d("ventures", document.getId() + " => " + document.getData());
+                                String title = (String) experimentData.get("ExperimentName");
+                                String desc = (String) experimentData.get("ExperimentSubtitle");
+                                Date created = (Date) experimentData.get("DateCreated");
+
+                                Experiment experiment = new Experiment(title, desc, i, document.getId(), created.toString());
+                                experimentList.add(experiment);
+                                i++;
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+                        refresher.setRefreshing(false);
+                    } else {
+                        Log.d("ventures", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Experiments Fragment Attached", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Experiment Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 

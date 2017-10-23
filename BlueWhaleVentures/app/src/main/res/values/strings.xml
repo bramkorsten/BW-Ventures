@@ -8,8 +8,10 @@
     <string name="title_activity_experiments">ExperimentsActivity</string>
     <string name="title_information">Information</string>
     <string name="title_experiments">Experiments</string>
+    <string name="title_experiment">Experiment</string>
     <string name="title_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_people">People</string>
 </resources>

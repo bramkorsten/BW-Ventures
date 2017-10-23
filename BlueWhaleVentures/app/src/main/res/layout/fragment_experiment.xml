@@ -29,22 +29,6 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/toolbarNew"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="25dp"
-        android:adjustViewBounds="false"
-        android:background="?selectableItemBackgroundBorderless"
-        android:cropToPadding="false"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_plus_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/toolbarLogo"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/toolbarLogo"
         android:layout_width="30dp"
@@ -75,7 +59,7 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@fonts/intro"
+        android:fontFamily="@font/intro"
         android:text="Experiment"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -95,6 +79,87 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/appToolbar"
     app:layout_constraintVertical_bias="0.0">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/experiment_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="User Experiments"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/profileOptionButton2"
+            app:layout_constraintStart_toEndOf="@+id/experiment_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/experiment_desc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat"
+            android:maxLines="2"
+            android:scrollHorizontally="true"
+            android:text="This is a description of an experiment that could be viewed in the app"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/profileOptionButton2"
+            app:layout_constraintStart_toEndOf="@+id/experiment_image"
+            app:layout_constraintTop_toBottomOf="@+id/experiment_title" />
+
+        <ImageView
+            android:id="@+id/experiment_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/bw_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/profileOptionButton2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:adjustViewBounds="false"
+            android:background="?selectableItemBackgroundBorderless"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_options"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/deviderLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLineGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/infoBadge"
@@ -207,30 +272,6 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoBadge">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/experimentsRecycleView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:animateLayoutChanges="false"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/infoBadge"
-            app:reverseLayout="false" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

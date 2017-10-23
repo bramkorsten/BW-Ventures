@@ -1,7 +1,7 @@
 package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
@@ -134,7 +135,6 @@ public class ExperimentsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setCustomFontsOfElements();
         setRefreshLayout();
         setExperimentsRecyclerView();
     }
@@ -168,7 +168,9 @@ public class ExperimentsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Experiment experiment = experimentList.get(position);
                 Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-
+                // Go to Experiment Activity which controls single Experiments etc.
+                Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -235,11 +237,6 @@ public class ExperimentsFragment extends Fragment {
                 }
             });
         }
-    }
-
-    private void setCustomFontsOfElements() {
-        TextView toolbarTitle = (TextView) getView().findViewById(R.id.toolbarTitle);
-        toolbarTitle.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
