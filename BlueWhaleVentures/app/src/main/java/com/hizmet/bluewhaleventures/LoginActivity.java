@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 

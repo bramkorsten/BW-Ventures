@@ -40,10 +40,10 @@
             android:background="?selectableItemBackgroundBorderless"
             android:cropToPadding="false"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_plus_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/toolbarLogo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_plus_gray" />
 
         <ImageView
             android:id="@+id/toolbarLogo"
