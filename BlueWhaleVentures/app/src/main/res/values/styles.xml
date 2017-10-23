@@ -21,4 +21,9 @@
         <item name="colorControlHighlight">@color/colorRipple</item>
     </style>
 
+    <style name="OverflowAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

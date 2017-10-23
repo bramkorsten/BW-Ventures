@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <RelativeLayout
-            android:id="@+id/EmailSpacer"
+            android:id="@+id/Spacer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -98,7 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EmailSpacer" />
+            app:layout_constraintTop_toBottomOf="@+id/Spacer" />
 
         <RelativeLayout
             android:id="@+id/PasswordSpacer"
