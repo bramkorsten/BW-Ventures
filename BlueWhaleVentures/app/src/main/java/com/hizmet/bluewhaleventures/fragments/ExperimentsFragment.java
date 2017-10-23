@@ -6,6 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hizmet.bluewhaleventures.R;
+import com.hizmet.bluewhaleventures.classes.ClickListener;
+import com.hizmet.bluewhaleventures.classes.Experiment;
+import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
+import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +44,13 @@ public class ExperimentsFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     TextView textViewExperiments;
     Toolbar toolbar;
+    private List<Experiment> experimentList = new ArrayList<>();
+
+    private RecyclerView experimentsRecyclerView;
+    private ExperimentAdapter adapter;
+    private RecyclerView.LayoutManager experimentsLayoutManager;
+    SwipeRefreshLayout refresher;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -100,6 +119,74 @@ public class ExperimentsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setCustomFontsOfElements();
+        setRefreshLayout();
+        setExperimentsRecyclerView();
+    }
+
+    private void setRefreshLayout(){
+        refresher = getView().findViewById(R.id.refreshLayout);
+        refresher.setColorSchemeResources(
+                R.color.colorPrimary
+        );
+        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                prepareData();
+            }
+        });
+    }
+
+
+
+    private void setExperimentsRecyclerView(){
+        experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
+        adapter = new ExperimentAdapter(experimentList);
+        experimentsLayoutManager = new LinearLayoutManager(this.getContext());
+        experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
+        experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        experimentsRecyclerView.setAdapter(adapter);
+
+        experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Experiment experiment = experimentList.get(position);
+                Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        prepareData();
+    }
+
+    private void prepareData() {
+
+        experimentList.clear();
+
+        Experiment experiment = new Experiment("Experiment Title", "This is a description", 0, "0", "NULL");
+        experimentList.add(experiment);
+
+        experiment = new Experiment("Experiment Title 2", "This is a description", 1, "1", "NULL");
+        experimentList.add(experiment);
+
+        experiment = new Experiment("Experiment Title 3", "This is a description", 2, "2", "NULL");
+        experimentList.add(experiment);
+
+        experiment = new Experiment("Experiment Title 4", "This is a description", 3, "3", "NULL");
+        experimentList.add(experiment);
+
+        experiment = new Experiment("Experiment Title 5", "This is a description", 4, "4", "NULL");
+        experimentList.add(experiment);
+
+        experiment = new Experiment("Experiment Title 6", "This is a description", 5, "5", "NULL");
+        experimentList.add(experiment);
+
+        adapter.notifyDataSetChanged();
+        refresher.setRefreshing(false);
     }
 
     private void setCustomFontsOfElements() {

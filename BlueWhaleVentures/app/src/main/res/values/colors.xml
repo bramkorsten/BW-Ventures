@@ -8,4 +8,5 @@
     <color name="colorLineGrey">#ECECEC</color>
     <color name="colorTextGrey">#929292</color>
     <color name="colorBackgroundGrey">#f9f9fb</color>
+    <color name="colorRipple">#ececec</color>
 </resources>
