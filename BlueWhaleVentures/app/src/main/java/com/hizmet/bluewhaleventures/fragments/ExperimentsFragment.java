@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
@@ -45,6 +54,9 @@ public class ExperimentsFragment extends Fragment {
     TextView textViewExperiments;
     Toolbar toolbar;
     private List<Experiment> experimentList = new ArrayList<>();
+    FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String ventureId;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
@@ -132,7 +144,7 @@ public class ExperimentsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Refresh items
-                prepareData();
+                getExperimentData();
             }
         });
     }
@@ -160,12 +172,53 @@ public class ExperimentsFragment extends Fragment {
             }
         }));
 
-        prepareData();
+        getUserData();
     }
 
-    private void prepareData() {
+    private void getUserData() {
 
         experimentList.clear();
+
+        DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ventureId = (String) task.getResult().getData().get("ventureID");
+                        getExperimentData();
+                    } else {
+                        Log.d("ventures", "No such document");
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void getExperimentData() {
+        if (ventureId.isEmpty()) {
+            return;
+        } else {
+            DocumentReference docRef = firestoreDb.collection("Startups").document(ventureId);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("ventures", "DocumentSnapshot data: " + task.getResult().getData());
+                        } else {
+                            Log.d("ventures", "No such document");
+                        }
+                    }
+                }
+            });
+        }
+
+
+
 
         Experiment experiment = new Experiment("Experiment Title", "This is a description", 0, "0", "NULL");
         experimentList.add(experiment);
