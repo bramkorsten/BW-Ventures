@@ -2,6 +2,7 @@ package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
@@ -111,7 +114,6 @@ public class ExperimentsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_experiments, container, false);
 
-
         return view;
     }
 
@@ -135,6 +137,14 @@ public class ExperimentsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ImageButton button = getView().findViewById(R.id.toolbarNew);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewExperimentActivity.class);
+                startActivity(intent);
+            }
+        });
         setRefreshLayout();
         setExperimentsRecyclerView();
     }
@@ -183,8 +193,6 @@ public class ExperimentsFragment extends Fragment {
     }
 
     private void getUserData() {
-
-        experimentList.clear();
 
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

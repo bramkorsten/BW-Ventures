@@ -28,6 +28,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".ExperimentActivity"></activity>
+
+        <activity android:name=".NewExperimentActivity"></activity>
     </application>
 
 </manifest>
