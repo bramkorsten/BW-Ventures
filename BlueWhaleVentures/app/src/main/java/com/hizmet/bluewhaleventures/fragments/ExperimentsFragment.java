@@ -164,6 +164,7 @@ public class ExperimentsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Experiment experiment = experimentList.get(position);
                 Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

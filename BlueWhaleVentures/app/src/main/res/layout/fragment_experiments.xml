@@ -24,7 +24,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:cropToPadding="false"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_chevron_links_blue"
+            app:srcCompat="@drawable/ic_chevron_links_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:background="?selectableItemBackgroundBorderless"
             android:cropToPadding="false"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_plus_gray"
+            app:srcCompat="@drawable/ic_plus_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/toolbarLogo"
             app:layout_constraintTop_toTopOf="parent" />
