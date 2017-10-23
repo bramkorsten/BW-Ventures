@@ -26,9 +26,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
@@ -36,7 +38,9 @@ import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
 import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -198,48 +202,38 @@ public class ExperimentsFragment extends Fragment {
     }
 
     private void getExperimentData() {
+        experimentList.clear();
         if (ventureId.isEmpty()) {
             return;
         } else {
-            DocumentReference docRef = firestoreDb.collection("Startups").document(ventureId);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            CollectionReference experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments");
+            experiments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d("ventures", "DocumentSnapshot data: " + task.getResult().getData());
-                        } else {
-                            Log.d("ventures", "No such document");
+                        int i = 0;
+                        for (DocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                Map experimentData = document.getData();
+                                Log.d("ventures", document.getId() + " => " + document.getData());
+                                String title = (String) experimentData.get("ExperimentName");
+                                String desc = (String) experimentData.get("ExperimentSubtitle");
+                                Date created = (Date) experimentData.get("DateCreated");
+
+                                Experiment experiment = new Experiment(title, desc, i, document.getId(), created.toString());
+                                experimentList.add(experiment);
+                                i++;
+                            }
+
                         }
+                        adapter.notifyDataSetChanged();
+                        refresher.setRefreshing(false);
+                    } else {
+                        Log.d("ventures", "Error getting documents: ", task.getException());
                     }
                 }
             });
         }
-
-
-
-
-        Experiment experiment = new Experiment("Experiment Title", "This is a description", 0, "0", "NULL");
-        experimentList.add(experiment);
-
-        experiment = new Experiment("Experiment Title 2", "This is a description", 1, "1", "NULL");
-        experimentList.add(experiment);
-
-        experiment = new Experiment("Experiment Title 3", "This is a description", 2, "2", "NULL");
-        experimentList.add(experiment);
-
-        experiment = new Experiment("Experiment Title 4", "This is a description", 3, "3", "NULL");
-        experimentList.add(experiment);
-
-        experiment = new Experiment("Experiment Title 5", "This is a description", 4, "4", "NULL");
-        experimentList.add(experiment);
-
-        experiment = new Experiment("Experiment Title 6", "This is a description", 5, "5", "NULL");
-        experimentList.add(experiment);
-
-        adapter.notifyDataSetChanged();
-        refresher.setRefreshing(false);
     }
 
     private void setCustomFontsOfElements() {
