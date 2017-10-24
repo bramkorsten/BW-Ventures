@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.ExperimentFragment;
@@ -16,6 +15,7 @@ import com.hizmet.bluewhaleventures.fragments.PeopleFragment;
 import java.util.Map;
 
 public class ExperimentActivity extends AppCompatActivity {
+    Map experimentData;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -48,6 +48,9 @@ public class ExperimentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment);
 
+        Intent intent = getIntent();
+        experimentData = (Map) intent.getSerializableExtra("map");
+
         // Bottom navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_experiments);
         //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -56,9 +59,9 @@ public class ExperimentActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // Go to the Experiment Fragment
         transaction.replace(R.id.content, new ExperimentFragment()).commit();
+    }
 
-        Intent intent = getIntent();
-        Map experimentData = (Map) intent.getSerializableExtra("map");
-        Log.d("ventures", experimentData.get("ExperimentName").toString());
+    public Map getExperimentDataFromParent(){
+        return experimentData;
     }
 }
