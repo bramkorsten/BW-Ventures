@@ -7,7 +7,7 @@
         android:title="@string/title_people" />
 
     <item
-        android:id="@+id/navigation_experiment"
+        android:id="@+id/navigation_experimentdetail"
         android:icon="@drawable/ic_vlemke_gray"
         android:title="@string/title_experiment" />
 

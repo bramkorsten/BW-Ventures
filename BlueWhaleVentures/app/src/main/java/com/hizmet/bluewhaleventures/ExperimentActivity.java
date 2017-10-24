@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.ExperimentFragment;
 import com.hizmet.bluewhaleventures.fragments.PeopleFragment;
+import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
 
 import java.util.Map;
 
@@ -30,13 +31,13 @@ public class ExperimentActivity extends AppCompatActivity {
                     // Go to the People Fragment
                     transaction.replace(R.id.content, new PeopleFragment()).commit();
                     return true;
-                case R.id.navigation_experiments:
+                case R.id.navigation_experimentdetail:
                     // Go to the Experiment Fragment
                     transaction.replace(R.id.content, new ExperimentFragment()).commit();
                     return true;
                 case R.id.navigation_settings:
                     // Go to the Settings Fragment
-                    //transaction.replace(R.id.content, new SettingsFragment()).commit();
+                    transaction.replace(R.id.content, new SettingsFragment()).commit();
                     return true;
             }
             return false;
@@ -49,8 +50,12 @@ public class ExperimentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_experiment);
 
         // Bottom navigation
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_experiments);
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiment);
+
+        MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_experimentdetail);
+        navItem2.setChecked(true);
+
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
