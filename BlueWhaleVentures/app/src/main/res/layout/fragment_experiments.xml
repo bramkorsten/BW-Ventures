@@ -14,22 +14,6 @@
         android:background="@color/colorWhite">
 
         <ImageButton
-            android:id="@+id/toolbarBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="25dp"
-            android:adjustViewBounds="false"
-            android:background="?selectableItemBackgroundBorderless"
-            android:cropToPadding="false"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_chevron_links_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
             android:id="@+id/toolbarNew"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -73,14 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="62dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/intro"
             android:text="Experiments"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/toolbarBack"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

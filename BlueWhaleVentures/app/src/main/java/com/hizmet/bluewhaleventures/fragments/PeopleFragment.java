@@ -68,6 +68,8 @@ public class PeopleFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_people, container, false);
     }
 
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -81,8 +83,7 @@ public class PeopleFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+//            Toast.makeText(context, "People Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 

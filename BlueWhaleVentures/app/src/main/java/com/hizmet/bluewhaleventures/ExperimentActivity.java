@@ -61,6 +61,7 @@ public class ExperimentActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+
         // Go to the Experiment Fragment
         transaction.replace(R.id.content, new ExperimentFragment()).commit();
     }

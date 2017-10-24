@@ -57,8 +57,5 @@ public class HomeActivity extends AppCompatActivity {
 
         // Go to the Experiments Fragment
         transaction.replace(R.id.content, new ExperimentsFragment()).commit();
-
     }
-
-
 }
