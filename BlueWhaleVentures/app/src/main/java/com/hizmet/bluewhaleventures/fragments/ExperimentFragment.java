@@ -145,7 +145,7 @@ public class ExperimentFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Experiment experiment = experimentList.get(position);
-                Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), experiment.getData().get("ExperimentName").toString() + " is selected!", Toast.LENGTH_SHORT).show();
                 // Go to Experiment Activity which controls single Experiments etc.
                 Intent intent = new Intent(getActivity(), ExperimentActivity.class);
                 startActivity(intent);
@@ -201,7 +201,7 @@ public class ExperimentFragment extends Fragment {
                                 String desc = (String) experimentData.get("ExperimentSubtitle");
                                 Date created = (Date) experimentData.get("DateCreated");
 
-                                Experiment experiment = new Experiment(title, desc, i, document.getId(), created.toString());
+                                Experiment experiment = new Experiment(experimentData);
                                 experimentList.add(experiment);
                                 i++;
                             }

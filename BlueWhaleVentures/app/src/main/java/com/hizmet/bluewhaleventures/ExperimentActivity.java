@@ -1,16 +1,20 @@
 package com.hizmet.bluewhaleventures;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.ExperimentFragment;
 import com.hizmet.bluewhaleventures.fragments.PeopleFragment;
 import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
+
+import java.util.Map;
 
 public class ExperimentActivity extends AppCompatActivity {
 
@@ -53,5 +57,9 @@ public class ExperimentActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // Go to the Experiment Fragment
         transaction.replace(R.id.content, new ExperimentFragment()).commit();
+
+        Intent intent = getIntent();
+        Map experimentData = (Map) intent.getSerializableExtra("map");
+        Log.d("ventures", experimentData.get("ExperimentName").toString());
     }
 }

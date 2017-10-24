@@ -2,7 +2,6 @@ package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,16 +32,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
+import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
 import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
 import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -177,9 +176,11 @@ public class ExperimentsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Experiment experiment = experimentList.get(position);
-                Toast.makeText(view.getContext(), experiment.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), experiment.getData().get("ExperimentName") + " is selected!", Toast.LENGTH_SHORT).show();
                 // Go to Experiment Activity which controls single Experiments etc.
+                Map experimentData = experiment.getData();
                 Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                intent.putExtra("map", (Serializable) experimentData);
                 startActivity(intent);
             }
 
@@ -227,11 +228,11 @@ public class ExperimentsFragment extends Fragment {
                             if (document.exists()) {
                                 Map experimentData = document.getData();
                                 Log.d("ventures", document.getId() + " => " + document.getData());
-                                String title = (String) experimentData.get("ExperimentName");
-                                String desc = (String) experimentData.get("ExperimentSubtitle");
-                                Date created = (Date) experimentData.get("DateCreated");
+//                                String title = (String) experimentData.get("ExperimentName");
+//                                String desc = (String) experimentData.get("ExperimentSubtitle");
+//                                Date created = (Date) experimentData.get("DateCreated");
 
-                                Experiment experiment = new Experiment(title, desc, i, document.getId(), created.toString());
+                                Experiment experiment = new Experiment(experimentData);
                                 experimentList.add(experiment);
                                 i++;
                             }

@@ -52,8 +52,8 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Experiment experiment = experimentList.get(position);
-        holder.title.setText(experiment.getTitle());
-        holder.desc.setText(experiment.getDesc());
+        holder.title.setText(experiment.getData().get("ExperimentName").toString());
+        holder.desc.setText(experiment.getData().get("ExperimentSubtitle").toString());
         int imageColor;
         if (position + 1 == getItemCount()){
             imageColor = Color.parseColor("#0099ff");

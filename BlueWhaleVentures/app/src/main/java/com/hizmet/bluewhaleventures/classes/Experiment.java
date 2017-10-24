@@ -1,34 +1,24 @@
 package com.hizmet.bluewhaleventures.classes;
 
+import java.util.Map;
+
 /**
  * Created by Bram Korsten on 10/21/2017.
  */
 
 public class Experiment {
-    private String title, desc, id, created;
-    private int number;
+    private Map data;
 
     public Experiment() {
     }
 
-    public Experiment(String title, String desc, int number, String id, String created) {
-        this.title = title;
-        this.desc = desc;
-        this.number = number;
-        this.id = id;
-        this.created = created;
+    public Experiment(Map ExperimentData) {
+        data = ExperimentData;
     }
 
-    public String getTitle() {
-        return title;
+    public Map getData() {
+        return data;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
 
 }
