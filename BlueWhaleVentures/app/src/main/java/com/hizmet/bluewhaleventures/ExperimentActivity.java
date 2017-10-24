@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.ExperimentFragment;
 import com.hizmet.bluewhaleventures.fragments.PeopleFragment;
-import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
 
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public class ExperimentActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_settings:
                     // Go to the Settings Fragment
-                    transaction.replace(R.id.content, new SettingsFragment()).commit();
+                    //transaction.replace(R.id.content, new SettingsFragment()).commit();
                     return true;
             }
             return false;

@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -160,6 +159,7 @@ public class ExperimentsFragment extends Fragment {
                 getExperimentData();
             }
         });
+        refresher.setRefreshing(true);
     }
 
 
@@ -176,7 +176,6 @@ public class ExperimentsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Experiment experiment = experimentList.get(position);
-                Toast.makeText(view.getContext(), experiment.getData().get("ExperimentName") + " is selected!", Toast.LENGTH_SHORT).show();
                 // Go to Experiment Activity which controls single Experiments etc.
                 Map experimentData = experiment.getData();
                 Intent intent = new Intent(getActivity(), ExperimentActivity.class);

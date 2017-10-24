@@ -24,10 +24,10 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         android:background="?selectableItemBackgroundBorderless"
         android:cropToPadding="false"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_chevron_links_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_chevron_links_blue" />
 
     <ImageView
         android:id="@+id/toolbarLogo"

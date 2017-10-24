@@ -9,6 +9,11 @@
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorRipple</item>
+        <!-- Used to theme preference list and items. -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+        <!-- Default icon tint for preferences. -->
+        <item name="asp_preferenceIconTint">?colorAccent</item>
+        <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
 
     </style>
 
@@ -19,6 +24,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorRipple</item>
+        <!-- Used to theme preference list and items. -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+        <!-- Default icon tint for preferences. -->
+        <item name="asp_preferenceIconTint">?colorAccent</item>
+        <item name="asp_preferenceDialogIconTint">?asp_preferenceIconTint</item>
     </style>
 
     <style name="OverflowAppearance" parent="@android:style/TextAppearance">
