@@ -54,11 +54,10 @@ public class ExperimentActivity extends AppCompatActivity {
 
         // Bottom navigation
         BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiment);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_experimentdetail);
         navItem2.setChecked(true);
-
-        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

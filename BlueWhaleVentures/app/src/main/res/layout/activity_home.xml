@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationExperiment"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationExperiments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +20,7 @@
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNavigationExperiment"
+        android:id="@+id/bottomNavigationExperiments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"

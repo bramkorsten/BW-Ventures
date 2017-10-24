@@ -46,13 +46,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         // Bottom navigation
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiment);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiments);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        MenuItem navItem2 = navigation.getMenu().findItem(R.id.navigation_experiments);
+        navItem2.setChecked(true);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        // Go to the Information Fragment
-        transaction.replace(R.id.content, new InformationFragment()).commit();
+
+        // Go to the Experiments Fragment
+        transaction.replace(R.id.content, new ExperimentsFragment()).commit();
+
     }
 
 
