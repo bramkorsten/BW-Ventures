@@ -1,7 +1,6 @@
 package com.hizmet.bluewhaleventures;
 
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -41,8 +40,6 @@ public class NewExperimentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_experiment);
-        TextView toolbarTitle = findViewById(R.id.toolbarTitle);
-        toolbarTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/intro.ttf"));
 
         setViews();
     }

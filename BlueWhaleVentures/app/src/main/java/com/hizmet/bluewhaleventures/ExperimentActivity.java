@@ -66,7 +66,7 @@ public class ExperimentActivity extends AppCompatActivity {
         transaction.replace(R.id.content, new ExperimentFragment()).commit();
     }
 
-    public Map getExperimentDataFromParent(){
+    public Map getExperimentDataFromParent() {
         return experimentData;
     }
 }

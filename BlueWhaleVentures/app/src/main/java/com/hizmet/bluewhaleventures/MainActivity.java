@@ -1,7 +1,6 @@
 package com.hizmet.bluewhaleventures;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -40,14 +39,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        setCustomFontsOfElements();
-    }
-
-    private void setCustomFontsOfElements() {
-        textViewTitle = (TextView) findViewById(R.id.textView_title_main);
-        textViewTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/intro.ttf"));
-        textViewInfo = (TextView) findViewById(R.id.textView_info_main);
-        textViewInfo.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/helvetica_regular.ttf"));
     }
 }

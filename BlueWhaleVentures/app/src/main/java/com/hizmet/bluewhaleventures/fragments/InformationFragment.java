@@ -114,13 +114,7 @@ public class InformationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setCustomFontsOfElements();
         getUserInfo();
-    }
-
-    private void setCustomFontsOfElements() {
-        TextView toolbarTitle = (TextView) getView().findViewById(R.id.toolbarTitle);
-        toolbarTitle.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/intro.ttf"));
     }
 
     private void getUserInfo(){

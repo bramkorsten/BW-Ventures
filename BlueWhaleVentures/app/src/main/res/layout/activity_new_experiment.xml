@@ -60,7 +60,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@fonts/intro"
+            android:fontFamily="@font/intro"
             android:text="New Experiment"
             android:textColor="@android:color/black"
             android:textSize="18sp"
