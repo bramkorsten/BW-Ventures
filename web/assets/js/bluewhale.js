@@ -1,14 +1,3 @@
-setTimeout(function(){
-  document.getElementById("loadscreen-wrap").classList.toggle('remove-splash');
-}, 3500);
-// }, 10);
-
-setTimeout(function() {
-  document.getElementById("loadscreen-wrap").classList.toggle('gone-form');
-}, 3800);
-// }, 10);
-
-
 function expandForm() {
   document.getElementById("login-title").classList.toggle('class-hidden');
   document.getElementById("login-form").classList.toggle('form-expand');
@@ -88,32 +77,53 @@ function goodLogin() {
 
 function getTab(x) {
   if (x == 'clients') {
-    document.getElementById('profile-title-active').className='title-border-left';
-    document.getElementById('menu-item-clients').className='menu-item menu-item-top menu-item-active';
-    document.getElementById('menu-item-experiments').className='menu-item';
-    document.getElementById('menu-item-people').className='menu-item';
+    // document.getElementById('profile-title-active').className='title-border-left';
+    // document.getElementById('menu-item-clients').className='menu-item menu-item-top menu-item-active';
+    // document.getElementById('menu-item-experiments').className='menu-item';
+    // document.getElementById('menu-item-people').className='menu-item';
 
     document.getElementById('title-clients').className='title-mid-active';
+    document.getElementById('title-experiments').className='experiments-hidden';
     document.getElementById('title-people').className='';
+    document.getElementById('profile-title-active').className='title-border-left';
+
+
+    goClients();
+    backToClients();
+
   }
   if (x == 'experiments') {
-    document.getElementById('profile-title-active').className='';
-    document.getElementById('menu-item-clients').className='menu-item menu-item-top';
-    document.getElementById('menu-item-experiments').className='menu-item menu-item-active';
-    document.getElementById('menu-item-people').className='menu-item';
+    // document.getElementById('profile-title-active').className='';
+    // document.getElementById('menu-item-clients').className='menu-item menu-item-top';
+    // document.getElementById('menu-item-experiments').className='menu-item menu-item-active';
+    // document.getElementById('menu-item-people').className='menu-item';
 
     document.getElementById('title-clients').className='';
     document.getElementById('title-experiments').className='title-mid-active';
     document.getElementById('title-people').className='';
+    document.getElementById('profile-title-active').className='title-border-center';
+
+    goClients();
   }
   if (x == 'people') {
-    document.getElementById('profile-title-active').className='title-border-right';
-    document.getElementById('menu-item-clients').className='menu-item menu-item-top';
-    document.getElementById('menu-item-people').className='menu-item menu-item-active';
-    document.getElementById('menu-item-experiments').className='menu-item';
+    // document.getElementById('profile-title-active').className='title-border-right';
+    // document.getElementById('menu-item-clients').className='menu-item menu-item-top';
+    // document.getElementById('menu-item-people').className='menu-item menu-item-active';
+    // document.getElementById('menu-item-experiments').className='menu-item';
 
     document.getElementById('title-clients').className='';
     document.getElementById('title-people').className='title-mid-active';
+    if (document.getElementById('title-experiments').className=='experiments-hidden') {
+      document.getElementById('profile-title-active').className='title-border-semi-right';
+      document.getElementById('title-experiments').className='experiments-hidden';
+    }
+    else {
+      document.getElementById('profile-title-active').className='title-border-right';
+      document.getElementById('title-experiments').className='';
+    }
+
+
+    goPeople();
   }
 }
 
@@ -134,6 +144,34 @@ function verifyCompany() {
   }, 50);
 }
 
-function getExperiments() {
+function goPeople() {
+  // document.getElementById('cards-wrap-clients').className='cards-wrap clients-left';
+  document.getElementById('left-side-wrap').className='left-side-wrap clients-left';
+  document.getElementById('cards-wrap-people').className='cards-contain';
+}
 
+function goClients() {
+  //document.getElementById('cards-wrap-clients').className='cards-wrap';
+  //document.getElementById('cards-wrap-people').className='cards-contain projects-right';
+  document.getElementById('left-side-wrap').className='left-side-wrap';
+  document.getElementById('cards-wrap-people').className='cards-contain projects-right';
+}
+
+function setBubble() {
+  document.getElementById('dropdown-bubble').classList.toggle('bubble-gone');
+}
+
+function setExperiments() {
+  document.getElementById('cards-clients-contain').classList.toggle('experiments-cards-gone');
+  document.getElementById('cards-experiments-contain').classList.toggle('experiments-cards-gone');
+  document.getElementById('title-experiments').className='title-mid-active';
+  document.getElementById('title-clients').className='';
+  document.getElementById('profile-title-active').className='title-border-center';
+}
+
+function backToClients() {
+  // document.getElementById('cards-clients-contain').classList.toggle('experiments-cards-gone');
+  // document.getElementById('cards-experiments-contain').classList.toggle('experiments-cards-gone');
+  document.getElementById('cards-clients-contain').className='cards-contain';
+  document.getElementById('cards-experiments-contain').className='cards-contain experiments-cards-gone';
 }

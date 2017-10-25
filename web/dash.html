@@ -3,11 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>BW-Ventures WebApp</title>
+    <link rel="icon" type="image/png" href="assets/img/logo_fav.png" />
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
+    setTimeout(function(){
+      document.getElementById("loadscreen-wrap").classList.toggle('remove-splash');
+    // }, 3500);
+    }, 10);
+
+    setTimeout(function() {
+      document.getElementById("loadscreen-wrap").classList.toggle('gone-form');
+    // }, 3800);
+    }, 10);
+
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyAcs8FGJQ64vgvhvwf2wOgj_fwSVhD_2SU",
@@ -22,7 +34,7 @@
     </script>
     <script src="assets/js/bluewhale.js"></script>
   </head>
-  <body id="body">
+  <body id="body" class="dashboard-body">
     <div id="loadscreen-wrap" class="loadscreen-wrap">
       <video class="splash-vid" autoplay>
        <source src="assets/img/BW_Splash_Cube_Gif_V3.mp4" type="video/mp4">
@@ -79,29 +91,55 @@
             <span class="profile-info-company">Blue Whale Ventures</span>
           </div>
           <div class="right-icons-wrap">
-            <div class="right-icon" onClick="prepLogout();"><i class="fa fa-pencil" aria-hidden="true"></i></div>
-            <div class="right-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
+            <i class="fa fa-ellipsis-v" aria-hidden="true" onClick="setBubble();"></i>
+            <div id="dropdown-bubble" class="dropdown-bubble bubble-gone">
+              <div class="bubble-item">Edit profile</div>
+              <div class="bubble-item">Logout</div>
+            </div>
           </div>
           <div class="profile-titles-contain">
-            <span onClick="getTab('clients');" id="title-clients" class="title-mid-active"><p>CLIENTS</p></span><span id="title-experiments" class="title-experiments"><p>EXPERIMENTS</p></span><span onClick="getTab('people');" id="title-people"><p>PEOPLE</p></span>
+            <span onClick="getTab('clients');" id="title-clients" class="title-mid-active"><p id="title-clients-in">CLIENTS</p></span><span onClick="getTab('experiments');" id="title-experiments" class="experiments-hidden"><p id="title-experiments-in">EXPERIMENTS</p></span><span onClick="getTab('people');" id="title-people"><p>PEOPLE</p></span>
             <div id="profile-title-active" class="title-border-left"></div>
           </div>
         </div>
       </div>
-      <div class="cards-contain">
-        <div id="cards-wrap-clients" class="cards-wrap">
-          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
-          <div class="single-card"><span class="card-circle">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
-          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
-          <div class="single-card"><span class="card-circle">M</span><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
-          <div class="single-card"><span class="card-circle">F</span><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
-          <div class="single-card card-plus" onClick="startNewCompany();"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+      <div id="left-side-wrap" class="left-side-wrap">
+        <div id="cards-clients-contain" class="cards-contain">
+          <div id="cards-wrap-clients" class="cards-wrap">
+            <div onClick="setExperiments();" class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
+            <div class="single-card"><span class="card-circle">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
+            <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
+            <div class="single-card"><span class="card-circle">M</span><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
+            <div class="single-card"><span class="card-circle">F</span><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
+            <div class="single-card card-plus" onClick="startNewCompany();"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+          </div>
         </div>
 
-        <!-- <div id="cards-wrap-experiments" class="cards-wrap cards-wrap-right">
-          <div class="single-card"><span class="card-circle">S</span><h3 class="card-company-name">EXPERIMENT</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
-          <div class="single-card"><span class="card-circle">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
-        </div> -->
+        <div id="cards-experiments-contain" class="cards-contain experiments-cards-gone">
+          <div id="experiments-company-name" class="experiments-company-name">
+            <div id="experiments-company-name-wrap" class="experiments-company-name-wrap">
+              <!-- <span class="experiments-back-arrow"><i onClick="backToClients();" class="fa fa-chevron-left" aria-hidden="true"></i></span> -->
+              <span class="experiments-banner-name">Swapido - Experiments</span>
+              <span class="experiments-days">Day <span class="single-day">12</span> / 100 </span>
+            </div>
+          </div>
+          <div id="cards-wrap-experiments" class="cards-wrap">
+            <!-- <div class="single-card"><span class="card-circle">1</span><h3 class="card-company-name">The First Experiment</h3><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div> -->
+            <div class="single-card"><span class="card-circle circle-inactive">1</span><div class="experiments-info"><span class="experiments-info-name">The First Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle circle-inactive">2</span><div class="experiments-info"><span class="experiments-info-name">The Second Experiment</span><span class="experiments-info-sub">Second time we're doing this</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle circle-inactive">3</span><div class="experiments-info"><span class="experiments-info-name">Figuring out stuff</span><span class="experiments-info-sub">How does everything work?</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle circle-inactive">4</span><div class="experiments-info"><span class="experiments-info-name">Going further in experimenting</span><span class="experiments-info-sub">We got a pretty good grasp of this now</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle circle-inactive">4</span><div class="experiments-info"><span class="experiments-info-name">Going further in experimenting</span><span class="experiments-info-sub">We got a pretty good grasp of this now</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle">5</span><div class="experiments-info"><span class="experiments-info-name">The Fifth Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="cards-wrap-people" class="cards-contain projects-right">
+        <div class="single-person"><span class="card-circle person-circle">LK</span><div class="single-person-name">Loet Koreman<span class="person-email">loet@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div>
+        <div class="single-person"><span class="card-circle person-circle">AR</span><div class="single-person-name">Arne Reijntjes<span class="person-email">arne@fontys.nl</span></div><span class="single-person-company">Fontys</span></div>
+        <div class="single-person"><span class="card-circle person-circle">BK</span><div class="single-person-name">Bram Korsten<span class="person-email">bram@hizmet.nl</span></div><span class="single-person-company">Hizmet</span></div>
+        <div class="single-person"><span class="card-circle person-circle">SL</span><div class="single-person-name">Sam Lebens<span class="person-email">sam@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div>
       </div>
     </div>
   </body>
