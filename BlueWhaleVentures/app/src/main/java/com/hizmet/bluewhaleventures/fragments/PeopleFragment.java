@@ -3,10 +3,12 @@ package com.hizmet.bluewhaleventures.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.hizmet.bluewhaleventures.R;
 
@@ -23,6 +25,8 @@ public class PeopleFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private ImageButton backButton;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -68,7 +72,17 @@ public class PeopleFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_people, container, false);
     }
 
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        backButton = getView().findViewById(R.id.toolbarBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

@@ -33,16 +33,15 @@ public class ExperimentFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private TextView name, desc;
+    private TextView textViewTitle;
+    private ImageButton backButton;
 
     private Map ExperimentData;
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
-    private TextView textViewTitle;
 
     public ExperimentFragment() {
         // Required empty public constructor
@@ -85,10 +84,10 @@ public class ExperimentFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageButton back = getView().findViewById(R.id.toolbarBack);
+        backButton = getView().findViewById(R.id.toolbarBack);
         name = getView().findViewById(R.id.experiment_title);
         desc = getView().findViewById(R.id.experiment_desc);
-        back.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();

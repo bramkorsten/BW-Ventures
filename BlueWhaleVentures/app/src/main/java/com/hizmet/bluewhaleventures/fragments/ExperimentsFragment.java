@@ -83,7 +83,6 @@ public class ExperimentsFragment extends Fragment {
         experimentsList = new ArrayList<>();
         firestoreDb = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        experimentCount = 1;
     }
 
     /**
@@ -156,12 +155,6 @@ public class ExperimentsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setRefreshLayout();
-    }
-
     private void setViews() {
         buttonAddExperiment = getView().findViewById(R.id.toolbarNew);
         textviewNumberOfExperiments = getView().findViewById(R.id.numberOfExperiments);
@@ -179,7 +172,6 @@ public class ExperimentsFragment extends Fragment {
             }
         });
         refresherLayout.setRefreshing(true);
-        textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
     }
 
 
@@ -238,6 +230,7 @@ public class ExperimentsFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
+                        experimentCount = 0;
                         for (DocumentSnapshot document : task.getResult()) {
                             if (document.exists()) {
                                 Map experimentData = document.getData();
@@ -253,6 +246,7 @@ public class ExperimentsFragment extends Fragment {
                         }
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
+                        textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
                     } else {
                         Log.d("ventures", "Error getting documents: ", task.getException());
                     }
