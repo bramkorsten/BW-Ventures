@@ -57,17 +57,20 @@ public class ExperimentsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    TextView textviewNumberOfExperiments;
     TextView textViewExperiments;
     Toolbar toolbar;
-    private List<Experiment> experimentList = new ArrayList<>();
-    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    ImageButton buttonAddExperiment;
+    private List<Experiment> experimentsList;
+    private FirebaseFirestore firestoreDb;
+    private FirebaseUser user;
     private String ventureId;
+    private int experimentCount;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
     private RecyclerView.LayoutManager experimentsLayoutManager;
-    private SwipeRefreshLayout refresher;
+    private SwipeRefreshLayout refresherLayout;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -77,6 +80,10 @@ public class ExperimentsFragment extends Fragment {
 
     public ExperimentsFragment() {
         // Required empty public constructor
+        experimentsList = new ArrayList<>();
+        firestoreDb = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        experimentCount = 1;
     }
 
     /**
@@ -104,6 +111,7 @@ public class ExperimentsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -135,38 +143,48 @@ public class ExperimentsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageButton button = getView().findViewById(R.id.toolbarNew);
-        button.setOnClickListener(new View.OnClickListener() {
+        // Set views to variables.
+        setViews();
+        setRefreshLayout();
+        setExperimentsRecyclerView();
 
+        buttonAddExperiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NewExperimentActivity.class);
                 startActivity(intent);
             }
         });
-        setRefreshLayout();
-        setExperimentsRecyclerView();
     }
 
-    private void setRefreshLayout(){
-        refresher = getView().findViewById(R.id.refreshLayout);
-        refresher.setColorSchemeResources(
-                R.color.colorPrimary
-        );
-        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        setRefreshLayout();
+    }
+
+    private void setViews() {
+        buttonAddExperiment = getView().findViewById(R.id.toolbarNew);
+        textviewNumberOfExperiments = getView().findViewById(R.id.numberOfExperiments);
+        experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
+        refresherLayout = getView().findViewById(R.id.refreshLayout);
+        refresherLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
+
+    private void setRefreshLayout() {
+        refresherLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Refresh items
+                // Refresh experiments
                 getExperimentData();
             }
         });
-        refresher.setRefreshing(true);
+        refresherLayout.setRefreshing(true);
+        textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
     }
 
 
-
-    private void setExperimentsRecyclerView(){
-        experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
-        adapter = new ExperimentAdapter(experimentList);
+    private void setExperimentsRecyclerView() {
+        adapter = new ExperimentAdapter(experimentsList);
         experimentsLayoutManager = new LinearLayoutManager(this.getContext());
         experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
         experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -175,9 +193,9 @@ public class ExperimentsFragment extends Fragment {
         experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Experiment experiment = experimentList.get(position);
+                Experiment experiments = experimentsList.get(position);
+                Map experimentData = experiments.getData();
                 // Go to Experiment Activity which controls single Experiments etc.
-                Map experimentData = experiment.getData();
                 Intent intent = new Intent(getActivity(), ExperimentActivity.class);
                 intent.putExtra("map", (Serializable) experimentData);
                 startActivity(intent);
@@ -193,7 +211,6 @@ public class ExperimentsFragment extends Fragment {
     }
 
     private void getUserData() {
-
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -209,11 +226,10 @@ public class ExperimentsFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void getExperimentData() {
-        experimentList.clear();
+        experimentsList.clear();
         if (ventureId.isEmpty()) {
             return;
         } else {
@@ -222,7 +238,6 @@ public class ExperimentsFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        int i = 0;
                         for (DocumentSnapshot document : task.getResult()) {
                             if (document.exists()) {
                                 Map experimentData = document.getData();
@@ -232,13 +247,12 @@ public class ExperimentsFragment extends Fragment {
 //                                Date created = (Date) experimentData.get("DateCreated");
 
                                 Experiment experiment = new Experiment(experimentData);
-                                experimentList.add(experiment);
-                                i++;
+                                experimentsList.add(experiment);
+                                experimentCount++;
                             }
-
                         }
                         adapter.notifyDataSetChanged();
-                        refresher.setRefreshing(false);
+                        refresherLayout.setRefreshing(false);
                     } else {
                         Log.d("ventures", "Error getting documents: ", task.getException());
                     }

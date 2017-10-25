@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_add"
-        android:icon="@drawable/ic_plus_gray"
+        android:icon="@drawable/ic_plus_grey"
         android:title="@string/menuMain_item_add_item"
         app:showAsAction="ifRoom" />
 

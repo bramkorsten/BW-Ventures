@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_experimentdetail"
-        android:icon="@drawable/ic_vlemke_gray"
+        android:icon="@drawable/ic_vlemke_grey"
         android:title="@string/title_experiment" />
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_cog_gray"
+        android:icon="@drawable/ic_cog_grey"
         android:title="@string/title_settings" />
 
 </menu>

@@ -44,7 +44,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         setViews();
     }
 
-    private void setViews(){
+    private void setViews() {
         name = findViewById(R.id.textContainerName);
         desc = findViewById(R.id.textContainerDesc);
         segment = findViewById(R.id.textContainerSegment);
@@ -79,7 +79,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!checkData()){
+                if (!checkData()) {
                     // TODO: 10/23/2017 ADD snackbar
                     prepareExperiment();
                 }
@@ -88,7 +88,7 @@ public class NewExperimentActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkData(){
+    private boolean checkData() {
         boolean hasError = false;
         if (name.getEditText().getText().toString().length() > 30 || name.getEditText().getText().toString().length() == 0) {
             name.setError("Please adjust the experiment name");
@@ -141,7 +141,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         return hasError;
     }
 
-    private void prepareExperiment(){
+    private void prepareExperiment() {
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -159,8 +159,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         });
     }
 
-    private void saveExperiment(){
-
+    private void saveExperiment() {
         Map<String, Object> experimentData = new HashMap<>();
         experimentData.put("ExperimentName", name.getEditText().getText().toString().trim());
         experimentData.put("ExperimentSubtitle", desc.getEditText().getText().toString().trim());
@@ -193,7 +192,7 @@ public class NewExperimentActivity extends AppCompatActivity {
 
     public void goBack(View v) {
         AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(NewExperimentActivity.this);
+        builder = new AlertDialog.Builder(NewExperimentActivity.this);
 
         builder.setTitle("Discard Experiment")
                 .setMessage("Do you want to discard your new experiment and go back?")
@@ -207,8 +206,7 @@ public class NewExperimentActivity extends AppCompatActivity {
                         // do nothing
                     }
                 });
-        builder.show()
-                .getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+        builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
 
     }
 }

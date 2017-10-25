@@ -1,7 +1,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/frameLayout_experiments"
+android:id="@+id/frameLayout_experiment"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@color/colorWhite"
@@ -171,24 +171,6 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:text="@string/fragmentExperiment_textView_experiment"
-            android:textAllCaps="true"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/textView8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -199,7 +181,7 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
             android:fontFamily="@font/montserrat"
             android:maxLines="1"
             android:scrollHorizontally="true"
-            android:text="@string/fragmentExperiment_textView_100"
+            android:text="/ 100"
             android:textAllCaps="true"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -211,6 +193,7 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat"
@@ -228,12 +211,13 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="2dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat"
             android:maxLines="1"
             android:scrollHorizontally="true"
-            android:text="@string/fragmentExperiment_textView__31"
+            android:text="31"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
@@ -241,24 +225,6 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
             app:layout_constraintEnd_toStartOf="@+id/textView8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.333" />
-
-        <TextView
-            android:id="@+id/experimentNumbertxt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:text="@string/fragmentExperiment_textView_experimentNumberTxt"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/deviderLine5"

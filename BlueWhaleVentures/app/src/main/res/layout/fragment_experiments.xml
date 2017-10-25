@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/toolbarLogo"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_plus_gray" />
+            app:srcCompat="@drawable/ic_plus_grey" />
 
         <ImageView
             android:id="@+id/toolbarLogo"
@@ -100,7 +100,7 @@
                 android:fontFamily="@font/montserrat"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
-                android:text="@string/fragmentExperiments_experiment"
+                android:text="@string/fragmentExperiments_experiments"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -130,6 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat"
@@ -147,6 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="2dp"
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat"
@@ -162,16 +164,17 @@
                 app:layout_constraintVertical_bias="0.333" />
 
             <TextView
-                android:id="@+id/experimentNumbertxt"
-                android:layout_width="0dp"
+                android:id="@+id/numberOfExperiments"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/montserrat"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
-                android:text="@string/fragmentExperiments_1"
+                android:text="1"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
