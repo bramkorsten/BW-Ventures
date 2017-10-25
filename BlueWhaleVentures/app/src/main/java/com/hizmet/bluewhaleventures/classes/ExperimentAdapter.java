@@ -14,27 +14,23 @@ import com.hizmet.bluewhaleventures.R;
 
 import java.util.List;
 
-/**
- * Created by Bram Korsten on 10/21/2017.
- */
-
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.MyViewHolder> {
 
-private List<Experiment> experimentList;
-Typeface Montserrat;
+    private List<Experiment> experimentList;
+    private Typeface Montserrat;
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView title, desc;
-    public ImageView image;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, desc;
+        public ImageView image;
 
 
-    public MyViewHolder(View view) {
-        super(view);
-        title = view.findViewById(R.id.experiment_title);
-        desc = view.findViewById(R.id.experiment_desc);
-        image = view.findViewById(R.id.experiment_image);
+        public MyViewHolder(View view) {
+            super(view);
+            title = view.findViewById(R.id.experiment_title);
+            desc = view.findViewById(R.id.experiment_desc);
+            image = view.findViewById(R.id.experiment_image);
+        }
     }
-}
 
 
     public ExperimentAdapter(List<Experiment> experimentList) {
@@ -55,7 +51,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         holder.title.setText(experiment.getData().get("ExperimentName").toString());
         holder.desc.setText(experiment.getData().get("ExperimentSubtitle").toString());
         int imageColor;
-        if (position + 1 == getItemCount()){
+        if (position + 1 == getItemCount()) {
             imageColor = Color.parseColor("#0099ff");
         } else {
             imageColor = Color.parseColor("#929292");

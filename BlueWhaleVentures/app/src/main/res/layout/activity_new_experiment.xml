@@ -61,7 +61,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/intro"
-            android:text="New Experiment"
+            android:text="@string/newExperiment_textView_new_experiment"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textViewGeneral"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -102,7 +102,7 @@
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:scrollHorizontally="true"
-                    android:text="General"
+                    android:text="@string/newExperiment_textView_general"
                     android:textAllCaps="true"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +110,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <FrameLayout
-                    android:id="@+id/deviderLine"
+                    android:id="@+id/deviderLine1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/colorLineGrey"
@@ -133,7 +133,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/Spacer2">
 
                 <FrameLayout
-                    android:id="@+id/deviderLine"
+                    android:id="@+id/deviderLine2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/colorLineGrey"
@@ -144,7 +144,7 @@
                 </FrameLayout>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textViewTargetAudience"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -154,7 +154,7 @@
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:scrollHorizontally="true"
-                    android:text="Target Audience"
+                    android:text="@string/newExperiment_textView_target_audience"
                     android:textAllCaps="true"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="12sp"
@@ -163,7 +163,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <FrameLayout
-                    android:id="@+id/deviderLine"
+                    android:id="@+id/deviderLine3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/colorLineGrey"
@@ -197,7 +197,7 @@
                 </FrameLayout>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textViewGoals"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -207,7 +207,7 @@
                     android:fontFamily="@font/montserrat"
                     android:maxLines="1"
                     android:scrollHorizontally="true"
-                    android:text="Goals"
+                    android:text="@string/newExperiment_textView_goals"
                     android:textAllCaps="true"
                     android:textColor="@color/colorTextGrey"
                     android:textSize="12sp"
@@ -236,7 +236,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Give your experiment a name"
+                android:text="@string/newExperiment_textView_give_your_experiment_a_name"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,7 +251,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Add a short description"
+                android:text="@string/newExperiment_textView_add_a_short_description"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -267,7 +267,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Describe the customer segment"
+                android:text="@string/newExperiment_textView_describe_the_customer_segment"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -282,7 +282,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Where do you find these customers?"
+                android:text="@string/newExperiment_textView_where_do_you_find_these_customers"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -297,7 +297,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Describe the problem hypothesis"
+                android:text="@string/newExperiment_textView_describe_the_problem_hypothesis"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -313,7 +313,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Describe the learning goal of this experiment"
+                android:text="@string/newExperiment_textView_describe_the_learning_goal_of_this_experiment"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -328,7 +328,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="How many people are you going to interview"
+                android:text="@string/newExperiment_textView_how_many_people_are_you_going_to_interview"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -343,7 +343,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="8 interviews"
+                android:text="@string/newExperiment_textView__8_interviews"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
@@ -360,7 +360,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/montserrat"
-                android:text="What are your fail conditions?"
+                android:text="@string/newExperiment_textView_what_are_your_fail_conditions"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -375,7 +375,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat"
-                android:text="What are your stop conditions?"
+                android:text="@string/newExperiment_textView_what_are_your_stop_conditions"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -411,7 +411,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="text|textCapWords"
+                        android:inputType="text|textCapWords|textPassword"
                         android:nextFocusDown="@+id/desctxt"
                         android:password="false"
                         android:textColorLink="@color/colorPrimary"
@@ -737,7 +737,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="Save"
+                android:text="@string/newExperiment_textView_save"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

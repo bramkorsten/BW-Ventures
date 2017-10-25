@@ -2,10 +2,6 @@ package com.hizmet.bluewhaleventures.classes;
 
 import java.util.Map;
 
-/**
- * Created by Bram Korsten on 10/21/2017.
- */
-
 public class Experiment {
     private Map data;
 

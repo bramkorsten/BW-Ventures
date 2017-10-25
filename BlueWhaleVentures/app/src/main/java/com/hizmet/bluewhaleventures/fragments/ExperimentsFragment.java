@@ -60,14 +60,14 @@ public class ExperimentsFragment extends Fragment {
     TextView textViewExperiments;
     Toolbar toolbar;
     private List<Experiment> experimentList = new ArrayList<>();
-    FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
     private RecyclerView.LayoutManager experimentsLayoutManager;
-    SwipeRefreshLayout refresher;
+    private SwipeRefreshLayout refresher;
 
     // TODO: Rename and change types of parameters
     private String mParam1;

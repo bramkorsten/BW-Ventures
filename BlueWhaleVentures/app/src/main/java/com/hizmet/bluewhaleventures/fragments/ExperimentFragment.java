@@ -32,9 +32,9 @@ public class ExperimentFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView name, desc;
+    private TextView name, desc;
 
-    Map ExperimentData;
+    private Map ExperimentData;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -99,7 +99,7 @@ public class ExperimentFragment extends Fragment {
         setViewExperiment();
     }
 
-    public void setViewExperiment(){
+    private void setViewExperiment(){
         name.setText(ExperimentData.get("ExperimentName").toString());
         desc.setText(ExperimentData.get("ExperimentSubtitle").toString());
     }
@@ -130,7 +130,7 @@ public class ExperimentFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    private interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }

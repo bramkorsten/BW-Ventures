@@ -28,12 +28,12 @@ import java.util.Map;
 
 public class NewExperimentActivity extends AppCompatActivity {
 
-    TextInputLayout name, desc, segment, find, problem, goal, fail, stop;
-    TextView interviews;
-    SeekBar interviewBar;
-    int numOfInterviews = 8;
-    FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private TextInputLayout name, desc, segment, find, problem, goal, fail, stop;
+    private TextView interviews;
+    private SeekBar interviewBar;
+    private int numOfInterviews = 8;
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
 
     @Override
@@ -141,7 +141,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         return hasError;
     }
 
-    public void prepareExperiment(){
+    private void prepareExperiment(){
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -159,7 +159,7 @@ public class NewExperimentActivity extends AppCompatActivity {
         });
     }
 
-    public void saveExperiment(){
+    private void saveExperiment(){
 
         Map<String, Object> experimentData = new HashMap<>();
         experimentData.put("ExperimentName", name.getEditText().getText().toString().trim());

@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/intro"
-        android:text="Hey, Maarten!"
+        android:text="@string/login_textView_hey_user"
         android:textSize="36sp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -5,13 +5,13 @@
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_plus_gray"
-        android:title="Add item"
+        android:title="@string/menuMain_item_add_item"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logo_blue_whale"
-        android:title="Log out"
+        android:title="@string/menuMain_item_logOut"
         app:showAsAction="ifRoom" />
 
 </menu>

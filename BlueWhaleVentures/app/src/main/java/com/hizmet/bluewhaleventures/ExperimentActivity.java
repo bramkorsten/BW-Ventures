@@ -16,7 +16,7 @@ import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
 import java.util.Map;
 
 public class ExperimentActivity extends AppCompatActivity {
-    Map experimentData;
+    private Map experimentData;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
