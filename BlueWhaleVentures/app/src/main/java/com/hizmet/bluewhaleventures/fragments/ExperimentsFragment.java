@@ -2,8 +2,10 @@ package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -146,6 +148,7 @@ public class ExperimentsFragment extends Fragment {
         setViews();
         setRefreshLayout();
         setExperimentsRecyclerView();
+        getUserData(view.getContext());
 
         buttonAddExperiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -190,6 +193,7 @@ public class ExperimentsFragment extends Fragment {
                 // Go to Experiment Activity which controls single Experiments etc.
                 Intent intent = new Intent(getActivity(), ExperimentActivity.class);
                 intent.putExtra("map", (Serializable) experimentData);
+                intent.putExtra("id", experiments.getExperimentId());
                 startActivity(intent);
             }
 
@@ -198,11 +202,10 @@ public class ExperimentsFragment extends Fragment {
 
             }
         }));
-
-        getUserData();
     }
 
-    private void getUserData() {
+    private void getUserData(Context context) {
+        final Context viewContext = context;
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -211,6 +214,8 @@ public class ExperimentsFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         ventureId = (String) task.getResult().getData().get("ventureID");
+                        Log.d("ventures", ventureId);
+                        setLocalVentureId(viewContext, ventureId);
                         getExperimentData();
                     } else {
                         Log.d("ventures", "No such document");
@@ -240,6 +245,7 @@ public class ExperimentsFragment extends Fragment {
 //                                Date created = (Date) experimentData.get("DateCreated");
 
                                 Experiment experiment = new Experiment(experimentData);
+                                experiment.setExperimentId(document.getId());
                                 experimentsList.add(experiment);
                                 experimentCount++;
                             }
@@ -255,11 +261,16 @@ public class ExperimentsFragment extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void setLocalVentureId(Context context, String ventureId){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("VentureId",ventureId);
+        editor.apply();
+    }
+
+    private String getLocalVentureId(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        return preferences.getString("VentureId", "NULL");
     }
 
     @Override
@@ -269,6 +280,7 @@ public class ExperimentsFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
 //            Toast.makeText(context, "Experiments Fragment Attached", Toast.LENGTH_SHORT).show();
+
         }
     }
 

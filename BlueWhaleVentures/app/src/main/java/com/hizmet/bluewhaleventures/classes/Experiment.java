@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class Experiment {
     private Map data;
+    private String experimentId = null;
 
     public Experiment() {
     }
@@ -15,6 +16,12 @@ public class Experiment {
     public Map getData() {
         return data;
     }
+
+    public void setExperimentId(String id){
+        experimentId = id;
+    }
+
+    public String getExperimentId() { return experimentId; }
 
 
 }
