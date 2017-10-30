@@ -60,14 +60,14 @@ public class PersonActivity extends AppCompatActivity {
         BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationPerson);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_persondetail);
+        MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_questions);
         navItem2.setChecked(true);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        // Go to the Person Fragment
-        transaction.replace(R.id.content, new PersonFragment()).commit();
+        // Go to the Questions Fragment
+        transaction.replace(R.id.content, new QuestionsFragment()).commit();
     }
 
     public Map getPersonDataFromParent() {

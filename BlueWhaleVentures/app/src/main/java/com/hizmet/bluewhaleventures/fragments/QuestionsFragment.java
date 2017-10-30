@@ -214,8 +214,7 @@ public class QuestionsFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+//            Toast.makeText(context, "Questions Fragment Attached", Toast.LENGTH_SHORT).show();
         }
     }
 
