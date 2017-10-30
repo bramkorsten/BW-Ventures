@@ -27,6 +27,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
+import com.hizmet.bluewhaleventures.NewPersonActivity;
+import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.PeopleAdapter;

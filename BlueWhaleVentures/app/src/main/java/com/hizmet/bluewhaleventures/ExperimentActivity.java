@@ -60,14 +60,15 @@ public class ExperimentActivity extends AppCompatActivity {
         BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiment);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_experimentdetail);
-        navItem2.setChecked(true);
+        // Set menu item to People
+        MenuItem navItem1 = mBottomNavigationView.getMenu().findItem(R.id.navigation_people);
+        navItem1.setChecked(true);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        // Go to the Experiment Fragment
-        transaction.replace(R.id.content, new ExperimentFragment()).commit();
+        // Go directly to the People Fragment
+        transaction.replace(R.id.content, new PeopleFragment()).commit();
     }
 
     public Map getExperimentDataFromParent() {
