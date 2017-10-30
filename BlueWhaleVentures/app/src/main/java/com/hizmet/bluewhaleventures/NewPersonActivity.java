@@ -209,4 +209,24 @@ public class NewPersonActivity extends AppCompatActivity {
         builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
 
     }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(NewPersonActivity.this);
+
+        builder.setTitle("Discard New Person")
+                .setMessage("Do you want to discard your new entry and go back?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+        builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
 }
