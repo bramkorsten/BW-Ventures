@@ -27,7 +27,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
-import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.PeopleAdapter;
@@ -122,6 +121,14 @@ public class PeopleFragment extends Fragment {
         setRefreshLayout();
         setPeopleRecyclerView();
         getPersonData();
+
+        ImageButton buttonAddPerson = getView().findViewById(R.id.toolbarNew);
+        buttonAddPerson.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewPersonActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setViews() {
