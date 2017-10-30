@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
+import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.PeopleAdapter;
@@ -124,8 +125,6 @@ public class PeopleFragment extends Fragment {
     }
 
     private void setViews() {
-//        buttonAddExperiment = getView().findViewById(R.id.toolbarNew);
-//        textviewNumberOfExperiments = getView().findViewById(R.id.numberOfExperiments);
         peopleRecyclerView = getView().findViewById(R.id.PeopleRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -135,7 +134,7 @@ public class PeopleFragment extends Fragment {
         refresherLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Refresh experiments
+                // Refresh people
                 getPersonData();
             }
         });
@@ -154,8 +153,8 @@ public class PeopleFragment extends Fragment {
             public void onClick(View view, int position) {
                 Person person = personList.get(position);
                 Map personData = person.getData();
-                // Go to Experiment Activity which controls single Experiments etc.
-                Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                // Go to Person Activity which controls single Persons etc.
+                Intent intent = new Intent(getActivity(), PersonActivity.class);
                 intent.putExtra("map", (Serializable) personData);
                 intent.putExtra("id", person.getPersonId());
                 startActivity(intent);
@@ -171,9 +170,9 @@ public class PeopleFragment extends Fragment {
 
     private void getPersonData() {
         String ventureId = getLocalVentureId();
-        String experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
+        String personId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
         personList.clear();
-        CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people");
+        CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");
         personRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

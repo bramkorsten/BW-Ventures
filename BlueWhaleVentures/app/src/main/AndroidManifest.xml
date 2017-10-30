@@ -27,9 +27,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".ExperimentActivity"></activity>
-
-        <activity android:name=".NewExperimentActivity"></activity>
+        <activity android:name=".ExperimentActivity" />
+        <activity android:name=".NewExperimentActivity" />
+        <activity android:name=".PersonActivity"></activity>
     </application>
 
 </manifest>
