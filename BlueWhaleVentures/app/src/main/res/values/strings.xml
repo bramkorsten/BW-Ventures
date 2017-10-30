@@ -6,7 +6,7 @@
     <string name="title_activity_experiments">ExperimentsActivity</string>
     <string name="title_profile">Profile</string>
     <string name="title_experiments">Experiments</string>
-    <string name="title_experiment">Experiment info</string>
+    <string name="title_experiment">Experiment</string>
     <string name="title_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
