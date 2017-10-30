@@ -209,4 +209,27 @@ public class NewExperimentActivity extends AppCompatActivity {
         builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
 
     }
+
+
+
+    @Override
+    public void onBackPressed()
+    {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(NewExperimentActivity.this);
+
+        builder.setTitle("Discard Experiment")
+                .setMessage("Do you want to discard your new experiment and go back?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+        builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
 }
