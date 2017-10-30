@@ -2,10 +2,15 @@ package com.hizmet.bluewhaleventures;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,8 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
@@ -32,9 +37,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dbReference = database.getReference("message");
-        Log.d(TAG, "onCreate: " + dbReference + " this is a log");
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fadeOutSplash();
+            }
+        }, 2600);
 
         email = (EditText) this.findViewById(R.id.emailtxt);
         password = (EditText) this.findViewById(R.id.passwordtxt);
@@ -79,6 +88,28 @@ public class LoginActivity extends AppCompatActivity {
                 }
         });
 
+    }
+
+    private void fadeOutSplash()
+    {
+        GifImageView image = findViewById(R.id.splashImage);
+        image.animate().cancel();
+        final ConstraintLayout splashScreen = findViewById(R.id.splashView);
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(1000);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                splashScreen.setVisibility(View.GONE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        splashScreen.startAnimation(fadeOut);
     }
 
     @Override
