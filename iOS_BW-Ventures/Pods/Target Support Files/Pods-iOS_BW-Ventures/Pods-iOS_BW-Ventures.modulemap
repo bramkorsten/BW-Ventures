@@ -1,6 +1,0 @@
-framework module Pods_iOS_BW_Ventures {
-  umbrella header "Pods-iOS_BW-Ventures-umbrella.h"
-
-  export *
-  module * { export * }
-}
