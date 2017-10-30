@@ -1,14 +1,28 @@
 package com.hizmet.bluewhaleventures.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.hizmet.bluewhaleventures.NewPersonActivity;
 import com.hizmet.bluewhaleventures.R;
+import com.hizmet.bluewhaleventures.classes.Question;
+import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,14 +39,24 @@ public class QuestionsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private ImageButton backButton;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
+    private List<Question> questionsList;
+
+    private RecyclerView questionsRecyclerView;
+    private QuestionsAdapter adapter;
+    private RecyclerView.LayoutManager questionsLayoutManager;
+    private SwipeRefreshLayout refresherLayout;
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+
     public QuestionsFragment() {
-        // Required empty public constructor
+        questionsList = new ArrayList<>();
     }
 
     /**
@@ -69,11 +93,119 @@ public class QuestionsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_questions, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        backButton = getView().findViewById(R.id.toolbarBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+        setViews();
+        setRefreshLayout();
+        setPeopleRecyclerView();
+        getQuestionData();
+
+        ImageButton buttonAddPerson = getView().findViewById(R.id.toolbarNew);
+        buttonAddPerson.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewPersonActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setViews() {
+        questionsRecyclerView = getView().findViewById(R.id.PeopleRecycleView);
+        refresherLayout = getView().findViewById(R.id.refreshLayout);
+        refresherLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
+
+    private void setRefreshLayout() {
+        refresherLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh people
+                getQuestionData();
+            }
+        });
+        refresherLayout.setRefreshing(true);
+    }
+
+    private void setPeopleRecyclerView() {
+//        adapter = new QuestionsAdapter(questionsList);
+//        questionsLayoutManager = new LinearLayoutManager(this.getContext());
+//        questionsRecyclerView.setLayoutManager(questionsLayoutManager);
+//        questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        questionsRecyclerView.setAdapter(adapter);
+//
+//        questionsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), questionsRecyclerView, new ClickListener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                Question question = questionsList.get(position);
+//                Map questionData = question.getData();
+//                // Go to Question Activity which controls single Questions etc.
+//                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+//                intent.putExtra("map", (Serializable) questionData);
+//                intent.putExtra("id", question.getQuestionId());
+//                startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//
+//            }
+//        }));
+
+    }
+
+    private void getQuestionData() {
+//        String ventureId = getLocalVentureId();
+//        String questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
+//        questionsList.clear();
+//        CollectionReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");
+//        questionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (DocumentSnapshot document : task.getResult()) {
+//                        if (document.exists()) {
+//                            DocumentReference question = (DocumentReference) document.getData().get("question");
+//                            Log.d("ventures", document.getId() + " => " + document.getData().get("question"));
+//                            question.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                    if (task.isSuccessful()) {
+//                                        DocumentSnapshot document = task.getResult();
+//                                        if (document.exists()) {
+//                                            Log.d("ventures QUESTION", document.getId() + " => " + document.getData());
+//                                            Question question = new Question(document.getData());
+//                                            question.setQuestionId(document.getId());
+//                                            questionsList.add(question);
+//                                            adapter.notifyDataSetChanged();
+//                                        } else {
+//                                            Log.d("ventures", "No such document");
+//                                        }
+//                                    }
+//                                }
+//                            });
+//                        }
+//                    }
+//                    Log.d("ventures", "Finished getting people");
+//                    adapter.notifyDataSetChanged();
+//                    refresherLayout.setRefreshing(false);
+//                } else {
+//                    Log.d("ventures", "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
+    }
+
+    private String getLocalVentureId(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return preferences.getString("VentureId", "NULL");
     }
 
     @Override

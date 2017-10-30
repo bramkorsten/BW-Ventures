@@ -62,7 +62,7 @@ public class PeopleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private List<Person> personList;
+    private List<Person> personsList;
 
     private RecyclerView peopleRecyclerView;
     private PeopleAdapter adapter;
@@ -71,8 +71,7 @@ public class PeopleFragment extends Fragment {
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
 
     public PeopleFragment() {
-        // Required empty public constructor
-        personList = new ArrayList<>();
+        personsList = new ArrayList<>();
     }
 
     /**
@@ -151,7 +150,7 @@ public class PeopleFragment extends Fragment {
     }
 
     private void setPeopleRecyclerView() {
-        adapter = new PeopleAdapter(personList);
+        adapter = new PeopleAdapter(personsList);
         peopleLayoutManager = new LinearLayoutManager(this.getContext());
         peopleRecyclerView.setLayoutManager(peopleLayoutManager);
         peopleRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -160,7 +159,7 @@ public class PeopleFragment extends Fragment {
         peopleRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), peopleRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Person person = personList.get(position);
+                Person person = personsList.get(position);
                 Map personData = person.getData();
                 // Go to Person Activity which controls single Persons etc.
                 Intent intent = new Intent(getActivity(), PersonActivity.class);
@@ -180,7 +179,7 @@ public class PeopleFragment extends Fragment {
     private void getPersonData() {
         String ventureId = getLocalVentureId();
         String personId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
-        personList.clear();
+        personsList.clear();
         CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");
         personRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -199,7 +198,7 @@ public class PeopleFragment extends Fragment {
                                             Log.d("ventures PERSON", document.getId() + " => " + document.getData());
                                             Person person = new Person(document.getData());
                                             person.setPersonId(document.getId());
-                                            personList.add(person);
+                                            personsList.add(person);
                                             adapter.notifyDataSetChanged();
                                         } else {
                                             Log.d("ventures", "No such document");
