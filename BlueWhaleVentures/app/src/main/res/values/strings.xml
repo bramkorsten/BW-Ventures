@@ -38,7 +38,6 @@
     <string name="experimentLayout_experiment_desc">This is a description of an experiment that could be viewed in the app</string>
     <string name="fragmentExperiment_toolbar_title">Experiment</string>
     <string name="fragmentExperiment_experiment_title">User Experiments</string>
-    <string name="fragmentExperiment_experiment_desc">This is a description of an experiment that could be viewed in the app</string>
     <string name="fragmentExperiment_textView_experiment">Experiment</string>
     <string name="fragmentExperiment_textView_day">DAY</string>
     <string name="fragmentPeople_textView_completed">Completed</string>

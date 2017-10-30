@@ -56,15 +56,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "573936868876-mavvi9sf8iv6ufccos6blrvu892qrv5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "573936868876-jicfvsk6kqenoo01cau9b1rbfgvib0oe.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.hizmet.bluewhaleventures"
               }
-            },
-            {
-              "client_id": "573936868876-mavvi9sf8iv6ufccos6blrvu892qrv5h.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },
