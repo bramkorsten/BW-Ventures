@@ -1,16 +1,29 @@
 package com.hizmet.bluewhaleventures.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 
@@ -25,7 +38,7 @@ import java.util.Map;
  * Use the {@link PersonFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PersonFragment extends Fragment {
+public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,6 +47,8 @@ public class PersonFragment extends Fragment {
     private TextView name, desc;
     private TextView textViewTitle;
     private ImageButton backButton;
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    ProgressDialog dialog;
 
     private Map PersonData;
     // TODO: Rename and change types of parameters
@@ -84,6 +99,7 @@ public class PersonFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         backButton = getView().findViewById(R.id.toolbarBack);
+        ImageButton optionButton = getView().findViewById(R.id.personOptionButton);
         name = getView().findViewById(R.id.person_title);
         desc = getView().findViewById(R.id.person_desc);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +108,64 @@ public class PersonFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+        optionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(getContext(), view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.options_person, popup.getMenu());
+                popup.setOnMenuItemClickListener(PersonFragment.this);
+                popup.show();
+
+            }
+        });
+
         PersonData = ((PersonActivity) getActivity()).getPersonDataFromParent();
-//        Log.d("ventures", PersonData.get("PersonSubtitle").toString());
         setViewPerson();
     }
 
     private void setViewPerson(){
         name.setText(PersonData.get("Name").toString());
         desc.setText(PersonData.get("Description").toString());
+    }
+
+    private void deletePerson() {
+        dialog = new ProgressDialog(this.getContext());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Deleting User...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        String ventureId = getLocalVentureId();
+        String personId = ((PersonActivity) getActivity()).getPersonIdFromParent();
+        String experimentId = ((PersonActivity) getActivity()).getExperimentIdFromParent();
+
+        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(personId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("ventures", "Person Reference was deleted successfully!");
+                        dialog.dismiss();
+                        getActivity().onBackPressed();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ventures", "Error deleting Person ", e);
+                    }
+                });
+    }
+
+    private void editPerson() {
+
+    }
+
+    private String getLocalVentureId(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return preferences.getString("VentureId", "NULL");
     }
 
     @Override
@@ -118,6 +184,36 @@ public class PersonFragment extends Fragment {
         mListener = null;
     }
 
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.edit:
+                // TODO: 10/31/2017 ADD EDITPERSON CAPABILITIES 
+                Log.d("ventures", "onMenuItemClick: EDIT");
+                return true;
+
+            case R.id.delete:
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(this.getContext());
+
+                builder.setTitle("Delete Person")
+                        .setMessage("Are you sure you want to delete this person from this experiment? This cannot be undone!")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                deletePerson();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        });
+                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+                return true;
+        }
+        return false;
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
