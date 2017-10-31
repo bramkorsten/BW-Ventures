@@ -167,6 +167,8 @@ function setExperiments() {
   document.getElementById('title-experiments').className='title-mid-active';
   document.getElementById('title-clients').className='';
   document.getElementById('profile-title-active').className='title-border-center';
+  document.getElementById('cards-wrap-experiments').className='cards-wrap';
+  document.getElementById('experiment-questions-wrap').className='questions-wrap questions-gone';
 }
 
 function backToClients() {
@@ -174,4 +176,21 @@ function backToClients() {
   // document.getElementById('cards-experiments-contain').classList.toggle('experiments-cards-gone');
   document.getElementById('cards-clients-contain').className='cards-contain';
   document.getElementById('cards-experiments-contain').className='cards-contain experiments-cards-gone';
+}
+
+function getExperimentSettings() {
+  document.getElementById('popup-background2').classList.toggle('popup-background-vis');
+}
+
+function getQuestions() {
+  document.getElementById('cards-wrap-experiments').classList.toggle('experiments-cards-gone');
+  document.getElementById('experiment-questions-wrap').classList.toggle('questions-gone');
+}
+
+function dropdownNames() {
+  document.getElementById('dropdown-names').classList.remove('bubble-gone');
+}
+
+function getQuestionsFromName() {
+  document.getElementById('dropdown-names').classList.add('bubble-gone');
 }

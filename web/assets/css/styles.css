@@ -428,7 +428,6 @@ DASHBOARD
   float: right;
   right: 0;
   width: 100px;
-  height: 50px;
   transition: 0.3s;
   opacity: 1;
   z-index: 15;
@@ -653,21 +652,12 @@ DASHBOARD
 
 .card-circle {
   display: none;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background: #0099ff;
-  color: #fff;
-  line-height: 55px;
-  font-family: 'Montserrat';
-  float: left;
-  text-align: center;
-  margin-right: 20px;
-  font-size: 20px;
 }
 
-.circle-inactive {
-  background: #c2c2c2;
+.card-circle-experiments {
+  display: inline-block;
+  float: left;
+  font-size: 35px;
 }
 
 .card-company-name {
@@ -685,6 +675,10 @@ DASHBOARD
   top: auto;
 }
 
+.experiments-ellipsis-wrap {
+  right: 20px;
+}
+
 .experiments-ellipsis-wrap i {
   color: #d6d7d9;
   padding: 5px;
@@ -692,12 +686,14 @@ DASHBOARD
 
 .experiments-ellipsis-wrap i:hover {
   color: #929292;
+  cursor: pointer;
 }
 
 .experiments-info {
   display: inline-block;
-  max-width: calc(100vw - 140px);
+  max-width: calc(100vw - 200px);
   overflow: hidden;
+  width: 100%;
 }
 
 .experiments-info-name {
@@ -906,6 +902,191 @@ input[type=text].new-company-input:focus{
   font-size: 12px;
 }
 
+@media screen and (max-width: 420px) {
+  .card-company-name {
+    font-size: 15px;
+  }
+
+  .popup-wrap {
+    width: 100%;
+  }
+}
+
+.projects-right {
+  transform: translateX(100vw);
+}
+
+.single-person {
+  width: 100%;
+  height: 75px;
+  border: 0;
+  border-bottom: 1px solid #d6d7d9;
+  margin: 0;
+  padding: 10px 20px;
+  background: #fff;
+  font-family: 'Montserrat';
+  box-sizing: border-box;
+  color: #34495E;
+}
+
+.single-person-name {
+  font-weight: 400;
+  position: relative;
+  top: 10px;
+  display: inline-block;
+}
+
+.single-person-company {
+  display: block;
+  float: right;
+  text-align: right;
+  line-height: 55px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.person-email {
+  display: block;
+  font-size: 10px;
+  color: #c3c3c3;
+}
+
+.clients-left {
+  transform: translateX(-100vw);
+}
+
+.questions-wrap {
+  width: 100%;
+  height: auto;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  margin: auto;
+  max-width: 1000px;
+  top: 0;
+  background: #f9f9fb;
+}
+
+.questions-wrap h3 {
+  text-align: center;
+  font-family: 'Montserrat';
+  margin:25px 0 0 0;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.questions-wrap h4 {
+  font-family: 'Montserrat';
+  font-size: 22px;
+  color: #929292;
+  text-align: center;
+  margin: 0;
+}
+
+.questions-wrap h5 {
+  font-family: 'Montserrat';
+  font-size: 12px;
+  margin: 15px 0 0 0;
+  color: #929292;
+  text-align: center;
+}
+
+.questions-gone {
+  display: none;
+}
+
+.stepper-wrap {
+  margin: auto;
+  max-width: 500px;
+}
+
+.single-stepper {
+  width: 100%;
+  height: 50px;
+}
+
+.stepper-number {
+  width: 50px;
+  height: 50px;
+  background: #0099ff;
+  border-radius: 50%;
+  line-height: 50px;
+  font-family: 'Montserrat';
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  margin-right: 20px;
+}
+
+.stepper-question {
+  display: inline-block;
+  float: left;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  max-width: calc(100% - 100px);
+  position: relative;
+  top: 25px;
+  transform: translateY(-50%);
+}
+
+.stepper-answer {
+  font-family: 'Roboto';
+  font-weight: 300;
+  box-sizing: border-box;
+  margin: 10px 25px;
+  padding: 0 20px 20px 43px;
+  border-left: 3px solid #ececec;
+  color: #929292;
+}
+
+.person-name-wrap {
+  display: inline-block;
+  position: relative;
+  margin: 0 0 30px 0;
+  font-family: 'Montserrat';
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 500;
+  color: #929292;
+  height: 22px;
+}
+
+.person-name-wrap:hover {
+  color: #0099ff;
+  border-bottom: 2px solid #0099ff;
+  cursor: pointer;
+  height: 20px;
+}
+
+.dropdown-names {
+  display: inline-block;
+  background: #fff;
+  position: absolute;
+  margin: auto;
+  border-radius: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Montserrat';
+  border: 1px solid #d6d7d9;
+  font-size: 12px;
+  font-weight: 500;
+  transition: 0.3s;
+  color: #929292;
+  z-index: 100;
+}
+
+.dropdown-name {
+  text-align: center;
+  padding: 10px 35px;
+}
+
+.dropdown-name:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 690px) {
   .profile-info-name {
     font-size: 16px;
@@ -945,6 +1126,10 @@ input[type=text].new-company-input:focus{
     padding: 0;
   }
 
+  .experiments-cards-gone {
+    display: none;
+  }
+
   .single-card {
     width: 100%;
     height: 75px;
@@ -981,6 +1166,21 @@ input[type=text].new-company-input:focus{
 
   .card-circle {
     display: block;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #c2c2c2;
+    color: #fff;
+    line-height: 55px;
+    font-family: 'Montserrat';
+    float: left;
+    text-align: center;
+    margin-right: 20px;
+    font-size: 20px;
+  }
+
+  .circle-active {
+    background: #0099ff;
   }
 
   .card-plus {
@@ -991,12 +1191,14 @@ input[type=text].new-company-input:focus{
   .experiments-ellipsis-wrap {
     line-height: 55px;
     font-size: 20px;
+    right: auto;
   }
 
   .experiments-info {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    width: auto;
   }
 
   .experiments-info-name {
@@ -1010,45 +1212,10 @@ input[type=text].new-company-input:focus{
   .experiments-info-results {
     max-height: 13px;
   }
-}
 
-@media screen and (max-width: 420px) {
-  .card-company-name {
-    font-size: 15px;
+  .single-person-company {
+    font-size: 16px;
   }
-}
-
-.projects-right {
-  transform: translateX(100vw);
-}
-
-.single-person {
-  width: 100%;
-  height: 75px;
-  border: 0;
-  border-bottom: 1px solid #d6d7d9;
-  margin: 0;
-  padding: 10px 20px;
-  background: #fff;
-  font-family: 'Montserrat';
-  box-sizing: border-box;
-  color: #34495E;
-}
-
-.single-person-name {
-  font-weight: 400;
-  position: relative;
-  top: 10px;
-  display: inline-block;
-}
-
-.single-person-company {
-  display: block;
-  float: right;
-  text-align: right;
-  line-height: 55px;
-  font-size: 20px;
-  font-weight: 500;
 }
 
 .person-circle {
@@ -1058,14 +1225,40 @@ input[type=text].new-company-input:focus{
   line-height: 45px;
   font-size: 16px;
   margin-top: 5px;
+  font-family: 'Montserrat';
+  float: left;
+  text-align: center;
+  margin-right: 20px;
+  color: #fff;
+  border-radius: 50%;
+  background: #0099ff;
 }
 
-.person-email {
-  display: block;
-  font-size: 10px;
-  color: #c3c3c3;
+.negative-results {
+  color: #e55c5c;
 }
 
-.clients-left {
-  transform: translateX(-100vw);
+.positive-results {
+  color: #7ae57a;
+}
+
+h3.experiment-data-title {
+  font-size: 16px;
+}
+
+.experiment-data {
+  font-family: 'Montserrat';
+  font-size: 12px;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.data-string {
+  color: #929292;
+  margin-top: 10px;
+}
+
+.data-value {
+  text-align: right;
+  margin-top: -10px;
 }
