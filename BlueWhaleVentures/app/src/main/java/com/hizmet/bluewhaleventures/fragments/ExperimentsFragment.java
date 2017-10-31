@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -59,20 +60,26 @@ public class ExperimentsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     TextView textviewNumberOfExperiments;
     TextView textViewExperiments;
     Toolbar toolbar;
     ImageButton buttonAddExperiment;
+    ImageButton experimentOptionButton;
+
     private List<Experiment> experimentsList;
     private FirebaseFirestore firestoreDb;
     private FirebaseUser user;
     private String ventureId;
+    private String experimentId;
     private int experimentCount;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
     private RecyclerView.LayoutManager experimentsLayoutManager;
     private SwipeRefreshLayout refresherLayout;
+
+    private Context context;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -149,6 +156,7 @@ public class ExperimentsFragment extends Fragment {
         setRefreshLayout();
         setExperimentsRecyclerView();
         getUserData(view.getContext());
+        this.context = view.getContext();
 
         buttonAddExperiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -164,6 +172,7 @@ public class ExperimentsFragment extends Fragment {
         experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
+        experimentOptionButton = getView().findViewById(R.id.experimentOptionButton);
     }
 
     private void setRefreshLayout() {
@@ -185,17 +194,24 @@ public class ExperimentsFragment extends Fragment {
         experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         experimentsRecyclerView.setAdapter(adapter);
 
+
         experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Experiment experiments = experimentsList.get(position);
-                Map experimentData = experiments.getData();
-                // Go to Experiment Activity which controls single Experiments etc.
-                Intent intent = new Intent(getActivity(), ExperimentActivity.class);
-                intent.putExtra("map", (Serializable) experimentData);
-                intent.putExtra("id", experiments.getExperimentId());
-                startActivity(intent);
+                Log.d("ventures", String.valueOf(view.getId()));
+                if (view.getId() == R.id.experimentOptionButton) {
+                    Toast.makeText(view.getContext(), "ITEM PRESSED = ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Experiment experiments = experimentsList.get(position);
+                    Map experimentData = experiments.getData();
+                    // Go to Experiment Activity which controls single Experiments etc.
+                    Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                    intent.putExtra("map", (Serializable) experimentData);
+                    intent.putExtra("id", experiments.getExperimentId());
+                    startActivity(intent);
+                }
             }
+
 
             @Override
             public void onLongClick(View view, int position) {
@@ -246,10 +262,13 @@ public class ExperimentsFragment extends Fragment {
 
                                 Experiment experiment = new Experiment(experimentData);
                                 experiment.setExperimentId(document.getId());
+//                                experimentId = document.getId();
+                                setLocalExperimentId(context, experimentId);
                                 experimentsList.add(experiment);
                                 experimentCount++;
                             }
                         }
+
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
                         textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
@@ -261,14 +280,21 @@ public class ExperimentsFragment extends Fragment {
         }
     }
 
-    private void setLocalVentureId(Context context, String ventureId){
+    private void setLocalExperimentId(Context context, String experimentId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("VentureId",ventureId);
+        editor.putString("ExperimentID", experimentId);
         editor.apply();
     }
 
-    private String getLocalVentureId(){
+    private void setLocalVentureId(Context context, String ventureId) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("VentureId", ventureId);
+        editor.apply();
+    }
+
+    private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         return preferences.getString("VentureId", "NULL");
     }

@@ -30,7 +30,7 @@ tools:context="com.hizmet.bluewhaleventures.fragments.ExperimentFragment">
         app:srcCompat="@drawable/ic_chevron_links_blue" />
 
     <ImageButton
-        android:id="@+id/profileOptionButton2"
+        android:id="@+id/experimentOptionButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="16dp"

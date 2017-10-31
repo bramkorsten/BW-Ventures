@@ -19,16 +19,27 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     private List<Experiment> experimentList;
     private Typeface Montserrat;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    View itemView;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView title, desc;
         public ImageView image;
-
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.experiment_title);
             desc = view.findViewById(R.id.experiment_desc);
             image = view.findViewById(R.id.experiment_image);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
         }
     }
 
@@ -39,7 +50,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.experiment_layout, parent, false);
         Montserrat = Typeface.createFromAsset(parent.getContext().getAssets(), "fonts/montserrat.ttf");
         return new MyViewHolder(itemView);
@@ -47,7 +58,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Experiment experiment = experimentList.get(position);
+        final Experiment experiment = experimentList.get(position);
         holder.title.setText(experiment.getData().get("ExperimentName").toString());
         holder.desc.setText(experiment.getData().get("ExperimentSubtitle").toString());
         int imageColor;
