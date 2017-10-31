@@ -167,6 +167,7 @@ public class PeopleFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PersonActivity.class);
                 intent.putExtra("map", (Serializable) personData);
                 intent.putExtra("id", person.getPersonId());
+                intent.putExtra("experimentId", ((ExperimentActivity) getActivity()).getExperimentIdFromParent());
                 startActivity(intent);
             }
 
@@ -180,6 +181,7 @@ public class PeopleFragment extends Fragment {
 
     private void getPersonData() {
         String ventureId = getLocalVentureId();
+        // TODO: 10/31/2017 check
         String personId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
         personsList.clear();
         CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");

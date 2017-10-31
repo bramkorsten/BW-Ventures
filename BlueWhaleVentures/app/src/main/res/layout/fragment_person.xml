@@ -11,7 +11,9 @@
         android:id="@+id/appToolbar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageButton
             android:id="@+id/toolbarBack"
@@ -30,7 +32,7 @@
             app:srcCompat="@drawable/ic_chevron_links_blue" />
 
         <ImageButton
-            android:id="@+id/profileOptionButton2"
+            android:id="@+id/personOptionButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginBottom="16dp"

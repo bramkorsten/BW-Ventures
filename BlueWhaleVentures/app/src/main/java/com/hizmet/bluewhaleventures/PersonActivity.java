@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.PersonFragment;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 public class PersonActivity extends AppCompatActivity {
     private Map personData;
-    private String personId;
+    private String personId, experimentId;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -46,6 +45,8 @@ public class PersonActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,7 @@ public class PersonActivity extends AppCompatActivity {
         Intent intent = getIntent();
         personData = (Map) intent.getSerializableExtra("map");
         personId = intent.getStringExtra("id");
-        Log.d("ventures", "personID in activity: " + personId);
+        experimentId = intent.getStringExtra("experimentId");
 
         // Bottom navigation
         BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationPerson);
@@ -76,5 +77,9 @@ public class PersonActivity extends AppCompatActivity {
 
     public String getPersonIdFromParent() {
         return personId;
+    }
+
+    public String getExperimentIdFromParent() {
+        return experimentId;
     }
 }
