@@ -1,5 +1,6 @@
 package com.hizmet.bluewhaleventures;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +35,7 @@ public class NewPersonActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
     private String experimentId;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,14 @@ public class NewPersonActivity extends AppCompatActivity {
     }
 
     private void savePerson() {
+
+        dialog = new ProgressDialog(this); // this = YourActivity
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Saving...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
         ventureId = getLocalVentureId();
 
         String fullName = name.getEditText().getText().toString().trim();
@@ -149,6 +159,7 @@ public class NewPersonActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        dialog.dismiss();
                         finish();
                     }
                 });

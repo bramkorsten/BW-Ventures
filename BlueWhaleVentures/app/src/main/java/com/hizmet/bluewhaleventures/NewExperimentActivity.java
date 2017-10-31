@@ -1,5 +1,6 @@
 package com.hizmet.bluewhaleventures;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +36,7 @@ public class NewExperimentActivity extends AppCompatActivity {
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +144,14 @@ public class NewExperimentActivity extends AppCompatActivity {
     }
 
     private void prepareExperiment() {
+
+        dialog = new ProgressDialog(this); // this = YourActivity
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Saving...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
         DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -179,6 +189,7 @@ public class NewExperimentActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("ventures", "Experiment was saved with ID: " + documentReference.getId());
+                        dialog.dismiss();
                         finish();
                     }
                 })
