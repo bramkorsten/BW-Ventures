@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0FCE3A28CBA8C684F741F393 /* Pods_ventures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156F4A485B81274A5887363C /* Pods_ventures.framework */; };
 		F594F2F61FA73BFD009928E5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */; };
+		F5C0728C1FA754C600AAD434 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5C0728B1FA754C600AAD434 /* Montserrat-Italic.ttf */; };
+		F5E27CEC1FA7448A0019842E /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5E27CEA1FA7448A0019842E /* Montserrat-Bold.ttf */; };
+		F5E27CED1FA7448A0019842E /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5E27CEB1FA7448A0019842E /* Montserrat-Regular.ttf */; };
+		F5E27CEF1FA744CB0019842E /* Intro.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5E27CEE1FA744CB0019842E /* Intro.otf */; };
 		F5EDC1391FA739A200A1DBAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EDC1381FA739A200A1DBAF /* AppDelegate.swift */; };
 		F5EDC13B1FA739A200A1DBAF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EDC13A1FA739A200A1DBAF /* ViewController.swift */; };
 		F5EDC13E1FA739A200A1DBAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5EDC13C1FA739A200A1DBAF /* Main.storyboard */; };
@@ -21,6 +25,10 @@
 		156F4A485B81274A5887363C /* Pods_ventures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ventures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC433B241B3C4F72B119FC4 /* Pods-ventures.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ventures.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ventures/Pods-ventures.debug.xcconfig"; sourceTree = "<group>"; };
 		F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F5C0728B1FA754C600AAD434 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.ttf"; sourceTree = "<group>"; };
+		F5E27CEA1FA7448A0019842E /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		F5E27CEB1FA7448A0019842E /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		F5E27CEE1FA744CB0019842E /* Intro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.otf; sourceTree = "<group>"; };
 		F5EDC1351FA739A200A1DBAF /* ventures.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ventures.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5EDC1381FA739A200A1DBAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5EDC13A1FA739A200A1DBAF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +67,25 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F594F2F71FA74242009928E5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F594F2F81FA743CD009928E5 /* Fonts */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		F594F2F81FA743CD009928E5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F5E27CEE1FA744CB0019842E /* Intro.otf */,
+				F5E27CEA1FA7448A0019842E /* Montserrat-Bold.ttf */,
+				F5E27CEB1FA7448A0019842E /* Montserrat-Regular.ttf */,
+				F5C0728B1FA754C600AAD434 /* Montserrat-Italic.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		F5EDC12C1FA739A200A1DBAF = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +107,7 @@
 		F5EDC1371FA739A200A1DBAF /* ventures */ = {
 			isa = PBXGroup;
 			children = (
+				F594F2F71FA74242009928E5 /* Resources */,
 				F5EDC1381FA739A200A1DBAF /* AppDelegate.swift */,
 				F5EDC13A1FA739A200A1DBAF /* ViewController.swift */,
 				F5EDC13C1FA739A200A1DBAF /* Main.storyboard */,
@@ -153,8 +181,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5E27CED1FA7448A0019842E /* Montserrat-Regular.ttf in Resources */,
+				F5E27CEC1FA7448A0019842E /* Montserrat-Bold.ttf in Resources */,
 				F5EDC1431FA739A200A1DBAF /* LaunchScreen.storyboard in Resources */,
+				F5C0728C1FA754C600AAD434 /* Montserrat-Italic.ttf in Resources */,
 				F594F2F61FA73BFD009928E5 /* GoogleService-Info.plist in Resources */,
+				F5E27CEF1FA744CB0019842E /* Intro.otf in Resources */,
 				F5EDC1401FA739A200A1DBAF /* Assets.xcassets in Resources */,
 				F5EDC13E1FA739A200A1DBAF /* Main.storyboard in Resources */,
 			);
@@ -188,12 +220,28 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ventures/Pods-ventures-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
