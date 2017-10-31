@@ -126,7 +126,9 @@ public class PeopleFragment extends Fragment {
         ImageButton buttonAddPerson = getView().findViewById(R.id.toolbarNew);
         buttonAddPerson.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
                 Intent intent = new Intent(getActivity(), NewPersonActivity.class);
+                intent.putExtra("experimentId", experimentId);
                 startActivity(intent);
             }
         });
