@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,17 +20,20 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     private List<Experiment> experimentList;
     private Typeface Montserrat;
 
-    View itemView;
+    public View itemView;
+    private ClickListener clickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView title, desc;
         public ImageView image;
+        public ImageButton options;
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.experiment_title);
             desc = view.findViewById(R.id.experiment_desc);
             image = view.findViewById(R.id.experiment_image);
+            options = view.findViewById(R.id.experimentOptionButton);
         }
 
         @Override
@@ -57,12 +61,14 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+
         final Experiment experiment = experimentList.get(position);
+        String number = experiment.getData().get("ExperimentNumber").toString();
         holder.title.setText(experiment.getData().get("ExperimentName").toString());
         holder.desc.setText(experiment.getData().get("ExperimentSubtitle").toString());
         int imageColor;
-        if (position + 1 == getItemCount()) {
+        if (position == 0) {
             imageColor = Color.parseColor("#0099ff");
         } else {
             imageColor = Color.parseColor("#929292");
@@ -74,7 +80,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                 .fontSize(50) /* size in px */
                 .toUpperCase()
                 .endConfig()
-                .buildRound(String.valueOf(position + 1), imageColor);
+                .buildRound(number, imageColor);
 
         holder.image.setImageDrawable(drawable);
     }
