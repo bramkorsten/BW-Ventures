@@ -2,7 +2,6 @@ package com.hizmet.bluewhaleventures;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -37,15 +36,12 @@ public class NewExperimentActivity extends AppCompatActivity {
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
-    private int experimentNumber;
     ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_experiment);
-        Intent intent = getIntent();
-        experimentNumber = intent.getIntExtra("numberOfExperiments", 0) + 1;
 
         setViews();
     }
@@ -185,7 +181,6 @@ public class NewExperimentActivity extends AppCompatActivity {
         experimentData.put("FailCondition", fail.getEditText().getText().toString().trim());
         experimentData.put("StopCondition", stop.getEditText().getText().toString().trim());
 
-        experimentData.put("ExperimentNumber", experimentNumber);
         experimentData.put("DateCreated", Calendar.getInstance().getTime());
 
         firestoreDb.collection("Startups").document(ventureId).collection("Experiments")
@@ -195,7 +190,6 @@ public class NewExperimentActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("ventures", "Experiment was saved with ID: " + documentReference.getId());
                         dialog.dismiss();
-                        // TODO: 10/31/2017 Add onreturn refresh function by adding startActivityWithIntent 
                         finish();
                     }
                 })

@@ -7,6 +7,8 @@
     android:background="@color/colorWhite"
     tools:context="com.hizmet.bluewhaleventures.fragments.InformationFragment">
 
+    <!-- TODO: Update blank fragment layout -->
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/appToolbar"
         android:layout_width="match_parent"

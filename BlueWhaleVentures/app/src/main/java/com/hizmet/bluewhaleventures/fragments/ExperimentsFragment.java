@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +44,6 @@ import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ import java.util.Map;
  * Use the {@link ExperimentsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuItemClickListener {
+public class ExperimentsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -74,7 +73,6 @@ public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuIte
     private String ventureId;
     private String experimentId;
     private int experimentCount;
-    int numberOfExperiments = 0;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
@@ -163,7 +161,6 @@ public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuIte
         buttonAddExperiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NewExperimentActivity.class);
-                intent.putExtra("numberOfExperiments", numberOfExperiments);
                 startActivity(intent);
             }
         });
@@ -195,32 +192,31 @@ public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuIte
         experimentsLayoutManager = new LinearLayoutManager(this.getContext());
         experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
         experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         experimentsRecyclerView.setAdapter(adapter);
 
 
         experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Experiment experiments = experimentsList.get(position);
-                Map experimentData = experiments.getData();
-                // Go to Experiment Activity which controls single Experiments etc.
-                Intent intent = new Intent(getActivity(), ExperimentActivity.class);
-                intent.putExtra("map", (Serializable) experimentData);
-                intent.putExtra("id", experiments.getExperimentId());
-                startActivity(intent);
+                Log.d("ventures", String.valueOf(view.getId()));
+                if (view.getId() == R.id.experimentOptionButton) {
+                    Toast.makeText(view.getContext(), "ITEM PRESSED = ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Experiment experiments = experimentsList.get(position);
+                    Map experimentData = experiments.getData();
+                    // Go to Experiment Activity which controls single Experiments etc.
+                    Intent intent = new Intent(getActivity(), ExperimentActivity.class);
+                    intent.putExtra("map", (Serializable) experimentData);
+                    intent.putExtra("id", experiments.getExperimentId());
+                    startActivity(intent);
+                }
             }
+
 
             @Override
             public void onLongClick(View view, int position) {
-                PopupMenu popup = new PopupMenu(getContext(), view);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.options_person, popup.getMenu());
-                popup.setOnMenuItemClickListener(ExperimentsFragment.this);
-                popup.show();
+
             }
-
-
         }));
     }
 
@@ -259,18 +255,20 @@ public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuIte
                         for (DocumentSnapshot document : task.getResult()) {
                             if (document.exists()) {
                                 Map experimentData = document.getData();
-
                                 Log.d("ventures", document.getId() + " => " + document.getData());
+//                                String title = (String) experimentData.get("ExperimentName");
+//                                String desc = (String) experimentData.get("ExperimentSubtitle");
+//                                Date created = (Date) experimentData.get("DateCreated");
 
                                 Experiment experiment = new Experiment(experimentData);
                                 experiment.setExperimentId(document.getId());
+//                                experimentId = document.getId();
                                 setLocalExperimentId(context, experimentId);
                                 experimentsList.add(experiment);
                                 experimentCount++;
                             }
                         }
-                        numberOfExperiments = experimentCount;
-                        Collections.reverse(experimentsList);
+
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
                         textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
@@ -299,35 +297,6 @@ public class ExperimentsFragment extends Fragment implements PopupMenu.OnMenuIte
     private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         return preferences.getString("VentureId", "NULL");
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.edit:
-                // TODO: 10/31/2017 ADD EDITExperiment CAPABILITIES
-
-
-            case R.id.delete:
-//                AlertDialog.Builder builder;
-//                builder = new AlertDialog.Builder(this.getContext());
-//
-//                builder.setTitle("Delete Person")
-//                        .setMessage("Are you sure you want to delete this person from this experiment? This cannot be undone!")
-//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                deletePerson();
-//                            }
-//                        })
-//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // do nothing
-//                            }
-//                        });
-//                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
-                return true;
-        }
-        return false;
     }
 
     @Override

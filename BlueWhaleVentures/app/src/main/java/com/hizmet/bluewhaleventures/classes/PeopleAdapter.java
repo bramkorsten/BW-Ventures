@@ -3,6 +3,7 @@ package com.hizmet.bluewhaleventures.classes;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +53,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
     @Override
     public void onBindViewHolder(PersonViewHolder holder, int position) {
         Person person = personList.get(position);
-        holder.title.setText(person.getData().get("Name").toString() + " " + person.getData().get("Surname").toString());
+        holder.title.setText(person.getData().get("Name").toString());
         holder.desc.setText(person.getData().get("Description").toString());
-        String initials = person.getData().get("Name").toString().substring(0,1) + person.getData().get("Surname").toString().substring(0,1);
+        Log.d("ventures", person.getData().get("Name").toString() + person.getData().get("Surname").toString());
         int imageColor;
         if (position + 1 == getItemCount()) {
             imageColor = Color.parseColor("#0099ff");
@@ -68,7 +69,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
                 .fontSize(50) /* size in px */
                 .toUpperCase()
                 .endConfig()
-                .buildRound(initials, imageColor);
+                .buildRound(String.valueOf(position + 1), imageColor);
 
         holder.image.setImageDrawable(drawable);
     }

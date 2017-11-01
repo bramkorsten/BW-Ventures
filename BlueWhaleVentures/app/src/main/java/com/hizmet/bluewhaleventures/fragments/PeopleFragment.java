@@ -12,12 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -51,7 +48,7 @@ import java.util.Map;
  * Use the {@link PeopleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PeopleFragment extends Fragment implements PopupMenu.OnMenuItemClickListener {
+public class PeopleFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -161,28 +158,24 @@ public class PeopleFragment extends Fragment implements PopupMenu.OnMenuItemClic
         peopleRecyclerView.setItemAnimator(new DefaultItemAnimator());
         peopleRecyclerView.setAdapter(adapter);
 
-                peopleRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), peopleRecyclerView, new ClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Person person = personsList.get(position);
-                        Map personData = person.getData();
-                        // Go to Person Activity which controls single Persons etc.
-                        Intent intent = new Intent(getActivity(), PersonActivity.class);
-                        intent.putExtra("map", (Serializable) personData);
-                        intent.putExtra("id", person.getPersonId());
-                        intent.putExtra("experimentId", ((ExperimentActivity) getActivity()).getExperimentIdFromParent());
-                        startActivity(intent);
-                    }
+        peopleRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), peopleRecyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Person person = personsList.get(position);
+                Map personData = person.getData();
+                // Go to Person Activity which controls single Persons etc.
+                Intent intent = new Intent(getActivity(), PersonActivity.class);
+                intent.putExtra("map", (Serializable) personData);
+                intent.putExtra("id", person.getPersonId());
+                intent.putExtra("experimentId", ((ExperimentActivity) getActivity()).getExperimentIdFromParent());
+                startActivity(intent);
+            }
 
-                    @Override
-                    public void onLongClick(View view, int position) {
-                        PopupMenu popup = new PopupMenu(getContext(), view);
-                        MenuInflater inflater = popup.getMenuInflater();
-                        inflater.inflate(R.menu.options_person, popup.getMenu());
-                        popup.setOnMenuItemClickListener(PeopleFragment.this);
-                        popup.show();
-                    }
-                }));
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
     }
 
@@ -232,35 +225,6 @@ public class PeopleFragment extends Fragment implements PopupMenu.OnMenuItemClic
     private String getLocalVentureId(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return preferences.getString("VentureId", "NULL");
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.edit:
-                // TODO: 10/31/2017 ADD EDITExperiment CAPABILITIES
-
-
-            case R.id.delete:
-//                AlertDialog.Builder builder;
-//                builder = new AlertDialog.Builder(this.getContext());
-//
-//                builder.setTitle("Delete Person")
-//                        .setMessage("Are you sure you want to delete this person from this experiment? This cannot be undone!")
-//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                deletePerson();
-//                            }
-//                        })
-//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // do nothing
-//                            }
-//                        });
-//                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
-                return true;
-        }
-        return false;
     }
 
     @Override
