@@ -192,13 +192,14 @@ public class ExperimentsFragment extends Fragment {
 
             @Override
             public void onLongClick(int position) {
-                // callback performed on click
+
             }
-        });
+        }, getContext()) {
+
+        };
         experimentsLayoutManager = new LinearLayoutManager(this.getContext());
         experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
         experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         experimentsRecyclerView.setAdapter(adapter);
     }
 

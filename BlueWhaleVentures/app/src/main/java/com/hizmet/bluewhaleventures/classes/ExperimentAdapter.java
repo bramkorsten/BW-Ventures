@@ -1,11 +1,15 @@
 package com.hizmet.bluewhaleventures.classes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -26,17 +30,19 @@ import java.util.Map;
 /**
  * Created by Ruben on 1-11-2017.
  */
-public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.MyViewHolder> {
+public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.MyViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
     private ExperimentsFragment experimentsFragment;
     private ClickListener listener;
     private List<Experiment> experimentsList;
     private Typeface Montserrat;
+    private Context context;
 
-    public ExperimentAdapter(ExperimentsFragment experimentsFragment, List<Experiment> experimentsList, ClickListener listener) {
+    public ExperimentAdapter(ExperimentsFragment experimentsFragment, List<Experiment> experimentsList, ClickListener listener, Context context) {
         this.experimentsFragment = experimentsFragment;
         this.listener = listener;
         this.experimentsList = experimentsList;
+        this.context = context;
     }
 
     @Override
@@ -75,6 +81,35 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
         return experimentsList.size();
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.edit:
+                Log.d("ventures", "onMenuItemClick: EDIT");
+                return true;
+
+            case R.id.delete:
+//                AlertDialog.Builder builder;
+//                builder = new AlertDialog.Builder(this.getContext());
+//
+//                builder.setTitle("Delete Person")
+//                        .setMessage("Are you sure you want to delete this person from this experiment? This cannot be undone!")
+//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                deletePerson();
+//                            }
+//                        })
+//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // do nothing
+//                            }
+//                        });
+//                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+                return true;
+        }
+        return false;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView title, desc;
         private ImageView image;
@@ -99,6 +134,12 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
         public void onClick(View view) {
             if (view.getId() == experimentOptionButton.getId()) {
                 Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+
+                PopupMenu popup = new PopupMenu(context, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.options_person, popup.getMenu());
+                popup.setOnMenuItemClickListener(ExperimentAdapter.this);
+                popup.show();
             } else {
                 Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 Experiment experiments = experimentsList.get(getPosition());
