@@ -18,7 +18,7 @@ public class Experiment {
     }
 
     public void setExperimentId(String id){
-        experimentId = id;
+        this.experimentId = id;
     }
 
     public String getExperimentId() { return experimentId; }

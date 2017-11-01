@@ -40,6 +40,7 @@ import com.hizmet.bluewhaleventures.classes.Experiment;
 import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class ExperimentsFragment extends Fragment {
     private String ventureId;
     private String experimentId;
     private int experimentCount;
+    int numberOfExperiments = 0;
 
     private RecyclerView experimentsRecyclerView;
     private ExperimentAdapter adapter;
@@ -157,6 +159,7 @@ public class ExperimentsFragment extends Fragment {
         buttonAddExperiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NewExperimentActivity.class);
+                intent.putExtra("numberOfExperiments", numberOfExperiments);
                 startActivity(intent);
             }
         });
@@ -239,19 +242,16 @@ public class ExperimentsFragment extends Fragment {
                             if (document.exists()) {
                                 Map experimentData = document.getData();
                                 Log.d("ventures", document.getId() + " => " + document.getData());
-//                                String title = (String) experimentData.get("ExperimentName");
-//                                String desc = (String) experimentData.get("ExperimentSubtitle");
-//                                Date created = (Date) experimentData.get("DateCreated");
-
+                                experimentCount++;
                                 Experiment experiment = new Experiment(experimentData);
                                 experiment.setExperimentId(document.getId());
-//                                experimentId = document.getId();
                                 setLocalExperimentId(context, experimentId);
                                 experimentsList.add(experiment);
-                                experimentCount++;
+
                             }
                         }
-
+                        Collections.reverse(experimentsList);
+                        numberOfExperiments = experimentCount;
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
                         textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
