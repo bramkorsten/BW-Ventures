@@ -15,18 +15,6 @@
         android:layout_height="80dp"
         android:background="@color/colorWhite">
 
-        <ImageView
-            android:id="@+id/toolbarLogo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/bw_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <FrameLayout
             android:id="@+id/toolbarLine"
             android:layout_width="match_parent"

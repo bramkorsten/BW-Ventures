@@ -25,7 +25,7 @@
             android:cropToPadding="false"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/toolbarLogo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_plus_grey" />
 
@@ -44,18 +44,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_chevron_links_blue" />
-
-        <ImageView
-            android:id="@+id/toolbarLogo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/bw_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/toolbarLine"
