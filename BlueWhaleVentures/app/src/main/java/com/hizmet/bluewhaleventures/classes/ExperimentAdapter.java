@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
@@ -131,7 +130,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
         @Override
         public void onClick(View view) {
             if (view.getId() == experimentOptionButton.getId()) {
-                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 
                 PopupMenu popup = new PopupMenu(context, view);
                 MenuInflater inflater = popup.getMenuInflater();
@@ -139,7 +138,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                 popup.setOnMenuItemClickListener(ExperimentAdapter.this);
                 popup.show();
             } else {
-                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 Experiment experiments = experimentsList.get(getPosition());
                 Map experimentData = experiments.getData();
                 // Go to Experiment Activity which controls single Experiments etc.
