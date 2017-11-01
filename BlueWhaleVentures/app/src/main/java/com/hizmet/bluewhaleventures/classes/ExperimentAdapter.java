@@ -1,9 +1,15 @@
 package com.hizmet.bluewhaleventures.classes;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.fragments.ExperimentsFragment;
@@ -33,6 +42,9 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     private Context context;
     private List<Experiment> experimentsList;
     private Typeface Montserrat;
+    private ProgressDialog dialog;
+    private Experiment experiment;
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
 
     public ExperimentAdapter(ExperimentsFragment experimentsFragment, List<Experiment> experimentsList, ClickListener listener, Context context) {
         this.experimentsFragment = experimentsFragment;
@@ -86,25 +98,58 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                 return true;
 
             case R.id.delete:
-//                AlertDialog.Builder builder;
-//                builder = new AlertDialog.Builder(this.getContext());
-//
-//                builder.setTitle("Delete Person")
-//                        .setMessage("Are you sure you want to delete this person from this experiment? This cannot be undone!")
-//                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                deletePerson();
-//                            }
-//                        })
-//                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // do nothing
-//                            }
-//                        });
-//                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("Delete Experiment")
+                        .setMessage("Are you sure you want to delete this experiment? This cannot be undone!")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteExperiment();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        });
+                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
                 return true;
         }
         return false;
+    }
+
+    private void deleteExperiment() {
+        dialog = new ProgressDialog(context);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Deleting Experiment...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        String ventureId = getLocalVentureId();
+
+        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experiment.getExperimentId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("ventures", "Experiment Reference was deleted successfully!");
+                        dialog.dismiss();
+                        // TODO: 1-11-2017 Refresh experiment layout
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ventures", "Error deleting Experiment ", e);
+                    }
+                });
+    }
+
+    private String getLocalVentureId() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString("VentureId", "NULL");
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -131,7 +176,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
         public void onClick(View view) {
             if (view.getId() == experimentOptionButton.getId()) {
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-
+                experiment = experimentsList.get(getPosition());
                 PopupMenu popup = new PopupMenu(context, view);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.options_person, popup.getMenu());

@@ -53,7 +53,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
     private TextView textViewTitle;
     private ImageButton backButton;
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
-    ProgressDialog dialog;
+    private ProgressDialog dialog;
 
     private Map PersonData;
     // TODO: Rename and change types of parameters
@@ -133,7 +133,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
         setViewPerson();
     }
 
-    private void setViewPerson(){
+    private void setViewPerson() {
         Typeface Montserrat = Typeface.createFromAsset(getContext().getAssets(), "fonts/montserrat.ttf");
 
         name.setText(PersonData.get("Name").toString() + " " + PersonData.get("Surname").toString());
@@ -142,7 +142,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
         email.setText(PersonData.get("Email").toString());
         phone.setText(PersonData.get("Phone").toString());
 
-        String initials = PersonData.get("Name").toString().substring(0,1) + PersonData.get("Surname").toString().substring(0,1);
+        String initials = PersonData.get("Name").toString().substring(0, 1) + PersonData.get("Surname").toString().substring(0, 1);
         int imageColor = Color.parseColor("#0099ff");
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()
@@ -188,7 +188,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
 
     }
 
-    private String getLocalVentureId(){
+    private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return preferences.getString("VentureId", "NULL");
     }
@@ -239,6 +239,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
         }
         return false;
     }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

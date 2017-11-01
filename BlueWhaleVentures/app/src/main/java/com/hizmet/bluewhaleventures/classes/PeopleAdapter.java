@@ -131,7 +131,6 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
         public void onClick(View view) {
             if (view.getId() == personOptionButton.getId()) {
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-
                 PopupMenu popup = new PopupMenu(context, view);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.options_person, popup.getMenu());
