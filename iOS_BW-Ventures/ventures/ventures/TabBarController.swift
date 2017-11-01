@@ -1,19 +1,26 @@
 //
-//  ExperimentsClass.swift
+//  TabBarController.swift
 //  ventures
 //
-//  Created by Fhict on 31/10/2017.
+//  Created by Fhict on 01/11/2017.
 //  Copyright © 2017 Restart. All rights reserved.
 //
 
 import UIKit
 
-class ExperimentsClass: UIViewController {
+class TabBarController: UIViewController {
+    
+    var freshLaunch = true
+    override func viewWillAppear(_ animated: Bool) {
+        if freshLaunch == true {
+            freshLaunch = false
+            self.tabBarController?.selectedIndex = 1
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,16 +28,12 @@ class ExperimentsClass: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    
+    
+    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /*
     // MARK: - Navigation
 

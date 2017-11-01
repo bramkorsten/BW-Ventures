@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        
+        // Change font of Tab Bar
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSFontAttributeName:UIFont(name: "Montserrat-Regular", size: 10)]
+        appearance.setTitleTextAttributes(attributes, for: .normal)
+        
         return true
     }
 

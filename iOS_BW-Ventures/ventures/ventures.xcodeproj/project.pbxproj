@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0FCE3A28CBA8C684F741F393 /* Pods_ventures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156F4A485B81274A5887363C /* Pods_ventures.framework */; };
+		F54F3DEA1FA9EA6900DB7729 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54F3DE91FA9EA6900DB7729 /* TabBarController.swift */; };
 		F55E46FA1FA8B48200330B86 /* ExperimentsClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55E46F91FA8B48200330B86 /* ExperimentsClass.swift */; };
 		F594F2F61FA73BFD009928E5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */; };
 		F5C0728C1FA754C600AAD434 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5C0728B1FA754C600AAD434 /* Montserrat-Italic.ttf */; };
@@ -25,6 +26,7 @@
 		1355C36326C6F3DB6EE0ED78 /* Pods-ventures.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ventures.release.xcconfig"; path = "Pods/Target Support Files/Pods-ventures/Pods-ventures.release.xcconfig"; sourceTree = "<group>"; };
 		156F4A485B81274A5887363C /* Pods_ventures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ventures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC433B241B3C4F72B119FC4 /* Pods-ventures.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ventures.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ventures/Pods-ventures.debug.xcconfig"; sourceTree = "<group>"; };
+		F54F3DE91FA9EA6900DB7729 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F55E46F91FA8B48200330B86 /* ExperimentsClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentsClass.swift; sourceTree = "<group>"; };
 		F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F5C0728B1FA754C600AAD434 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.ttf"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				F594F2F71FA74242009928E5 /* Resources */,
 				F5EDC1381FA739A200A1DBAF /* AppDelegate.swift */,
 				F5EDC13A1FA739A200A1DBAF /* LoginScreen.swift */,
+				F54F3DE91FA9EA6900DB7729 /* TabBarController.swift */,
 				F55E46F91FA8B48200330B86 /* ExperimentsClass.swift */,
 				F5EDC13C1FA739A200A1DBAF /* Main.storyboard */,
 				F5EDC13F1FA739A200A1DBAF /* Assets.xcassets */,
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5EDC13B1FA739A200A1DBAF /* LoginScreen.swift in Sources */,
+				F54F3DEA1FA9EA6900DB7729 /* TabBarController.swift in Sources */,
 				F55E46FA1FA8B48200330B86 /* ExperimentsClass.swift in Sources */,
 				F5EDC1391FA739A200A1DBAF /* AppDelegate.swift in Sources */,
 			);

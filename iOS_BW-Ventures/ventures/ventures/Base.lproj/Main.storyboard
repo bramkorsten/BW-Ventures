@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eS3-bR-b20">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -144,7 +144,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="experiments" image="vlemke_gray" selectedImage="vlemke_blue" id="Qf7-3F-owm"/>
+                    <tabBarItem key="tabBarItem" title="Experiments" image="vlemke_gray" selectedImage="vlemke_blue" id="Qf7-3F-owm"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLP-Jo-j6K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -163,7 +163,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="settings" image="cog_gray" selectedImage="cog_blue" id="XwN-Z0-czV"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="cog_gray" selectedImage="cog_blue" id="XwN-Z0-czV"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="My6-SV-HGm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -183,7 +183,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="information" image="info_outline_gray" selectedImage="info_outline_blue" id="shy-8A-G87"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="kearel_gray" selectedImage="kearel_blue" id="shy-8A-G87"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AnV-hg-xP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -212,8 +212,8 @@
     <resources>
         <image name="cog_blue" width="25" height="25"/>
         <image name="cog_gray" width="25" height="25"/>
-        <image name="info_outline_blue" width="25" height="25"/>
-        <image name="info_outline_gray" width="25" height="25"/>
+        <image name="kearel_blue" width="25" height="25"/>
+        <image name="kearel_gray" width="25" height="25"/>
         <image name="vlemke_blue" width="25" height="25"/>
         <image name="vlemke_gray" width="25" height="25"/>
     </resources>
