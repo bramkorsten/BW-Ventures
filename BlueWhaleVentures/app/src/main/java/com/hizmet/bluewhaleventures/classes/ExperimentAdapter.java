@@ -56,10 +56,11 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // bind layout and data
         final Experiment experiment = experimentsList.get(position);
+        String number = experiment.getData().get("ExperimentNumber").toString();
         holder.title.setText(experiment.getData().get("ExperimentName").toString());
         holder.desc.setText(experiment.getData().get("ExperimentSubtitle").toString());
         int imageColor;
-        if (position + 1 == getItemCount()) {
+        if (position == 0) {
             imageColor = Color.parseColor("#0099ff");
         } else {
             imageColor = Color.parseColor("#929292");
@@ -71,7 +72,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                 .fontSize(50) /* size in px */
                 .toUpperCase()
                 .endConfig()
-                .buildRound(String.valueOf(position + 1), imageColor);
+                .buildRound(number, imageColor);
 
         holder.image.setImageDrawable(drawable);
     }
