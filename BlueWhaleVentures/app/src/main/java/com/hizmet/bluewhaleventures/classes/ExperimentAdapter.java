@@ -27,16 +27,13 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Ruben on 1-11-2017.
- */
 public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.MyViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
     private ExperimentsFragment experimentsFragment;
     private ClickListener listener;
+    private Context context;
     private List<Experiment> experimentsList;
     private Typeface Montserrat;
-    private Context context;
 
     public ExperimentAdapter(ExperimentsFragment experimentsFragment, List<Experiment> experimentsList, ClickListener listener, Context context) {
         this.experimentsFragment = experimentsFragment;

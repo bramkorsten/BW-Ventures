@@ -28,17 +28,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.NewPersonActivity;
-import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.PeopleAdapter;
 import com.hizmet.bluewhaleventures.classes.Person;
-import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +65,7 @@ public class PeopleFragment extends Fragment {
     private RecyclerView.LayoutManager peopleLayoutManager;
     private SwipeRefreshLayout refresherLayout;
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    private Context context;
 
     public PeopleFragment() {
         personsList = new ArrayList<>();
@@ -111,6 +108,13 @@ public class PeopleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Set views to variables.
+        setViews();
+        setRefreshLayout();
+        setPeopleRecyclerView();
+        getPersonData();
+        this.context = view.getContext();
+
         backButton = getView().findViewById(R.id.toolbarBack);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,10 +122,6 @@ public class PeopleFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        setViews();
-        setRefreshLayout();
-        setPeopleRecyclerView();
-        getPersonData();
 
         ImageButton buttonAddPerson = getView().findViewById(R.id.toolbarNew);
         buttonAddPerson.setOnClickListener(new View.OnClickListener() {
@@ -152,31 +152,21 @@ public class PeopleFragment extends Fragment {
     }
 
     private void setPeopleRecyclerView() {
-        adapter = new PeopleAdapter(personsList);
-        peopleLayoutManager = new LinearLayoutManager(this.getContext());
-        peopleRecyclerView.setLayoutManager(peopleLayoutManager);
-        peopleRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        peopleRecyclerView.setAdapter(adapter);
-
-        peopleRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), peopleRecyclerView, new ClickListener() {
+        adapter = new PeopleAdapter(this, personsList, new ClickListener() {
             @Override
             public void onPositionClicked(int position) {
-                Person person = personsList.get(position);
-                Map personData = person.getData();
-                // Go to Person Activity which controls single Persons etc.
-                Intent intent = new Intent(getActivity(), PersonActivity.class);
-                intent.putExtra("map", (Serializable) personData);
-                intent.putExtra("id", person.getPersonId());
-                intent.putExtra("experimentId", ((ExperimentActivity) getActivity()).getExperimentIdFromParent());
-                startActivity(intent);
+
             }
 
             @Override
             public void onLongClick(int position) {
 
             }
-        }));
-
+        }, getContext());
+        peopleLayoutManager = new LinearLayoutManager(this.getContext());
+        peopleRecyclerView.setLayoutManager(peopleLayoutManager);
+        peopleRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        peopleRecyclerView.setAdapter(adapter);
     }
 
     private void getPersonData() {

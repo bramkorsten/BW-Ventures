@@ -20,7 +20,7 @@
         android:text="@string/experimentLayout_experiment_title"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/experimentOptionButton"
+        app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
         app:layout_constraintStart_toEndOf="@+id/experiment_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
         android:text="@string/experimentLayout_experiment_desc"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/experimentOptionButton"
+        app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
         app:layout_constraintStart_toEndOf="@+id/experiment_image"
         app:layout_constraintTop_toBottomOf="@+id/experiment_title" />
 
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/experimentOptionButton"
+        android:id="@+id/personOptionButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="16dp"
