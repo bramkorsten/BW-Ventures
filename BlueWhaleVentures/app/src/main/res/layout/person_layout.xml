@@ -8,7 +8,7 @@
     android:clickable="true">
 
     <TextView
-        android:id="@+id/experiment_title"
+        android:id="@+id/person_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,11 +21,11 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
-        app:layout_constraintStart_toEndOf="@+id/experiment_image"
+        app:layout_constraintStart_toEndOf="@+id/person_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/experiment_desc"
+        android:id="@+id/person_desc"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -39,11 +39,11 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
-        app:layout_constraintStart_toEndOf="@+id/experiment_image"
-        app:layout_constraintTop_toBottomOf="@+id/experiment_title" />
+        app:layout_constraintStart_toEndOf="@+id/person_image"
+        app:layout_constraintTop_toBottomOf="@+id/person_title" />
 
     <ImageView
-        android:id="@+id/experiment_image"
+        android:id="@+id/person_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
@@ -69,7 +69,7 @@
         android:src="@drawable/ic_options"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/experiment_title"
+        app:layout_constraintStart_toEndOf="@+id/person_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
