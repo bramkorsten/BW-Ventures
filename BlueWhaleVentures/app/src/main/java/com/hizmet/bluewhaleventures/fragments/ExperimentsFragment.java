@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,15 +33,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Experiment;
 import com.hizmet.bluewhaleventures.classes.ExperimentAdapter;
-import com.hizmet.bluewhaleventures.classes.RecyclerTouchListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -188,37 +184,24 @@ public class ExperimentsFragment extends Fragment {
 
 
     private void setExperimentsRecyclerView() {
-        adapter = new ExperimentAdapter(experimentsList);
+        adapter = new ExperimentAdapter(this, experimentsList, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+
+            }
+
+            @Override
+            public void onLongClick(int position) {
+                // callback performed on click
+            }
+        });
         experimentsLayoutManager = new LinearLayoutManager(this.getContext());
         experimentsRecyclerView.setLayoutManager(experimentsLayoutManager);
         experimentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         experimentsRecyclerView.setAdapter(adapter);
-
-
-        experimentsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), experimentsRecyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Log.d("ventures", String.valueOf(view.getId()));
-                if (view.getId() == R.id.experimentOptionButton) {
-                    Toast.makeText(view.getContext(), "ITEM PRESSED = ", Toast.LENGTH_SHORT).show();
-                } else {
-                    Experiment experiments = experimentsList.get(position);
-                    Map experimentData = experiments.getData();
-                    // Go to Experiment Activity which controls single Experiments etc.
-                    Intent intent = new Intent(getActivity(), ExperimentActivity.class);
-                    intent.putExtra("map", (Serializable) experimentData);
-                    intent.putExtra("id", experiments.getExperimentId());
-                    startActivity(intent);
-                }
-            }
-
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
     }
+
 
     private void getUserData(Context context) {
         final Context viewContext = context;

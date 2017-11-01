@@ -160,7 +160,7 @@ public class PeopleFragment extends Fragment {
 
         peopleRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), peopleRecyclerView, new ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onPositionClicked(int position) {
                 Person person = personsList.get(position);
                 Map personData = person.getData();
                 // Go to Person Activity which controls single Persons etc.
@@ -172,7 +172,7 @@ public class PeopleFragment extends Fragment {
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick(int position) {
 
             }
         }));

@@ -1,9 +1,7 @@
 package com.hizmet.bluewhaleventures.classes;
 
-import android.view.View;
-
 public interface ClickListener {
-    void onClick(View view, int position);
+    void onPositionClicked(int position);
 
-    void onLongClick(View view, int position);
+    void onLongClick(int position);
 }
