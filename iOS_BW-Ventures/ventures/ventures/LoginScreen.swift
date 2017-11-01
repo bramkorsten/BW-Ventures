@@ -20,7 +20,6 @@ class LoginScreen: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,9 +27,13 @@ class LoginScreen: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func loginAction(_ sender: Any) {
+    @IBAction func loginAction(sender: UIButton) {
         email = tbEmailAddress.text!
         password = tbPassword.text!
+        
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
+        
         
         if self.tbEmailAddress.text == "" || self.tbPassword.text == "" {
             // Alert to tell the user that there was an error because they didn't fill anything in one or both textfields
@@ -45,7 +48,8 @@ class LoginScreen: UIViewController {
                 
                 if error == nil {
                     // Print to console
-                    print("Login successful")
+                    // print("Login successful")
+                    self.present(nextViewController, animated: true, completion: nil)
                 } else {
                     // Tell user that there is an error
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)

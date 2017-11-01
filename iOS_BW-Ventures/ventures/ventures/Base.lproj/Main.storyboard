@@ -20,7 +20,7 @@
         <!--Login Screen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Login Screen" id="BYZ-38-t0r" customClass="LoginScreen" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginScreenID" title="Login Screen" id="BYZ-38-t0r" customClass="LoginScreen" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eIL-Ef-06P"/>
                         <viewControllerLayoutGuide type="bottom" id="KOx-P2-ivb"/>
@@ -102,7 +102,7 @@
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                         <state key="normal" title="LOGIN"/>
                                         <connections>
-                                            <action selector="loginAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="clJ-WF-J0h"/>
+                                            <action selector="loginActionWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sh4-p2-TQR"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -124,11 +124,97 @@
                     <connections>
                         <outlet property="tbEmailAddress" destination="FS3-a0-dJw" id="NPJ-4e-eJc"/>
                         <outlet property="tbPassword" destination="XMj-Ix-Vbg" id="qIJ-Fg-hwV"/>
+                        <segue destination="eS3-bR-b20" kind="showDetail" identifier="experimentSegue" action="showViewController:sender:" id="COS-h0-Wok"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="151" y="178.00000000000003"/>
+            <point key="canvasLocation" x="41" y="178"/>
+        </scene>
+        <!--Experiments-->
+        <scene sceneID="x8n-7Y-0b8">
+            <objects>
+                <viewController storyboardIdentifier="experimentID" title="Experiments" id="vf3-3h-kpL" customClass="ExperimentsClass" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KfT-ny-wJQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zgi-de-9yn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PZH-DF-hUd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="experiments" image="vlemke_gray" selectedImage="vlemke_blue" id="Qf7-3F-owm"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WLP-Jo-j6K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2073" y="-597"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="4Gu-pQ-3fA">
+            <objects>
+                <viewController storyboardIdentifier="settingsID" title="Settings" id="cOQ-IE-aNC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="m7z-1x-iWs"/>
+                        <viewControllerLayoutGuide type="bottom" id="jT7-cC-ekx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nii-wx-7eA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="settings" image="cog_gray" selectedImage="cog_blue" id="XwN-Z0-czV"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="My6-SV-HGm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2073" y="178"/>
+        </scene>
+        <!--Information-->
+        <scene sceneID="4ma-Nz-MO5">
+            <objects>
+                <viewController storyboardIdentifier="informationID" title="Information" id="m7J-2X-DQ1" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SS4-dA-7yy"/>
+                        <viewControllerLayoutGuide type="bottom" id="3L1-Zf-p5P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zKJ-AC-k2c">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="information" image="info_outline_gray" selectedImage="info_outline_blue" id="shy-8A-G87"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AnV-hg-xP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2074" y="-1369"/>
+        </scene>
+        <!--Tab Bar-->
+        <scene sceneID="Wtq-Eo-TDn">
+            <objects>
+                <tabBarController storyboardIdentifier="tabBarID" title="Tab Bar" id="eS3-bR-b20" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="t0Y-jd-6X4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="m7J-2X-DQ1" kind="relationship" relationship="viewControllers" id="t1z-Kn-Pre"/>
+                        <segue destination="vf3-3h-kpL" kind="relationship" relationship="viewControllers" id="e14-8b-0Eh"/>
+                        <segue destination="cOQ-IE-aNC" kind="relationship" relationship="viewControllers" id="JOC-0p-JFT"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Axr-al-I1R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1057" y="179"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cog_blue" width="25" height="25"/>
+        <image name="cog_gray" width="25" height="25"/>
+        <image name="info_outline_blue" width="25" height="25"/>
+        <image name="info_outline_gray" width="25" height="25"/>
+        <image name="vlemke_blue" width="25" height="25"/>
+        <image name="vlemke_gray" width="25" height="25"/>
+    </resources>
 </document>
