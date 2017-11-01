@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.hizmet.bluewhaleventures.PersonActivity;
@@ -131,7 +130,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
         @Override
         public void onClick(View view) {
             if (view.getId() == personOptionButton.getId()) {
-                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 
                 PopupMenu popup = new PopupMenu(context, view);
                 MenuInflater inflater = popup.getMenuInflater();
@@ -139,7 +138,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
                 popup.setOnMenuItemClickListener(PeopleAdapter.this);
                 popup.show();
             } else {
-                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 Person persons = personList.get(getPosition());
                 Map personData = persons.getData();
                 // Go to People Activity which controls single persons etc.
