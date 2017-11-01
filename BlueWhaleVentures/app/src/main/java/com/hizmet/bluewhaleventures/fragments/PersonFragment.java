@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,8 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,7 +48,8 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private TextView name, desc;
+    private TextView name, desc, gender, email, phone;
+    private ImageView image;
     private TextView textViewTitle;
     private ImageButton backButton;
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
@@ -102,6 +107,10 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
         ImageButton optionButton = getView().findViewById(R.id.personOptionButton);
         name = getView().findViewById(R.id.person_title);
         desc = getView().findViewById(R.id.person_desc);
+        gender = getView().findViewById(R.id.person_gender);
+        email = getView().findViewById(R.id.person_email);
+        phone = getView().findViewById(R.id.person_phone);
+        image = getView().findViewById(R.id.person_image);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,8 +134,24 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
     }
 
     private void setViewPerson(){
-        name.setText(PersonData.get("Name").toString());
+        Typeface Montserrat = Typeface.createFromAsset(getContext().getAssets(), "fonts/montserrat.ttf");
+
+        name.setText(PersonData.get("Name").toString() + " " + PersonData.get("Surname").toString());
         desc.setText(PersonData.get("Description").toString());
+        gender.setText(PersonData.get("Gender").toString());
+        email.setText(PersonData.get("Email").toString());
+        phone.setText(PersonData.get("Phone").toString());
+
+        String initials = PersonData.get("Name").toString().substring(0,1) + PersonData.get("Surname").toString().substring(0,1);
+        int imageColor = Color.parseColor("#0099ff");
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .useFont(Montserrat)
+                .fontSize(50) /* size in px */
+                .toUpperCase()
+                .endConfig()
+                .buildRound(initials, imageColor);
+        image.setImageDrawable(drawable);
     }
 
     private void deletePerson() {
