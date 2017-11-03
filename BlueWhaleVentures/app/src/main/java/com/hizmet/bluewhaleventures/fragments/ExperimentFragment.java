@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -32,7 +34,7 @@ public class ExperimentFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private TextView name, desc;
+    private TextView name, desc, created, segment, location, problem, goals, fail, stop;
     private TextView textViewTitle;
     private ImageButton backButton;
 
@@ -87,12 +89,20 @@ public class ExperimentFragment extends Fragment {
         backButton = getView().findViewById(R.id.toolbarBack);
         name = getView().findViewById(R.id.experiment_title);
         desc = getView().findViewById(R.id.experiment_desc);
+        created = getView().findViewById(R.id.experiment_created);
+        segment = getView().findViewById(R.id.experiment_segment);
+        location = getView().findViewById(R.id.experiment_location);
+        problem = getView().findViewById(R.id.experiment_problem);
+        goals = getView().findViewById(R.id.experiment_goal);
+        fail = getView().findViewById(R.id.experiment_fail);
+        stop = getView().findViewById(R.id.experiment_stop);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
+
         ExperimentData = ((ExperimentActivity) getActivity()).getExperimentDataFromParent();
         Log.d("ventures", ExperimentData.get("ExperimentSubtitle").toString());
         setViewExperiment();
@@ -101,6 +111,15 @@ public class ExperimentFragment extends Fragment {
     private void setViewExperiment(){
         name.setText(ExperimentData.get("ExperimentName").toString());
         desc.setText(ExperimentData.get("ExperimentSubtitle").toString());
+        Date date = new Date(ExperimentData.get("DateCreated").toString());
+        SimpleDateFormat format = new SimpleDateFormat("MMMM d, yyyy");
+        created.setText(format.format(date.getTime()));
+        segment.setText(ExperimentData.get("CustomerSegment").toString());
+        location.setText(ExperimentData.get("CustomerLocation").toString());
+        problem.setText(ExperimentData.get("ProblemHypothesis").toString());
+        goals.setText(ExperimentData.get("LearningGoal").toString());
+        fail.setText(ExperimentData.get("FailCondition").toString());
+        stop.setText(ExperimentData.get("StopCondition").toString());
     }
 
     @Override
