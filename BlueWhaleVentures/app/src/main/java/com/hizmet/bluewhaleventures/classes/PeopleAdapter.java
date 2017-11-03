@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
@@ -128,8 +129,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
 
         String ventureId = getLocalVentureId();
         Log.d("ventures", "deletePerson: " + person.getPersonId());
-        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(getLocalExperimentId()).collection("people").document(person.getPersonId())
-                .delete()
+        DocumentReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(getLocalExperimentId()).collection("people").document(person.getPersonId());
+        Log.d("ventures", "Startups -> " + ventureId + " -> Experiments -> " + getLocalExperimentId() + " -> people -> " + person.getPersonId());
+        personRef.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -153,7 +155,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
 
     private String getLocalExperimentId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("ExperimentId", "NULL");
+        return preferences.getString("ExperimentID", "NULL");
     }
 
     public class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

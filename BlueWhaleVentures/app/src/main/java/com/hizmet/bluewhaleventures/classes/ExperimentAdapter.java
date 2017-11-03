@@ -184,12 +184,13 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                 popup.show();
             } else {
 //                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-                Experiment experiments = experimentsList.get(getPosition());
-                Map experimentData = experiments.getData();
+                Experiment experiment = experimentsList.get(getPosition());
+                Map experimentData = experiment.getData();
                 // Go to Experiment Activity which controls single Experiments etc.
                 Intent intent = new Intent(experimentsFragment.getActivity(), ExperimentActivity.class);
                 intent.putExtra("map", (Serializable) experimentData);
-                intent.putExtra("id", experiments.getExperimentId());
+                intent.putExtra("id", experiment.getExperimentId());
+                setLocalExperimentId(context, experiment.getExperimentId());
                 experimentsFragment.startActivity(intent);
             }
 
@@ -204,5 +205,12 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
         public boolean onLongClick(View view) {
             return false;
         }
+    }
+
+    private void setLocalExperimentId(Context context, String experimentId) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ExperimentID", experimentId);
+        editor.apply();
     }
 }

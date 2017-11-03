@@ -244,7 +244,6 @@ public class ExperimentsFragment extends Fragment {
                                 experimentCount++;
                                 Experiment experiment = new Experiment(experimentData);
                                 experiment.setExperimentId(document.getId());
-                                setLocalExperimentId(context, experimentId);
                                 experimentsList.add(experiment);
 
                             }
@@ -260,13 +259,6 @@ public class ExperimentsFragment extends Fragment {
                 }
             });
         }
-    }
-
-    private void setLocalExperimentId(Context context, String experimentId) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("ExperimentID", experimentId);
-        editor.apply();
     }
 
     private void setLocalVentureId(Context context, String ventureId) {

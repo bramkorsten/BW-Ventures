@@ -164,7 +164,7 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
 
         String ventureId = getLocalVentureId();
         String personId = ((PersonActivity) getActivity()).getPersonIdFromParent();
-        String experimentId = ((PersonActivity) getActivity()).getExperimentIdFromParent();
+        String experimentId = getLocalExperimentId();
 
         firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(personId)
                 .delete()
@@ -191,6 +191,11 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
     private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return preferences.getString("VentureId", "NULL");
+    }
+
+    private String getLocalExperimentId() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return preferences.getString("ExperimentID", "NULL");
     }
 
     @Override
