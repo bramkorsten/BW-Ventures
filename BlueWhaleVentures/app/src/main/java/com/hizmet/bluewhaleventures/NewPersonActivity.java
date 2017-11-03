@@ -66,6 +66,8 @@ public class NewPersonActivity extends AppCompatActivity {
 
         setViews();
     }
+    
+    // TODO: 11/3/2017 Add spinner while loading all testers for user friendlyness
 
     private void getTesters() {
         CollectionReference testersRef = firestoreDb.collection("Startups").document(ventureId).collection("Testers");
