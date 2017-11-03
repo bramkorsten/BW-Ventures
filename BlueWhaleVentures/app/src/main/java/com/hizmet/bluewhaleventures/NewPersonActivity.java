@@ -10,8 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,10 +25,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mancj.slideup.SlideUp;
+import com.mancj.slideup.SlideUpBuilder;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +46,69 @@ public class NewPersonActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
     private String experimentId;
-    ProgressDialog dialog;
+    private String existingUserId;
+    private ProgressDialog dialog;
+    private SlideUp slider;
+    private View dim;
+
+    Map testerMap = new ArrayMap<String, String>();
+    ArrayList<String> testerNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_person);
         Intent intent = getIntent();
+        ventureId = getLocalVentureId();
         experimentId = intent.getStringExtra("experimentId");
+
+        getTesters();
+
         setViews();
+    }
+
+    private void getTesters() {
+        CollectionReference testersRef = firestoreDb.collection("Startups").document(ventureId).collection("Testers");
+        testersRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Map experimentData = document.getData();
+                            String name = experimentData.get("Name").toString() + " " + experimentData.get("Surname").toString();
+                            testerMap.put(name, document.getId());
+                            testerNames.add(name);
+
+                        }
+                    }
+                    Log.d("ventures", testerNames.toString());
+                    Log.d("ventures", testerMap.toString());
+                    setAutoComplete();
+                } else {
+                    Log.d("ventures", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void setAutoComplete() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item,testerNames);
+        //Getting the instance of AutoCompleteTextView
+        AutoCompleteTextView actv= findViewById(R.id.nametxt);
+        actv.setThreshold(1);//will start working from first character
+        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+
+        actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String existingUserName = adapterView.getItemAtPosition(i).toString();
+                existingUserId = testerMap.get(existingUserName).toString();
+                Log.d("ventures", existingUserId);
+                slider.show();
+            }
+        });
     }
 
     private void setViews() {
@@ -64,6 +129,46 @@ public class NewPersonActivity extends AppCompatActivity {
             }
         });
 
+        dim = findViewById(R.id.dim);
+
+        View slideView = findViewById(R.id.slideView);
+        slider = new SlideUpBuilder(slideView)
+                .withStartState(SlideUp.State.HIDDEN)
+                .withStartGravity(Gravity.BOTTOM)
+                .withListeners(new SlideUp.Listener.Events() {
+                    @Override
+                    public void onSlide(float percent) {
+                        dim.setAlpha(1 - ((percent + 30 ) / 100));
+                    }
+
+                    @Override
+                    public void onVisibilityChanged(int visibility) {
+
+                    }
+                })
+                .build();
+        Button buttonNo = findViewById(R.id.buttonNo);
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slider.hide();
+            }
+        });
+
+        Button buttonYes = findViewById(R.id.buttonYes);
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slider.hide();
+                dialog = new ProgressDialog(NewPersonActivity.this);
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.setMessage("Saving...");
+                dialog.setIndeterminate(true);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                addPersonToExperiment(existingUserId);
+            }
+        });
     }
 
     private boolean checkData() {
@@ -103,8 +208,6 @@ public class NewPersonActivity extends AppCompatActivity {
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
-        ventureId = getLocalVentureId();
 
         String fullName = name.getEditText().getText().toString().trim();
 

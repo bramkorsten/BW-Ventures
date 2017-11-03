@@ -49,10 +49,13 @@ dependencies {
 
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 
+    compile "com.github.mancj:SlideUp-Android:2.2.7.1"
+
 }
 
 apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 apply plugin: 'kotlin-android-extensions'
