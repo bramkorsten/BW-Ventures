@@ -19,6 +19,10 @@ public class ExperimentActivity extends AppCompatActivity {
     private Map experimentData;
     private String experimentId;
 
+    PeopleFragment peopleFragment;
+    ExperimentFragment experimentFragment;
+    SettingsFragment settingsFragment;
+
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -30,15 +34,15 @@ public class ExperimentActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_people:
                     // Go to the People Fragment
-                    transaction.replace(R.id.content, new PeopleFragment()).commit();
+                    transaction.replace(R.id.content, peopleFragment).commit();
                     return true;
                 case R.id.navigation_experimentdetail:
                     // Go to the Experiment Fragment
-                    transaction.replace(R.id.content, new ExperimentFragment()).commit();
+                    transaction.replace(R.id.content, experimentFragment).commit();
                     return true;
                 case R.id.navigation_settings:
                     // Go to the Settings Fragment
-                    transaction.replace(R.id.content, new SettingsFragment()).commit();
+                    transaction.replace(R.id.content, settingsFragment).commit();
                     return true;
             }
             return false;
@@ -65,8 +69,12 @@ public class ExperimentActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
+        peopleFragment = new PeopleFragment();
+        experimentFragment = new ExperimentFragment();
+        settingsFragment = new SettingsFragment();
+
         // Go directly to the People Fragment
-        transaction.replace(R.id.content, new PeopleFragment()).commit();
+        transaction.replace(R.id.content, peopleFragment).commit();
     }
 
     public Map getExperimentDataFromParent() {

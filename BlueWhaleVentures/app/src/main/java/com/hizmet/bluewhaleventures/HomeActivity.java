@@ -14,6 +14,10 @@ import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
+    ExperimentsFragment experimentsFragment;
+    InformationFragment informationFragment;
+    SettingsFragment settingsFragment;
+
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -25,15 +29,18 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_information:
                     // Go to the Information Fragment
-                    transaction.replace(R.id.content, new InformationFragment()).commit();
+                    transaction.replace(R.id.content, informationFragment);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_experiments:
                     // Go to the Experiments Fragment
-                    transaction.replace(R.id.content, new ExperimentsFragment()).commit();
+                    transaction.replace(R.id.content, experimentsFragment);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_settings:
                     // Go to the Settings Fragment
-                    transaction.replace(R.id.content, new SettingsFragment()).commit();
+                    transaction.replace(R.id.content, settingsFragment);
+                    transaction.commit();
                     return true;
             }
             return false;
@@ -56,6 +63,12 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         // Go to the Experiments Fragment
-        transaction.replace(R.id.content, new ExperimentsFragment()).commit();
+
+        experimentsFragment = new ExperimentsFragment();
+        informationFragment = new InformationFragment();
+        settingsFragment = new SettingsFragment();
+
+        transaction.replace(R.id.content, experimentsFragment);
+        transaction.commit();
     }
 }
