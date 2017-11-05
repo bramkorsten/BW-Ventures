@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.hizmet.bluewhaleventures.fragments.ExperimentFragment;
@@ -54,7 +53,6 @@ public class ExperimentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         experimentData = (Map) intent.getSerializableExtra("map");
         experimentId = intent.getStringExtra("id");
-        Log.d("ventures", "experimentID in activity: " + experimentId);
 
         // Bottom navigation
         BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationExperiment);

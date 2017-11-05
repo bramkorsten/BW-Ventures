@@ -113,7 +113,7 @@ public class PeopleFragment extends Fragment {
         setViews();
         setRefreshLayout();
         setPeopleRecyclerView();
-        getPersonData();
+        refreshContent();
         this.context = view.getContext();
 
         backButton = getView().findViewById(R.id.toolbarBack);
@@ -130,7 +130,7 @@ public class PeopleFragment extends Fragment {
                 experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
                 Intent intent = new Intent(getActivity(), NewPersonActivity.class);
                 intent.putExtra("experimentId", experimentId);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -146,10 +146,15 @@ public class PeopleFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Refresh people
-                getPersonData();
+                refreshContent();
             }
         });
+    }
+
+    public void refreshContent(){
         refresherLayout.setRefreshing(true);
+        getPersonData();
+
     }
 
     private void setPeopleRecyclerView() {
@@ -247,5 +252,16 @@ public class PeopleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == 1) {
+                refreshContent();
+            }
+        }
     }
 }

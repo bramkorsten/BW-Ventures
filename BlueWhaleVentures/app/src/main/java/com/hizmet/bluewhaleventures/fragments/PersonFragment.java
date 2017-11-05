@@ -173,7 +173,8 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
                     public void onSuccess(Void aVoid) {
                         Log.d("ventures", "Person Reference was deleted successfully!");
                         dialog.dismiss();
-                        getActivity().onBackPressed();
+                        getActivity().setResult(1);
+                        getActivity().finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

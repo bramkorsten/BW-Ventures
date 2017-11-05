@@ -137,7 +137,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
                     public void onSuccess(Void aVoid) {
                         Log.d("ventures", "Person Reference was deleted successfully!");
                         dialog.dismiss();
-                        // TODO: 1-11-2017 Refresh person layout
+                        peopleFragment.refreshContent();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -196,7 +196,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
                 Intent intent = new Intent(peopleFragment.getActivity(), PersonActivity.class);
                 intent.putExtra("map", (Serializable) personData);
                 intent.putExtra("id", persons.getPersonId());
-                peopleFragment.startActivity(intent);
+                peopleFragment.startActivityForResult(intent, 1);
             }
 
             Log.d("ventures", "onClick in PeopleAdapter is called");

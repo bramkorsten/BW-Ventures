@@ -195,7 +195,8 @@ public class NewExperimentActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("ventures", "Experiment was saved with ID: " + documentReference.getId());
                         dialog.dismiss();
-                        // TODO: 10/31/2017 Add onreturn refresh function by adding startActivityWithIntent
+                        Intent data = new Intent();
+                        setResult(1, data);
                         finish();
                     }
                 })

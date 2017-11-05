@@ -66,7 +66,7 @@ public class NewPersonActivity extends AppCompatActivity {
 
         setViews();
     }
-    
+
     // TODO: 11/3/2017 Add spinner while loading all testers for user friendlyness
 
     private void getTesters() {
@@ -265,6 +265,8 @@ public class NewPersonActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         dialog.dismiss();
+                        Intent data = new Intent();
+                        setResult(1, data);
                         finish();
                     }
                 });

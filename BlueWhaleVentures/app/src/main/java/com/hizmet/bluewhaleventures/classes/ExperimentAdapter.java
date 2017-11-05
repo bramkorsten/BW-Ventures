@@ -136,7 +136,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
                     public void onSuccess(Void aVoid) {
                         Log.d("ventures", "Experiment Reference was deleted successfully!");
                         dialog.dismiss();
-                        // TODO: 1-11-2017 Refresh experiment layout
+                        experimentsFragment.refreshContent();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -143,7 +143,7 @@ public class ExperimentsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NewExperimentActivity.class);
                 intent.putExtra("numberOfExperiments", numberOfExperiments);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -179,10 +179,14 @@ public class ExperimentsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Refresh experiments
-                getExperimentData();
+                refreshContent();
             }
         });
+    }
+
+    public void refreshContent(){
         refresherLayout.setRefreshing(true);
+        getExperimentData();
     }
 
 
@@ -217,7 +221,7 @@ public class ExperimentsFragment extends Fragment {
                         ventureId = (String) task.getResult().getData().get("ventureID");
                         Log.d("ventures", ventureId);
                         setLocalVentureId(viewContext, ventureId);
-                        getExperimentData();
+                        refreshContent();
                     } else {
                         Log.d("ventures", "No such document");
                     }
@@ -303,5 +307,16 @@ public class ExperimentsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == 1) {
+                refreshContent();
+            }
+        }
     }
 }
