@@ -167,7 +167,6 @@ public class ExperimentsFragment extends Fragment {
 
     private void setViews() {
         buttonAddExperiment = getView().findViewById(R.id.toolbarNew);
-        textviewNumberOfExperiments = getView().findViewById(R.id.numberOfExperiments);
         experimentsRecyclerView = getView().findViewById(R.id.experimentsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -256,7 +255,6 @@ public class ExperimentsFragment extends Fragment {
                         numberOfExperiments = experimentCount;
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
-                        textviewNumberOfExperiments.setText(String.valueOf(experimentCount));
                     } else {
                         Log.d("ventures", "Error getting documents: ", task.getException());
                     }
