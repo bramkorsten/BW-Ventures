@@ -6,22 +6,19 @@ public class Experiment {
     private Map data;
     private String experimentId = null;
 
-    public Experiment() {
-    }
-
-    public Experiment(Map ExperimentData) {
-        data = ExperimentData;
+    public Experiment(Map experimentData) {
+        this.data = experimentData;
     }
 
     public Map getData() {
         return data;
     }
 
-    public void setExperimentId(String id){
+    public void setExperimentId(String id) {
         this.experimentId = id;
     }
 
-    public String getExperimentId() { return experimentId; }
-
-
+    public String getExperimentId() {
+        return experimentId;
+    }
 }

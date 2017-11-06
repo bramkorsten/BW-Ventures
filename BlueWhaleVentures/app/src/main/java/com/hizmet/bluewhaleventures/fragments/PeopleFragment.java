@@ -154,7 +154,6 @@ public class PeopleFragment extends Fragment {
     public void refreshContent(){
         refresherLayout.setRefreshing(true);
         getPersonData();
-
     }
 
     private void setPeopleRecyclerView() {
@@ -169,6 +168,7 @@ public class PeopleFragment extends Fragment {
 
             }
         }, getContext());
+
         peopleLayoutManager = new LinearLayoutManager(this.getContext());
         peopleRecyclerView.setLayoutManager(peopleLayoutManager);
         peopleRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -178,9 +178,9 @@ public class PeopleFragment extends Fragment {
     private void getPersonData() {
         String ventureId = getLocalVentureId();
         // TODO: 10/31/2017 check
-        String personId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
+        String experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
         personsList.clear();
-        CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");
+        CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people");
         personRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

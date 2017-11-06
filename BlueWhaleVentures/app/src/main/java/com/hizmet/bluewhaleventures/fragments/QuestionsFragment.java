@@ -6,18 +6,26 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hizmet.bluewhaleventures.NewPersonActivity;
 import com.hizmet.bluewhaleventures.R;
+import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Question;
 import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
@@ -54,6 +62,8 @@ public class QuestionsFragment extends Fragment {
     private RecyclerView.LayoutManager questionsLayoutManager;
     private SwipeRefreshLayout refresherLayout;
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    private Context context;
+    private String questionId;
 
     public QuestionsFragment() {
         questionsList = new ArrayList<>();
@@ -105,20 +115,31 @@ public class QuestionsFragment extends Fragment {
         });
         setViews();
         setRefreshLayout();
-        setPeopleRecyclerView();
-        getQuestionData();
+        setQuestionsRecyclerView();
+        refreshContent();
+        this.context = view.getContext();
 
-        ImageButton buttonAddPerson = getView().findViewById(R.id.toolbarNew);
-        buttonAddPerson.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewPersonActivity.class);
-                startActivity(intent);
+        backButton = getView().findViewById(R.id.toolbarBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
             }
         });
+
+//        ImageButton buttonAddQuestion = getView().findViewById(R.id.toolbarNew);
+//        buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
+//                Intent intent = new Intent(getActivity(), NewQuestionActivity.class);
+//                intent.putExtra("questionId", questionId);
+//                startActivityForResult(intent, 1);
+//            }
+//        });
     }
 
     private void setViews() {
-        questionsRecyclerView = getView().findViewById(R.id.PeopleRecycleView);
+        questionsRecyclerView = getView().findViewById(R.id.QuestionsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
     }
@@ -127,80 +148,69 @@ public class QuestionsFragment extends Fragment {
         refresherLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Refresh people
-                getQuestionData();
+                // Refresh questions
+                refreshContent();
             }
         });
+    }
+    public void refreshContent(){
         refresherLayout.setRefreshing(true);
+        getQuestionData();
     }
 
-    private void setPeopleRecyclerView() {
-//        adapter = new QuestionsAdapter(questionsList);
-//        questionsLayoutManager = new LinearLayoutManager(this.getContext());
-//        questionsRecyclerView.setLayoutManager(questionsLayoutManager);
-//        questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        questionsRecyclerView.setAdapter(adapter);
-//
-//        questionsRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getContext(), questionsRecyclerView, new ClickListener() {
-//            @Override
-//            public void onClick(View view, int position) {
-//                Question question = questionsList.get(position);
-//                Map questionData = question.getData();
-//                // Go to Question Activity which controls single Questions etc.
-//                Intent intent = new Intent(getActivity(), QuestionActivity.class);
-//                intent.putExtra("map", (Serializable) questionData);
-//                intent.putExtra("id", question.getQuestionId());
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onLongClick(View view, int position) {
-//
-//            }
-//        }));
+    private void setQuestionsRecyclerView() {
+        adapter = new QuestionsAdapter(this, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
 
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        }, getContext(), questionsList);
+
+        questionsLayoutManager = new LinearLayoutManager(this.getContext());
+        questionsRecyclerView.setLayoutManager(questionsLayoutManager);
+        questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        questionsRecyclerView.setAdapter(adapter);
     }
 
     private void getQuestionData() {
-//        String ventureId = getLocalVentureId();
+        String ventureId = getLocalVentureId();
+        // TODO: 6-11-2017 check
+        String experimentId = getLocalExperimentId();
 //        String questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
-//        questionsList.clear();
-//        CollectionReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(personId).collection("people");
-//        questionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (DocumentSnapshot document : task.getResult()) {
-//                        if (document.exists()) {
-//                            DocumentReference question = (DocumentReference) document.getData().get("question");
-//                            Log.d("ventures", document.getId() + " => " + document.getData().get("question"));
-//                            question.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        DocumentSnapshot document = task.getResult();
-//                                        if (document.exists()) {
-//                                            Log.d("ventures QUESTION", document.getId() + " => " + document.getData());
-//                                            Question question = new Question(document.getData());
-//                                            question.setQuestionId(document.getId());
-//                                            questionsList.add(question);
-//                                            adapter.notifyDataSetChanged();
-//                                        } else {
-//                                            Log.d("ventures", "No such document");
-//                                        }
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
-//                    Log.d("ventures", "Finished getting people");
-//                    adapter.notifyDataSetChanged();
-//                    refresherLayout.setRefreshing(false);
-//                } else {
-//                    Log.d("ventures", "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
+        questionsList.clear();
+        DocumentReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId);
+        questionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("ventures QUESTION", document.getId() + " => " + document.getData());
+                        ArrayList questions = (ArrayList) document.getData().get("questions");
+                        Log.d("ventures", "onComplete: " + questions);
+
+                        for (Object q : questions) {
+                            Question question = new Question(q.toString());
+                            questionsList.add(question);
+                        }
+                        adapter.notifyDataSetChanged();
+                        refresherLayout.setRefreshing(false);
+                    } else {
+                        Log.d("ventures", "No such document");
+                    }
+                }
+            }
+        });
+    }
+
+    private String getLocalExperimentId() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return preferences.getString("ExperimentID", "NULL");
     }
 
     private String getLocalVentureId(){
@@ -237,5 +247,16 @@ public class QuestionsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == 1) {
+                refreshContent();
+            }
+        }
     }
 }

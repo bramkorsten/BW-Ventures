@@ -1,8 +1,17 @@
 package com.hizmet.bluewhaleventures.classes;
 
-/**
- * Created by Ruben on 30-10-2017.
- */
-
 public class Question {
+    private String name;
+
+    public Question(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
