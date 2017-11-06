@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Change font of Tab Bar
         let appearance = UITabBarItem.appearance()
-        let attributes = [NSFontAttributeName:UIFont(name: "Montserrat-Regular", size: 10)]
+        let attributes = [NSFontAttributeName:UIFont(name: "Montserrat-Regular", size: 10)!]
         appearance.setTitleTextAttributes(attributes, for: .normal)
         
         return true

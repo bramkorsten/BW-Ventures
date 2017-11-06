@@ -254,6 +254,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="F2Q-QW-JZU" secondAttribute="trailing" constant="8" id="yyj-8i-lFl"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="ExperimentsCell"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
