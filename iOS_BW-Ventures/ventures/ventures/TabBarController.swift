@@ -9,14 +9,6 @@
 import UIKit
 
 class TabBarController: UIViewController {
-    
-    var freshLaunch = true
-    override func viewWillAppear(_ animated: Bool) {
-        if freshLaunch == true {
-            freshLaunch = false
-            self.tabBarController?.selectedIndex = 1
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

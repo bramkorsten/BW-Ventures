@@ -48,7 +48,24 @@ class LoginScreen: UIViewController {
                 
                 if error == nil {
                     // Print to console
-                    // print("Login successful")
+                    let db = Firestore.firestore()
+                    let docRef = db.collection("users").document((user?.uid)!)
+                    docRef.getDocument { (document, error) in
+                        if let document = document {
+                            // Create instance of UserDefaults
+                            let userDef = UserDefaults.standard
+                            // Storing values
+                            userDef.set(document.data()["age"], forKey: "age")
+                            userDef.set(document.data()["email"], forKey: "email")
+                            userDef.set(document.data()["gender"], forKey: "gender")
+                            userDef.set(document.data()["name"], forKey: "name")
+                            userDef.set(document.data()["phoneNumber"], forKey: "phoneNumber")
+                            userDef.set(document.data()["uid"], forKey: "uid")
+                            userDef.set(document.data()["ventureID"], forKey: "ventureid")
+                        } else {
+                            print("Document does not exist")
+                        }
+                    }
                     self.present(nextViewController, animated: true, completion: nil)
                 } else {
                     // Tell user that there is an error

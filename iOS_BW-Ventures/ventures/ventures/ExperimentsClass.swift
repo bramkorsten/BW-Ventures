@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
 class ExperimentsClass: UIViewController {
+
+    @IBOutlet weak var experimentsTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        collectExperiments()
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +24,22 @@ class ExperimentsClass: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    
-    
-    
-    
-    
-    
-    
-    
+    func collectExperiments() {
+        let db = Firestore.firestore()
+        let userDef = UserDefaults.standard
+        let ventureid = userDef.string(forKey: "ventureid")
+        let docRef = db.collection("Startups").document(ventureid!).collection("Experiments")
+        
+        docRef.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                }
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation
