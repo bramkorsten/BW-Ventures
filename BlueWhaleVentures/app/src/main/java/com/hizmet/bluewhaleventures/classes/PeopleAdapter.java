@@ -67,12 +67,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
         holder.title.setText(person.getData().get("Name").toString() + " " + person.getData().get("Surname").toString());
         holder.desc.setText(person.getData().get("Description").toString());
         String initials = person.getData().get("Name").toString().substring(0, 1) + person.getData().get("Surname").toString().substring(0, 1);
-        int imageColor;
-        if (position + 1 == getItemCount()) {
-            imageColor = Color.parseColor("#0099ff");
-        } else {
-            imageColor = Color.parseColor("#929292");
-        }
+        int imageColor = Color.parseColor("#0099ff");
 
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()

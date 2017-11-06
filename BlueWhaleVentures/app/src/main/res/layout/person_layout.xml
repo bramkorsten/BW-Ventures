@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@color/colorWhite"
+    android:clickable="true"
     android:focusable="true"
-    android:clickable="true">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/person_title"
@@ -17,12 +18,12 @@
         android:fontFamily="@font/montserrat"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        android:text="@string/experimentLayout_experiment_title"
+        android:text="John Doe"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
         app:layout_constraintStart_toEndOf="@+id/person_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
     <TextView
         android:id="@+id/person_desc"
@@ -35,7 +36,7 @@
         android:fontFamily="@font/montserrat"
         android:maxLines="2"
         android:scrollHorizontally="true"
-        android:text="@string/experimentLayout_experiment_desc"
+        android:text="this is a description of a person"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/personOptionButton"
@@ -52,34 +53,32 @@
         android:src="@drawable/bw_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
     <ImageButton
         android:id="@+id/personOptionButton"
         android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:adjustViewBounds="false"
         android:background="?selectableItemBackgroundBorderless"
         android:cropToPadding="false"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_options"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/person_title"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
     <FrameLayout
         android:id="@+id/deviderLine"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorLineGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="10dp"
+        android:background="@color/colorBackgroundGrey"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
