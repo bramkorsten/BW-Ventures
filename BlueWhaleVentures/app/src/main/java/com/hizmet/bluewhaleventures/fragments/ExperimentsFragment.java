@@ -231,6 +231,7 @@ public class ExperimentsFragment extends Fragment {
 
     private void getExperimentData() {
         experimentsList.clear();
+        adapter.notifyDataSetChanged();
         if (ventureId.isEmpty()) {
             return;
         } else {

@@ -177,9 +177,9 @@ public class PeopleFragment extends Fragment {
 
     private void getPersonData() {
         String ventureId = getLocalVentureId();
-        // TODO: 10/31/2017 check
-        String experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
         personsList.clear();
+        adapter.notifyDataSetChanged();
+        String experimentId = ((ExperimentActivity) getActivity()).getExperimentIdFromParent();
         CollectionReference personRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people");
         personRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
