@@ -199,7 +199,7 @@ public class QuestionsFragment extends Fragment {
                         try {
                             while (i < questions.size() && !questions.isEmpty()) {
                                 Object q = questions.get(i);
-                                Question question = new Question(q.toString());
+                                Question question = new Question(i+1, q.toString());
                                 questionsList.add(question);
                                 i++;
                             }

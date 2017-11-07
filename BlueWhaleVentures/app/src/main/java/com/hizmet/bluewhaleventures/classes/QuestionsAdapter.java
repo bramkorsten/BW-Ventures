@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +29,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.fragments.QuestionsFragment;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
@@ -64,6 +74,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
         holder.title.setText(question.getName());
+        holder.number.setText("Question " + question.getIndex());
     }
 
     @Override
@@ -83,48 +94,61 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 builder = new AlertDialog.Builder(context);
 
                 builder.setTitle("Delete Question")
-                        .setMessage("Are you sure you want to delete this question? This cannot be undone!")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteQuestion();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        });
+                    .setMessage("Are you sure you want to delete this question? This cannot be undone!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    });
                 builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
                 return true;
         }
         return false;
     }
 
-    private void deleteQuestion() {
-        dialog = new ProgressDialog(context);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Deleting Question...");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+    private void addAnswer() {
 
         String ventureId = getLocalVentureId();
-        Log.d("ventures", "deleteQuestion: " + question.getName());
-//        DocumentReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(getLocalExperimentId()).collection("people").document(person.getPersonId());
-//        Log.d("ventures", "Startups -> " + ventureId + " -> Experiments -> " + getLocalExperimentId() + " -> people -> " + person.getPersonId());
-//        questionRef.delete()
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        String experimentId = getLocalExperimentId();
+        String testerId = getLocalTesterId();
+
+//        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Map<String, String> answerData = (ArrayList) document.getData().get("Answers");
+//                        Map<String, String> answerData = new HashMap<>();
+//                        answerData.put("Notes", "This is a note");
+//                        answerData.put("Answer", "This is a test answer");
+//                        answers.set(8, answerData);
+//                        Log.d("ventures", answers.toString());
+//                    } else {
+//                        Log.d("ventures", "No such document");
+//                    }
+//                }
+//            }
+//        });
+
+//        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId)
+//                .add(personData)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 //                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d("ventures", "Person Reference was deleted successfully!");
-//                        dialog.dismiss();
-//                        questionsFragment.refreshContent();
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d("ventures", "Person was saved with ID: " + documentReference.getId());
+//                        addPersonToExperiment(documentReference.getId());
 //                    }
 //                })
 //                .addOnFailureListener(new OnFailureListener() {
 //                    @Override
 //                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("ventures", "Error deleting Person ", e);
+//                        Log.w("ventures", "Error adding document", e);
 //                    }
 //                });
     }
@@ -139,9 +163,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         return preferences.getString("ExperimentID", "NULL");
     }
 
-    private String getLocalQuestionId() {
+    private String getLocalTesterId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString("QuestionID", "NULL");
+        return preferences.getString("TesterId", "NULL");
     }
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -256,7 +280,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
                 if (isValidAnswer) {
-
+                    addAnswer();
                 }
             }
 
@@ -281,12 +305,5 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         public boolean onLongClick(View view) {
             return false;
         }
-    }
-
-    private void setLocalQuestionId(Context context, String questionId) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("QuestionID", questionId);
-        editor.apply();
     }
 }

@@ -176,7 +176,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
         @Override
         public void onClick(View view) {
             if (view.getId() == personOptionButton.getId()) {
-//                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+
                 person = personList.get(getPosition());
                 PopupMenu popup = new PopupMenu(context, view);
                 MenuInflater inflater = popup.getMenuInflater();
@@ -184,13 +184,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
                 popup.setOnMenuItemClickListener(PeopleAdapter.this);
                 popup.show();
             } else {
-//                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                // TODO: 11/7/2017 Change persons to person
                 Person persons = personList.get(getPosition());
                 Map personData = persons.getData();
                 // Go to People Activity which controls single persons etc.
                 Intent intent = new Intent(peopleFragment.getActivity(), PersonActivity.class);
                 intent.putExtra("map", (Serializable) personData);
                 intent.putExtra("id", persons.getPersonId());
+                setLocalTesterId(context, persons.getPersonId());
                 peopleFragment.startActivityForResult(intent, 1);
             }
 
@@ -205,5 +206,12 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PersonView
         public boolean onLongClick(View v) {
             return false;
         }
+    }
+
+    private void setLocalTesterId(Context context, String testerId) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("TesterId", testerId);
+        editor.apply();
     }
 }
