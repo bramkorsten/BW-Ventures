@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -150,6 +152,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         private ImageButton answerSaveButton;
         private View answerView;
         private WeakReference<ClickListener> listenerRef;
+        private boolean isValidAnswer = false;
 
         public QuestionViewHolder(View itemView) {
             super(itemView);
@@ -166,6 +169,31 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             itemView.setOnClickListener(this);
             questionAnswerButton.setOnClickListener(this);
             answerSaveButton.setOnClickListener(this);
+
+            answer.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(s.length() > 0) {
+                        answerSaveButton.setImageDrawable(answerSaveButton.getContext().getResources().getDrawable(R.drawable.ic_save_black_24dp));
+                        isValidAnswer = true;
+                    }
+                    else {
+                        answerSaveButton.setImageDrawable(answerSaveButton.getContext().getResources().getDrawable(R.drawable.ic_clear_black_24dp));
+                        isValidAnswer = false;
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
 
         // onClick listener for view
@@ -191,7 +219,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 InputMethodManager lManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 lManager.showSoftInput(answer, 0);
 
-                Log.d("ventures", "Answerbutton is clicked!");
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                question = questionsList.get(getPosition());
 //                PopupMenu popup = new PopupMenu(context, view);
@@ -227,6 +254,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 answer.clearFocus();
                 InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+                if (isValidAnswer) {
+
+                }
             }
 
             else {
