@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,22 +57,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
         holder.title.setText(question.getName());
-        int imageColor;
-        if (position + 1 == getItemCount()) {
-            imageColor = Color.parseColor("#0099ff");
-        } else {
-            imageColor = Color.parseColor("#929292");
-        }
-
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .useFont(Montserrat)
-                .fontSize(50) /* size in px */
-                .toUpperCase()
-                .endConfig()
-                .buildRound("?", imageColor);
-
-        holder.image.setImageDrawable(drawable);
     }
 
     @Override
@@ -153,9 +138,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private TextView title, desc;
+        private TextView title, number, notes;
         private ImageView image;
-        private ImageButton questionOptionButton;
+        private Button questionAnswerButton;
         private WeakReference<ClickListener> listenerRef;
 
         public QuestionViewHolder(View itemView) {
@@ -163,18 +148,18 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
             listenerRef = new WeakReference<ClickListener>(listener);
             title = itemView.findViewById(R.id.question_title);
-            desc = itemView.findViewById(R.id.question_desc);
-            image = itemView.findViewById(R.id.question_image);
-            questionOptionButton = itemView.findViewById(R.id.questionOptionButton);
+            number = itemView.findViewById(R.id.questionNumberTxt);
+            notes = itemView.findViewById(R.id.questionNotesText);
+            questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
 
             itemView.setOnClickListener(this);
-            questionOptionButton.setOnClickListener(this);
+            questionAnswerButton.setOnClickListener(this);
         }
 
         // onClick listener for view
         @Override
         public void onClick(View view) {
-            if (view.getId() == questionOptionButton.getId()) {
+            if (view.getId() == questionAnswerButton.getId()) {
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                question = questionsList.get(getPosition());
 //                PopupMenu popup = new PopupMenu(context, view);
