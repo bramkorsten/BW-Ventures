@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:clickable="true"
     android:focusable="true">
 
@@ -93,16 +94,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/answerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/answerTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -110,20 +113,21 @@
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:hint="Enter your answer"
-                android:inputType="textPersonName"
+                android:inputType="text|textPersonName"
                 android:singleLine="true"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorLineGrey"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                app:layout_constraintEnd_toStartOf="@+id/saveButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="30dp"
+                android:id="@+id/saveButton"
+                android:layout_width="25dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
+                android:alpha="0.8"
                 android:background="?selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -1,5 +1,7 @@
 package com.hizmet.bluewhaleventures.classes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -139,8 +144,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView title, number, notes;
+        private EditText answer;
         private ImageView image;
         private Button questionAnswerButton;
+        private ImageButton answerSaveButton;
+        private View answerView;
         private WeakReference<ClickListener> listenerRef;
 
         public QuestionViewHolder(View itemView) {
@@ -150,16 +158,40 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             title = itemView.findViewById(R.id.question_title);
             number = itemView.findViewById(R.id.questionNumberTxt);
             notes = itemView.findViewById(R.id.questionNotesText);
+            answer = itemView.findViewById(R.id.answerTxt);
+            answerView = itemView.findViewById(R.id.answerLayout);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
+            answerSaveButton = itemView.findViewById(R.id.saveButton);
 
             itemView.setOnClickListener(this);
             questionAnswerButton.setOnClickListener(this);
+            answerSaveButton.setOnClickListener(this);
         }
 
         // onClick listener for view
         @Override
         public void onClick(View view) {
             if (view.getId() == questionAnswerButton.getId()) {
+                // get the center for the clipping circle
+                int cy = answerView.getMeasuredHeight() / 2;
+
+                // get the final radius for the clipping circle
+                int finalRadius = Math.max(answerView.getWidth(), answerView.getHeight());
+
+                // create the animator for this view (the start radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(answerView, 50, cy, 0, finalRadius);
+
+                // make the view visible and start the animation
+                answerView.setVisibility(View.VISIBLE);
+                anim.start();
+                answer.setFocusableInTouchMode(true);
+                answer.requestFocus();
+
+                InputMethodManager lManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                lManager.showSoftInput(answer, 0);
+
+                Log.d("ventures", "Answerbutton is clicked!");
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                question = questionsList.get(getPosition());
 //                PopupMenu popup = new PopupMenu(context, view);
@@ -167,7 +199,37 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 //                inflater.inflate(R.menu.options_person, popup.getMenu());
 //                popup.setOnMenuItemClickListener(QuestionsAdapter.this);
 //                popup.show();
-            } else {
+            }
+
+            else if (view.getId() == answerSaveButton.getId()) {
+                // get the center for the clipping circle
+                int cx = answerView.getMeasuredWidth() - 50;
+                int cy = answerView.getMeasuredHeight() / 2;
+
+                // get the initial radius for the clipping circle
+                int initialRadius = answerView.getWidth();
+
+                // create the animation (the final radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(answerView, cx, cy, initialRadius, 0);
+
+                // make the view invisible when the animation is done
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        answerView.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                // start the animation
+                anim.start();
+                answer.clearFocus();
+                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+
+            else {
 //                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                Question questions = questionsList.get(getPosition());
 //                Map questionData = questions.getData();
@@ -178,8 +240,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 //                setLocalQuestionId(context, question.getName());
 //                questionsFragment.startActivityForResult(intent, 1);
             }
-
-            Log.d("ventures", "onClick in QuestionsAdapter is called");
 
             //
             //            listenerRef.get().onPositionClicked(getAdapterPosition());
