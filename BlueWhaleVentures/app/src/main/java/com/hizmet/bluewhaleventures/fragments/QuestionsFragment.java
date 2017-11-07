@@ -153,7 +153,8 @@ public class QuestionsFragment extends Fragment {
             }
         });
     }
-    public void refreshContent(){
+
+    public void refreshContent() {
         refresherLayout.setRefreshing(true);
         getQuestionData();
     }
@@ -194,10 +195,19 @@ public class QuestionsFragment extends Fragment {
                         ArrayList questions = (ArrayList) document.getData().get("questions");
                         Log.d("ventures", "onComplete: " + questions);
 
-                        for (Object q : questions) {
-                            Question question = new Question(q.toString());
-                            questionsList.add(question);
+                        int i = 0;
+                        try {
+                            while (i < questions.size() && !questions.isEmpty()) {
+                                Object q = questions.get(i);
+                                Question question = new Question(q.toString());
+                                questionsList.add(question);
+                                i++;
+                            }
+                        } catch (Exception e) {
+                            Log.d("ventures", "onComplete: questionsList is empty");
                         }
+
+
                         adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
                     } else {
@@ -213,7 +223,7 @@ public class QuestionsFragment extends Fragment {
         return preferences.getString("ExperimentID", "NULL");
     }
 
-    private String getLocalVentureId(){
+    private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return preferences.getString("VentureId", "NULL");
     }

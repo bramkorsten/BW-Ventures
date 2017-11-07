@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty())
-                {
+                if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
+
                     Toast.makeText(LoginActivity.this, "Please fill in all fields",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -85,13 +85,12 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                 }
-                }
+            }
         });
 
     }
 
-    private void fadeOutSplash()
-    {
+    private void fadeOutSplash() {
         GifImageView image = findViewById(R.id.splashImage);
         image.animate().cancel();
         final ConstraintLayout splashScreen = findViewById(R.id.splashView);
@@ -99,14 +98,16 @@ public class LoginActivity extends AppCompatActivity {
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(1000);
 
-        fadeOut.setAnimationListener(new Animation.AnimationListener()
-        {
-            public void onAnimationEnd(Animation animation)
-            {
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationEnd(Animation animation) {
                 splashScreen.setVisibility(View.GONE);
             }
-            public void onAnimationRepeat(Animation animation) {}
-            public void onAnimationStart(Animation animation) {}
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationStart(Animation animation) {
+            }
         });
 
         splashScreen.startAnimation(fadeOut);
