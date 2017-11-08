@@ -64,57 +64,70 @@
         android:singleLine="false"
         android:text="My favorite way to order things online is to go to google and search for the cheapest website that has the item I want."
         android:textColor="@color/colorTextGrey"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
         app:layout_constraintTop_toBottomOf="@+id/question_title" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/iconView"
+    <TextView
+        android:id="@+id/questionNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:alpha="0.8"
+        android:ellipsize="end"
+        android:fontFamily="@font/montserrat"
+        android:maxLines="2"
+        android:scrollHorizontally="true"
+        android:text="0"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextGrey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/iconNotes"
+        app:layout_constraintTop_toBottomOf="@+id/answerTxt" />
+
+    <TextView
+        android:id="@+id/noteTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat"
+        android:lineSpacingExtra="5sp"
+        android:singleLine="false"
+        android:text="This note applies to a question, and will showup when the user clicks a button."
+        android:textColor="@color/colorTextGrey"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iconNotes"
+        app:layout_constraintTop_toBottomOf="@+id/iconNotes" />
+
+    <ImageButton
+        android:id="@+id/iconNotes"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.8"
+        android:background="?selectableItemBackgroundBorderless"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
-        app:layout_constraintTop_toBottomOf="@+id/answerTxt">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:alpha="0.8"
-            app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
-            app:layout_constraintTop_toBottomOf="@+id/question_title"
-            app:srcCompat="@drawable/ic_chat_bubble_grey_48dp" />
-
-        <TextView
-            android:id="@+id/questionNotesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:alpha="0.8"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat"
-            android:maxLines="2"
-            android:scrollHorizontally="true"
-            android:text="0"
-            android:textAllCaps="false"
-            android:textColor="@color/colorTextGrey"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/answerTxt"
+        app:srcCompat="@drawable/ic_chat_bubble_grey_48dp" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iconView">
+        app:layout_constraintTop_toBottomOf="@+id/noteTxt">
 
         <Button
             android:id="@+id/questionAnswerButton"

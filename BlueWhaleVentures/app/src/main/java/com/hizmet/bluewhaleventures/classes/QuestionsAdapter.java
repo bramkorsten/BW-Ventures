@@ -79,6 +79,15 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             holder.answerTxt.setVisibility(View.VISIBLE);
         }
 
+        if (Objects.equals(question.getNotes(), "")){
+
+        }
+        else {
+            holder.notesTxt.setText(question.getAnswer());
+            holder.noteNumberTxt.setText("1");
+//            holder.notesTxt.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -176,11 +185,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private TextView title, number, notes, answerTxt;
+        private TextView title, number, noteNumberTxt, notesTxt, answerTxt;
         private EditText answer;
-        private ImageView image;
+        private ImageView notes_image;
         private Button questionAnswerButton;
-        private ImageButton answerSaveButton;
+        private ImageButton answerSaveButton, noteToggleButton;
         private View answerView;
         private WeakReference<ClickListener> listenerRef;
         private boolean isValidAnswer = false;
@@ -191,10 +200,12 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             listenerRef = new WeakReference<ClickListener>(listener);
             title = itemView.findViewById(R.id.question_title);
             number = itemView.findViewById(R.id.questionNumberTxt);
-            notes = itemView.findViewById(R.id.questionNotesText);
+            notesTxt = itemView.findViewById(R.id.noteTxt);
+            noteNumberTxt = itemView.findViewById(R.id.questionNotesText);
             answerTxt = itemView.findViewById(R.id.answerTxt);
             answer = itemView.findViewById(R.id.answerTxtinput);
             answerView = itemView.findViewById(R.id.answerLayout);
+            noteToggleButton = itemView.findViewById(R.id.iconNotes);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
 
@@ -292,7 +303,17 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 }
             }
 
+            else if (view.getId() == noteToggleButton.getId()) {
+                Log.d("visible", "onClick: clicked!");
+                if (notesTxt.getVisibility() == View.VISIBLE){
+                    notesTxt.setVisibility(View.GONE);
+                } else {
+                    notesTxt.setVisibility(View.VISIBLE);
+                }
+            }
+
             else {
+                Log.d("visible", "onClick: entire row clicked!");
 //                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                Question questions = questionsList.get(getPosition());
 //                Map questionData = questions.getData();
