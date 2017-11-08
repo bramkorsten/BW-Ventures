@@ -3,11 +3,15 @@ package com.hizmet.bluewhaleventures.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,6 +52,10 @@ public class QuestionsFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ImageButton backButton;
+    private FloatingActionButton floatingActionButton;
+    private String mFileName;
+    private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,6 +72,7 @@ public class QuestionsFragment extends Fragment {
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private Context context;
     private String questionId;
+    Snackbar recordingSnackbar;
 
     public QuestionsFragment() {
         questionsList = new ArrayList<>();
@@ -106,26 +115,29 @@ public class QuestionsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        backButton = getView().findViewById(R.id.toolbarBack);
+        setViews();
+
+        floatingActionButton.bringToFront();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recordingSnackbar = Snackbar.make(view, "Recording...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null);
+                recordingSnackbar.show();
+            }
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
-        setViews();
+
         setRefreshLayout();
         setQuestionsRecyclerView();
         refreshContent();
         this.context = view.getContext();
-
-        backButton = getView().findViewById(R.id.toolbarBack);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
 
 //        ImageButton buttonAddQuestion = getView().findViewById(R.id.toolbarNew);
 //        buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +154,8 @@ public class QuestionsFragment extends Fragment {
         questionsRecyclerView = getView().findViewById(R.id.QuestionsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
+        backButton = getView().findViewById(R.id.toolbarBack);
+        floatingActionButton = getView().findViewById(R.id.fab);
     }
 
     private void setRefreshLayout() {
