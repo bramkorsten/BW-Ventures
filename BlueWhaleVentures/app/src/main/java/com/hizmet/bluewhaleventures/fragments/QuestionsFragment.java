@@ -40,6 +40,7 @@ import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public class QuestionsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     // Recording
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -82,8 +83,8 @@ public class QuestionsFragment extends Fragment {
     private Snackbar recordingSnackbar;
 
     // Requesting permission to RECORD_AUDIO
-    private boolean permissionToRecordAccepted = false;
-    private String[] permissions = {Manifest.permission.RECORD_AUDIO};
+    private boolean permissionsAccepted = false;
+    private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     public QuestionsFragment() {
         questionsList = new ArrayList<>();
@@ -111,14 +112,25 @@ public class QuestionsFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case REQUEST_RECORD_AUDIO_PERMISSION:
-                permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:
+                Map<String, Integer> perms = new HashMap<>();
+                // Initial
+                perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with results
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+                if (perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    // All Permissions Granted
+
+                } else {
+                    // Permission Denied
+                    Toast.makeText(context, "Some permissions are denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
                 break;
         }
-        if (!permissionToRecordAccepted) {
-            // do nothing
-        }
-
     }
 
     @Override
@@ -134,7 +146,7 @@ public class QuestionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        requestPermissions(permissions, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
 
         return inflater.inflate(R.layout.fragment_questions, container, false);
     }
