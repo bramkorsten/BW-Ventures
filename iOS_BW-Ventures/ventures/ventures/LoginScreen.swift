@@ -22,15 +22,15 @@ class LoginScreen: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        Auth.auth().addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
-                self.present(nextViewController, animated: true, completion: nil)
-            }
-        }
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        Auth.auth().addStateDidChangeListener { (auth, user) in
+//            if user != nil {
+//                let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
+//                self.present(nextViewController, animated: true, completion: nil)
+//            }
+//        }
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

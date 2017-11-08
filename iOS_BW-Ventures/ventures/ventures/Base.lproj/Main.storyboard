@@ -151,7 +151,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="experiments" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fg5-gR-dQA">
-                                        <rect key="frame" x="16" y="32" width="115" height="16"/>
+                                        <rect key="frame" x="16" y="32" width="114.5" height="16"/>
                                         <fontDescription key="fontDescription" name="Intro" family="Intro " pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -188,14 +188,14 @@
                                 <rect key="frame" x="0.0" y="100" width="375" height="518"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="82" id="Ci0-de-rMu">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExperimentCellID" rowHeight="82" id="Ci0-de-rMu" customClass="ExperimentCell" customModule="ventures" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ci0-de-rMu" id="fk5-AZ-Qwa">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="F2Q-QW-JZU">
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="F2Q-QW-JZU">
                                                     <rect key="frame" x="16" y="16" width="343" height="50"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BW-Ventures-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="s1s-eF-Bpw" userLabel="Image">
@@ -206,22 +206,22 @@
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-vI-IdH" userLabel="Labels">
-                                                            <rect key="frame" x="58" y="0.0" width="257" height="50"/>
+                                                            <rect key="frame" x="66" y="0.0" width="241" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" text="Business Orientation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-Dv-G3D">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="257" height="22"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="241" height="22"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="Starting experiment to set general direction." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcd-oc-NMe">
-                                                                    <rect key="frame" x="0.0" y="22" width="257" height="15"/>
+                                                                    <rect key="frame" x="0.0" y="22" width="241" height="15"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="positive results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-SS-tny">
-                                                                    <rect key="frame" x="0.0" y="40" width="257" height="10"/>
+                                                                    <rect key="frame" x="0.0" y="40" width="241" height="10"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="8"/>
                                                                     <color key="textColor" red="0.47843137254901957" green="0.89803921568627454" blue="0.47843137254901957" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -254,7 +254,13 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="F2Q-QW-JZU" secondAttribute="trailing" constant="8" id="yyj-8i-lFl"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration" identifier="ExperimentsCell"/>
+                                        <connections>
+                                            <outlet property="experimentDescription" destination="jcd-oc-NMe" id="Brl-zA-ovZ"/>
+                                            <outlet property="experimentNumber" destination="s1s-eF-Bpw" id="keU-cr-AfM"/>
+                                            <outlet property="experimentOptions" destination="tAu-45-ZD5" id="dge-b4-leU"/>
+                                            <outlet property="experimentResults" destination="gFq-SS-tny" id="Vvs-vA-CCO"/>
+                                            <outlet property="experimentTitle" destination="RyH-Dv-G3D" id="4qk-a9-CIE"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>

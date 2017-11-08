@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0FCE3A28CBA8C684F741F393 /* Pods_ventures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156F4A485B81274A5887363C /* Pods_ventures.framework */; };
+		F54BC2C11FB2FDBA00052B2E /* Experiment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54BC2C01FB2FDBA00052B2E /* Experiment.swift */; };
 		F54F3DEA1FA9EA6900DB7729 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54F3DE91FA9EA6900DB7729 /* TabBarController.swift */; };
 		F55E46FA1FA8B48200330B86 /* ExperimentsClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55E46F91FA8B48200330B86 /* ExperimentsClass.swift */; };
 		F594F2F61FA73BFD009928E5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */; };
@@ -26,6 +27,7 @@
 		1355C36326C6F3DB6EE0ED78 /* Pods-ventures.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ventures.release.xcconfig"; path = "Pods/Target Support Files/Pods-ventures/Pods-ventures.release.xcconfig"; sourceTree = "<group>"; };
 		156F4A485B81274A5887363C /* Pods_ventures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ventures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC433B241B3C4F72B119FC4 /* Pods-ventures.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ventures.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ventures/Pods-ventures.debug.xcconfig"; sourceTree = "<group>"; };
+		F54BC2C01FB2FDBA00052B2E /* Experiment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Experiment.swift; sourceTree = "<group>"; };
 		F54F3DE91FA9EA6900DB7729 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F55E46F91FA8B48200330B86 /* ExperimentsClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentsClass.swift; sourceTree = "<group>"; };
 		F594F2F51FA73BFD009928E5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F54BC2BF1FB2FDAA00052B2E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F54BC2C01FB2FDBA00052B2E /* Experiment.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		F594F2F71FA74242009928E5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +121,7 @@
 		F5EDC1371FA739A200A1DBAF /* ventures */ = {
 			isa = PBXGroup;
 			children = (
+				F54BC2BF1FB2FDAA00052B2E /* Model */,
 				F594F2F71FA74242009928E5 /* Resources */,
 				F5EDC1381FA739A200A1DBAF /* AppDelegate.swift */,
 				F5EDC13A1FA739A200A1DBAF /* LoginScreen.swift */,
@@ -277,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F54BC2C11FB2FDBA00052B2E /* Experiment.swift in Sources */,
 				F5EDC13B1FA739A200A1DBAF /* LoginScreen.swift in Sources */,
 				F54F3DEA1FA9EA6900DB7729 /* TabBarController.swift in Sources */,
 				F55E46FA1FA8B48200330B86 /* ExperimentsClass.swift in Sources */,
