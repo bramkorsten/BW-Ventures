@@ -1,12 +1,15 @@
 package com.hizmet.bluewhaleventures.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,21 +25,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Question;
 import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,29 +56,34 @@ public class QuestionsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private ImageButton backButton;
-    private FloatingActionButton floatingActionButton;
-    private String mFileName;
-    private MediaRecorder mRecorder;
-    private MediaPlayer mPlayer;
-
+    // Recording
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private ImageButton backButton;
     private OnFragmentInteractionListener mListener;
-
     private List<Question> questionsList;
-
     private RecyclerView questionsRecyclerView;
     private QuestionsAdapter adapter;
     private RecyclerView.LayoutManager questionsLayoutManager;
     private SwipeRefreshLayout refresherLayout;
-    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private Context context;
     private String questionId;
-    Snackbar recordingSnackbar;
+
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+
+    private FloatingActionButton recordFAB;
+    private String mFileName = null;
+    private MediaRecorder mRecorder;
+    private MediaPlayer mPlayer;
+    private boolean isRecording;
+    private Snackbar recordingSnackbar;
+
+    // Requesting permission to RECORD_AUDIO
+    private boolean permissionToRecordAccepted = false;
+    private String[] permissions = {Manifest.permission.RECORD_AUDIO};
 
     public QuestionsFragment() {
         questionsList = new ArrayList<>();
@@ -98,6 +108,20 @@ public class QuestionsFragment extends Fragment {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+        if (!permissionToRecordAccepted) {
+            // do nothing
+        }
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -110,21 +134,44 @@ public class QuestionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        requestPermissions(permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+
         return inflater.inflate(R.layout.fragment_questions, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setViews();
 
-        floatingActionButton.bringToFront();
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += "/recorded_audio.3gp";
+
+        recordFAB.bringToFront();
+        recordFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recordingSnackbar = Snackbar.make(view, "Recording...", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null);
-                recordingSnackbar.show();
+                if (!isRecording) {
+//                    try {
+                    startRecording();
+                    Snackbar.make(view, "Recording...", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                    recordFAB.setImageResource(R.drawable.ic_stop_24dp);
+//                    } catch (Exception ex) {
+//                        Log.d("ventures", "onClick FAB: Could not start recording " + ex);
+//                    }
+                } else {
+//                    try {
+                    stopRecording();
+                    Toast.makeText(context, "Saved recording.", Toast.LENGTH_LONG).show();
+                    recordFAB.setImageResource(R.drawable.ic_mic_24dp);
+//                    } catch (Exception ex) {
+//                        Log.d("ventures", "onClick FAB: Could not stop recording " + ex);
+//                    }
+
+                }
+
+
             }
         });
 
@@ -151,12 +198,42 @@ public class QuestionsFragment extends Fragment {
 //        });
     }
 
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e("ventures", "prepare() failed");
+        }
+
+        mRecorder.start();
+        isRecording = true;
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+        isRecording = false;
+
+        uploadAudio();
+    }
+
+    private void uploadAudio() {
+
+    }
+
     private void setViews() {
         questionsRecyclerView = getView().findViewById(R.id.QuestionsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
         backButton = getView().findViewById(R.id.toolbarBack);
-        floatingActionButton = getView().findViewById(R.id.fab);
+        recordFAB = getView().findViewById(R.id.fab);
     }
 
     private void setRefreshLayout() {
@@ -204,32 +281,32 @@ public class QuestionsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Map<String, Map> questionsData = (Map) document.getData().get("questionData");
-                            Log.d("ventures", questionsData.toString());
-                            int numberOfQuestions = questionsData.size();
-                            try {
-                                int i = 0;
-                                while (i < numberOfQuestions) {
-                                    Map<String, String> questionData = questionsData.get(String.valueOf(i+1));
-                                    String questionTitle = questionData.get("question");
-                                    String questionAnswer = questionData.get("answer");
-                                    String questionNotes = questionData.get("notes");
-                                    Question question = new Question(i+1, questionTitle);
-                                    question.setAnswer(questionAnswer);
-                                    question.setNotes(questionNotes);
-                                    questionsList.add(question);
-                                    i++;
-                                }
-                            } catch (Exception e) {
-                                Log.d("ventures", "error: " + e);
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Map<String, Map> questionsData = (Map) document.getData().get("questionData");
+                        Log.d("ventures", questionsData.toString());
+                        int numberOfQuestions = questionsData.size();
+                        try {
+                            int i = 0;
+                            while (i < numberOfQuestions) {
+                                Map<String, String> questionData = questionsData.get(String.valueOf(i + 1));
+                                String questionTitle = questionData.get("question");
+                                String questionAnswer = questionData.get("answer");
+                                String questionNotes = questionData.get("notes");
+                                Question question = new Question(i + 1, questionTitle);
+                                question.setAnswer(questionAnswer);
+                                question.setNotes(questionNotes);
+                                questionsList.add(question);
+                                i++;
                             }
+                        } catch (Exception e) {
+                            Log.d("ventures", "error: " + e);
+                        }
 
-                            Log.d("ventures", String.valueOf(questionsData.size()));
+                        Log.d("ventures", String.valueOf(questionsData.size()));
 
-                            adapter.notifyDataSetChanged();
-                            refresherLayout.setRefreshing(false);
+                        adapter.notifyDataSetChanged();
+                        refresherLayout.setRefreshing(false);
 
                     } else {
                         Log.d("ventures", "No such document");
@@ -270,6 +347,17 @@ public class QuestionsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == 1) {
+                refreshContent();
+            }
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -283,16 +371,5 @@ public class QuestionsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == 1) {
-            // Make sure the request was successful
-            if (resultCode == 1) {
-                refreshContent();
-            }
-        }
     }
 }
