@@ -144,6 +144,9 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Log.d("ventures", "onComplete: completed!");
+                                            question.setAnswer(answer);
+                                            questionsList.add(index, question);
+                                            QuestionsAdapter.this.notifyItemChanged(index);
                                         }
                                     });
                         }
@@ -285,7 +288,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
                 if (isValidAnswer) {
-                    addAnswer(getAdapterPosition() + 1, answer.getText().toString(), questionsList.get(getAdapterPosition()));
+                    addAnswer(getAdapterPosition(), answer.getText().toString(), questionsList.get(getAdapterPosition()));
                 }
             }
 
