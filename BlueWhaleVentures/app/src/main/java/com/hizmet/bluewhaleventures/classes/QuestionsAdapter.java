@@ -39,6 +39,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
@@ -69,7 +70,15 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
         holder.title.setText(question.getQuestion());
-        holder.number.setText("Question " + question.getIndex());
+        holder.number.setText(question.getIndex() + ".");
+        if (Objects.equals(question.getAnswer(), "")){
+
+        }
+        else {
+            holder.answerTxt.setText(question.getAnswer());
+            holder.answerTxt.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -164,7 +173,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private TextView title, number, notes;
+        private TextView title, number, notes, answerTxt;
         private EditText answer;
         private ImageView image;
         private Button questionAnswerButton;
@@ -180,7 +189,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             title = itemView.findViewById(R.id.question_title);
             number = itemView.findViewById(R.id.questionNumberTxt);
             notes = itemView.findViewById(R.id.questionNotesText);
-            answer = itemView.findViewById(R.id.answerTxt);
+            answerTxt = itemView.findViewById(R.id.answerTxt);
+            answer = itemView.findViewById(R.id.answerTxtinput);
             answerView = itemView.findViewById(R.id.answerLayout);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
@@ -227,7 +237,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
                 // create the animator for this view (the start radius is zero)
                 Animator anim =
-                        ViewAnimationUtils.createCircularReveal(answerView, 50, cy, 0, finalRadius);
+                        ViewAnimationUtils.createCircularReveal(answerView, 300, cy, 0, finalRadius);
 
                 // make the view visible and start the animation
                 answerView.setVisibility(View.VISIBLE);

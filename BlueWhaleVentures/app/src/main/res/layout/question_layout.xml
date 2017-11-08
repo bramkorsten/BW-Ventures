@@ -23,21 +23,22 @@
         android:id="@+id/question_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
+        android:lineSpacingExtra="5sp"
         android:scrollHorizontally="true"
         android:text="What is your goto way of ordering online?"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
         app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
     <TextView
         android:id="@+id/questionNumberTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -45,49 +46,83 @@
         android:fontFamily="@font/montserrat"
         android:maxLines="2"
         android:scrollHorizontally="true"
-        android:text="Question 1"
+        android:text="1."
         android:textColor="@color/colorTextGrey"
-        android:textSize="12sp"
-        android:textStyle="italic"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_title" />
+        app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
     <TextView
-        android:id="@+id/questionNotesText"
+        android:id="@+id/answerTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:ellipsize="end"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
-        android:maxLines="2"
-        android:scrollHorizontally="true"
-        android:text="0 Notes"
-        android:textAllCaps="false"
+        android:lineSpacingExtra="5sp"
+        android:singleLine="false"
+        android:text="My favorite way to order things online is to go to google and search for the cheapest website that has the item I want."
         android:textColor="@color/colorTextGrey"
-        android:textSize="12sp"
-        android:textStyle="italic"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
         app:layout_constraintTop_toBottomOf="@+id/question_title" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/iconView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
+        app:layout_constraintTop_toBottomOf="@+id/answerTxt">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:alpha="0.8"
+            app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
+            app:layout_constraintTop_toBottomOf="@+id/question_title"
+            app:srcCompat="@drawable/ic_chat_bubble_grey_48dp" />
+
+        <TextView
+            android:id="@+id/questionNotesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:alpha="0.8"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat"
+            android:maxLines="2"
+            android:scrollHorizontally="true"
+            android:text="0"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextGrey"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/questionNumberTxt">
+        app:layout_constraintTop_toBottomOf="@+id/iconView">
 
         <Button
             android:id="@+id/questionAnswerButton"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Answer"
+            android:layout_marginStart="42dp"
+            android:text="Write an answer"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,11 +140,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/answerTxt"
+                android:id="@+id/answerTxtinput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="54dp"
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:hint="Enter your answer"
@@ -150,4 +185,5 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
     </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>
