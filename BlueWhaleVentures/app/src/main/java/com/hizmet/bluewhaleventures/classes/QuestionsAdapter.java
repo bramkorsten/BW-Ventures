@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -28,19 +27,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.fragments.QuestionsFragment;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +68,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     @Override
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
-        holder.title.setText(question.getName());
+        holder.title.setText(question.getQuestion());
         holder.number.setText("Question " + question.getIndex());
     }
 
@@ -111,46 +106,46 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         return false;
     }
 
-    private void addAnswer() {
+    private void addAnswer(final int index, final String answer, final Question question) {
 
-        String ventureId = getLocalVentureId();
-        String experimentId = getLocalExperimentId();
-        String testerId = getLocalTesterId();
+        final String ventureId = getLocalVentureId();
+        final String experimentId = getLocalExperimentId();
+        final String testerId = getLocalTesterId();
+        final int questionNumber = question.getIndex();
 
-//        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Map<String, String> answerData = (ArrayList) document.getData().get("Answers");
-//                        Map<String, String> answerData = new HashMap<>();
-//                        answerData.put("Notes", "This is a note");
-//                        answerData.put("Answer", "This is a test answer");
-//                        answers.set(8, answerData);
-//                        Log.d("ventures", answers.toString());
-//                    } else {
-//                        Log.d("ventures", "No such document");
-//                    }
-//                }
-//            }
-//        });
+        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.getData().get("questionData") != null){
+                            Map<String, Map> data = (Map) document.getData().get("questionData");
+                            Map<String, String> singleQuestionData = data.get(String.valueOf(questionNumber));
+                            singleQuestionData.put("answer", answer);
+                            data.put(String.valueOf(questionNumber), singleQuestionData);
 
-//        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId)
-//                .add(personData)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d("ventures", "Person was saved with ID: " + documentReference.getId());
-//                        addPersonToExperiment(documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("ventures", "Error adding document", e);
-//                    }
-//                });
+                            Map<String, Map> databaseData = new HashMap<>();
+
+                            databaseData.put("questionData", data);
+
+                            firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId)
+                                    .set(databaseData, SetOptions.merge())
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("ventures", "onComplete: completed!");
+                                        }
+                                    });
+                        }
+
+                    } else {
+                        Log.d("ventures", "No such document");
+                    }
+                }
+            }
+        });
+
     }
 
     private String getLocalVentureId() {
@@ -280,7 +275,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
                 if (isValidAnswer) {
-                    addAnswer();
+                    addAnswer(getAdapterPosition() + 1, answer.getText().toString(), questionsList.get(getAdapterPosition()));
                 }
             }
 
@@ -291,8 +286,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 //                // Go to People Activity which controls single persons etc.
 //                Intent intent = new Intent(questionsFragment.getActivity(), QuestionActivity.class);
 //                intent.putExtra("map", (Serializable) questionData);
-//                intent.putExtra("id", questions.getName());
-//                setLocalQuestionId(context, question.getName());
+//                intent.putExtra("id", questions.getQuestion());
+//                setLocalQuestionId(context, question.getQuestion());
 //                questionsFragment.startActivityForResult(intent, 1);
             }
 

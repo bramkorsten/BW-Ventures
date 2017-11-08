@@ -31,6 +31,7 @@ import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -180,36 +181,42 @@ public class QuestionsFragment extends Fragment {
 
     private void getQuestionData() {
         String ventureId = getLocalVentureId();
-        // TODO: 6-11-2017 check
         String experimentId = getLocalExperimentId();
+        String testerId = getLocalTesterId();
 //        String questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
         questionsList.clear();
-        DocumentReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId);
+        DocumentReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId);
         questionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("ventures QUESTION", document.getId() + " => " + document.getData());
-                        ArrayList questions = (ArrayList) document.getData().get("questions");
-                        Log.d("ventures", "onComplete: " + questions);
-
-                        int i = 0;
-                        try {
-                            while (i < questions.size() && !questions.isEmpty()) {
-                                Object q = questions.get(i);
-                                Question question = new Question(i+1, q.toString());
-                                questionsList.add(question);
-                                i++;
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Map> questionsData = (Map) document.getData().get("questionData");
+                            Log.d("ventures", questionsData.toString());
+                            int numberOfQuestions = questionsData.size();
+                            try {
+                                int i = 0;
+                                while (i < numberOfQuestions) {
+                                    Map<String, String> questionData = questionsData.get(String.valueOf(i+1));
+                                    String questionTitle = questionData.get("question");
+                                    String questionAnswer = questionData.get("answer");
+                                    String questionNotes = questionData.get("notes");
+                                    Question question = new Question(i+1, questionTitle);
+                                    question.setAnswer(questionAnswer);
+                                    question.setNotes(questionNotes);
+                                    questionsList.add(question);
+                                    i++;
+                                }
+                            } catch (Exception e) {
+                                Log.d("ventures", "error: " + e);
                             }
-                        } catch (Exception e) {
-                            Log.d("ventures", "onComplete: questionsList is empty");
-                        }
 
+                            Log.d("ventures", String.valueOf(questionsData.size()));
 
-                        adapter.notifyDataSetChanged();
-                        refresherLayout.setRefreshing(false);
+                            adapter.notifyDataSetChanged();
+                            refresherLayout.setRefreshing(false);
+
                     } else {
                         Log.d("ventures", "No such document");
                     }
@@ -226,6 +233,11 @@ public class QuestionsFragment extends Fragment {
     private String getLocalVentureId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return preferences.getString("VentureId", "NULL");
+    }
+
+    private String getLocalTesterId() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return preferences.getString("TesterId", "NULL");
     }
 
     @Override
