@@ -28,17 +28,22 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Question;
 import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
+import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,23 +72,20 @@ public class QuestionsFragment extends Fragment {
     private List<Question> questionsList;
     private RecyclerView questionsRecyclerView;
     private QuestionsAdapter adapter;
-    private RecyclerView.LayoutManager questionsLayoutManager;
     private SwipeRefreshLayout refresherLayout;
     private Context context;
     private String questionId;
 
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private StorageReference storageReference;
 
     private FloatingActionButton recordFAB;
     private String mFileName = null;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private boolean isRecording;
-    private Snackbar recordingSnackbar;
 
-    // Requesting permission to RECORD_AUDIO
-    private boolean permissionsAccepted = false;
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     public QuestionsFragment() {
@@ -175,15 +177,13 @@ public class QuestionsFragment extends Fragment {
                 } else {
 //                    try {
                     stopRecording();
+                    uploadAudio();
                     Toast.makeText(context, "Saved recording.", Toast.LENGTH_LONG).show();
                     recordFAB.setImageResource(R.drawable.ic_mic_24dp);
 //                    } catch (Exception ex) {
 //                        Log.d("ventures", "onClick FAB: Could not stop recording " + ex);
 //                    }
-
                 }
-
-
             }
         });
 
@@ -232,12 +232,22 @@ public class QuestionsFragment extends Fragment {
         mRecorder.release();
         mRecorder = null;
         isRecording = false;
-
-        uploadAudio();
     }
 
     private void uploadAudio() {
+        storageReference = firebaseStorage.getReference()
+                .child("Recordings")
+                .child(getLocalTesterId())
+                .child(new Timestamp(System.currentTimeMillis()) + ".3gp");
 
+        Uri uri = Uri.fromFile(new File(mFileName));
+
+        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // reference naar dit bestand in de database zetten
+            }
+        });
     }
 
     private void setViews() {
@@ -276,7 +286,7 @@ public class QuestionsFragment extends Fragment {
             }
         }, getContext(), questionsList);
 
-        questionsLayoutManager = new LinearLayoutManager(this.getContext());
+        RecyclerView.LayoutManager questionsLayoutManager = new LinearLayoutManager(this.getContext());
         questionsRecyclerView.setLayoutManager(questionsLayoutManager);
         questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         questionsRecyclerView.setAdapter(adapter);
