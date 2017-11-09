@@ -55,6 +55,19 @@
             app:layout_constraintStart_toEndOf="@+id/toolbarBack"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/toolbarPlayRecording"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_play_circle_filled_30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -80,12 +81,15 @@ public class QuestionsFragment extends Fragment {
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private StorageReference storageReference;
 
+    private ImageButton playRecording;
     private FloatingActionButton recordFAB;
     private String mLocalFileName = null;
     private String mRemoteStorageFileName = null;
+    String recordingFileName;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private boolean isRecording;
+    private boolean isPlaying;
 
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -163,6 +167,12 @@ public class QuestionsFragment extends Fragment {
         mLocalFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mLocalFileName += "/recorded_audio.aac";
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         recordFAB.bringToFront();
         recordFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,10 +198,24 @@ public class QuestionsFragment extends Fragment {
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+        playRecording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                if (!isPlaying) {
+//                    try {
+                    startPlaying();
+
+//                    } catch (Exception ex) {
+//                        Log.d("ventures", "onClick playRecording: Could not start playing " + ex);
+//                    }
+                } else {
+//                    try {
+                    stopPlaying();
+                    playRecording.setImageResource(R.drawable.ic_play_circle_filled_30dp);
+//                    } catch (Exception ex) {
+//                        Log.d("ventures", "onClick FAB: Could not stop recording " + ex);
+//                    }
+                }
             }
         });
 
@@ -199,7 +223,6 @@ public class QuestionsFragment extends Fragment {
         setQuestionsRecyclerView();
         refreshContent();
         this.context = view.getContext();
-
 //        ImageButton buttonAddQuestion = getView().findViewById(R.id.toolbarNew);
 //        buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
@@ -209,6 +232,44 @@ public class QuestionsFragment extends Fragment {
 //                startActivityForResult(intent, 1);
 //            }
 //        });
+    }
+
+    private void startPlaying() {
+        // get firebase field with recording filename
+        DocumentReference testerRef = firestoreDb.collection("Startups").document(getLocalVentureId()).collection("Experiments").document(getLocalExperimentId()).collection("people").document(getLocalTesterId());
+        testerRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                recordingFileName = String.valueOf(documentSnapshot.get("recording"));
+                // get file from storage
+                try {
+                    storageReference = firebaseStorage.getReference().child("Recordings").child(getLocalTesterId()).child(recordingFileName);
+                    try {
+                        File file = File.createTempFile(getLocalTesterId(), ".aac");
+                        Uri uri = Uri.fromFile(file);
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        mediaPlayer.setDataSource(getContext(), uri);
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                        isPlaying = true;
+                        playRecording.setImageResource(R.drawable.ic_stop_30dp);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (IllegalArgumentException ex) {
+                    Toast.makeText(context, "No recording found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+    }
+
+    private void stopPlaying() {
+
+
+        isPlaying = false;
     }
 
     private void startRecording() {
@@ -239,10 +300,7 @@ public class QuestionsFragment extends Fragment {
         Uri uri = Uri.fromFile(new File(mLocalFileName));
         mRemoteStorageFileName = new Timestamp(System.currentTimeMillis()) + ".aac";
 
-        storageReference = firebaseStorage.getReference()
-                .child("Recordings")
-                .child(getLocalTesterId())
-                .child(mRemoteStorageFileName);
+        storageReference = firebaseStorage.getReference().child("Recordings").child(getLocalTesterId()).child(mRemoteStorageFileName);
 
         // When recording file is successfully uploaded to the storage of the Firebase database
         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -266,6 +324,7 @@ public class QuestionsFragment extends Fragment {
         refresherLayout.setColorSchemeResources(R.color.colorPrimary);
         backButton = getView().findViewById(R.id.toolbarBack);
         recordFAB = getView().findViewById(R.id.fab);
+        playRecording = getView().findViewById(R.id.toolbarPlayRecording);
     }
 
     private void setRefreshLayout() {
