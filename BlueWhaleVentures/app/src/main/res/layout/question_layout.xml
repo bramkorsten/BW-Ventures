@@ -73,7 +73,6 @@
         android:id="@+id/questionNotesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:alpha="0.8"
         android:ellipsize="end"
@@ -84,15 +83,15 @@
         android:textAllCaps="false"
         android:textColor="@color/colorTextGrey"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/iconNotes"
-        app:layout_constraintTop_toBottomOf="@+id/answerTxt" />
+        app:layout_constraintStart_toStartOf="@+id/questionNumberTxt"
+        app:layout_constraintTop_toBottomOf="@+id/questionNumberTxt" />
 
     <TextView
         android:id="@+id/noteTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:lineSpacingExtra="5sp"
@@ -101,23 +100,10 @@
         android:textColor="@color/colorTextGrey"
         android:textSize="12sp"
         android:textStyle="italic"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iconNotes"
-        app:layout_constraintTop_toBottomOf="@+id/iconNotes" />
-
-    <ImageButton
-        android:id="@+id/iconNotes"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:alpha="0.8"
-        android:background="?selectableItemBackgroundBorderless"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
-        app:layout_constraintTop_toBottomOf="@+id/answerTxt"
-        app:srcCompat="@drawable/ic_chat_bubble_grey_48dp" />
+        app:layout_constraintStart_toStartOf="@+id/answerTxt"
+        app:layout_constraintTop_toBottomOf="@+id/answerTxt" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"

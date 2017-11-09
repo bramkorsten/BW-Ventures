@@ -83,7 +83,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
         }
         else {
-            holder.notesTxt.setText(question.getAnswer());
+            holder.notesTxt.setText(question.getNotes());
             holder.noteNumberTxt.setText("1");
 //            holder.notesTxt.setVisibility(View.VISIBLE);
         }
@@ -189,7 +189,8 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         private EditText answer;
         private ImageView notes_image;
         private Button questionAnswerButton;
-        private ImageButton answerSaveButton, noteToggleButton;
+        private ImageButton answerSaveButton;
+        private ImageButton noteToggleButton;
         private View answerView;
         private WeakReference<ClickListener> listenerRef;
         private boolean isValidAnswer = false;
@@ -205,7 +206,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             answerTxt = itemView.findViewById(R.id.answerTxt);
             answer = itemView.findViewById(R.id.answerTxtinput);
             answerView = itemView.findViewById(R.id.answerLayout);
-            noteToggleButton = itemView.findViewById(R.id.iconNotes);
+            //noteToggleButton = itemView.findViewById(R.id.noteToggleButton);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
 
@@ -303,14 +304,14 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 }
             }
 
-            else if (view.getId() == noteToggleButton.getId()) {
-                Log.d("visible", "onClick: clicked!");
-                if (notesTxt.getVisibility() == View.VISIBLE){
-                    notesTxt.setVisibility(View.GONE);
-                } else {
-                    notesTxt.setVisibility(View.VISIBLE);
-                }
-            }
+//            else if (view.getId() == noteToggleButton.getId()) {
+//                Log.d("visible", "onClick: notes clicked!");
+//                if (notesTxt.getVisibility() == View.VISIBLE){
+//                    notesTxt.setVisibility(View.GONE);
+//                } else {
+//                    notesTxt.setVisibility(View.VISIBLE);
+//                }
+//            }
 
             else {
                 Log.d("visible", "onClick: entire row clicked!");
