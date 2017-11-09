@@ -84,8 +84,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         }
         else {
             holder.notesTxt.setText(question.getNotes());
-            holder.noteNumberTxt.setText("1");
-//            holder.notesTxt.setVisibility(View.VISIBLE);
+            holder.notesLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -185,13 +184,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private TextView title, number, noteNumberTxt, notesTxt, answerTxt;
+        private TextView title, number, notesTxt, answerTxt;
         private EditText answer;
-        private ImageView notes_image;
         private Button questionAnswerButton;
         private ImageButton answerSaveButton;
-        private ImageButton noteToggleButton;
-        private View answerView;
+        private View answerView, notesLayout;
         private WeakReference<ClickListener> listenerRef;
         private boolean isValidAnswer = false;
 
@@ -202,11 +199,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             title = itemView.findViewById(R.id.question_title);
             number = itemView.findViewById(R.id.questionNumberTxt);
             notesTxt = itemView.findViewById(R.id.noteTxt);
-            noteNumberTxt = itemView.findViewById(R.id.questionNotesText);
             answerTxt = itemView.findViewById(R.id.answerTxt);
             answer = itemView.findViewById(R.id.answerTxtinput);
             answerView = itemView.findViewById(R.id.answerLayout);
-            //noteToggleButton = itemView.findViewById(R.id.noteToggleButton);
+            notesLayout = itemView.findViewById(R.id.notesLayout);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
 
@@ -304,17 +300,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 }
             }
 
-//            else if (view.getId() == noteToggleButton.getId()) {
-//                Log.d("visible", "onClick: notes clicked!");
-//                if (notesTxt.getVisibility() == View.VISIBLE){
-//                    notesTxt.setVisibility(View.GONE);
-//                } else {
-//                    notesTxt.setVisibility(View.VISIBLE);
-//                }
-//            }
-
             else {
-                Log.d("visible", "onClick: entire row clicked!");
 //                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                Question questions = questionsList.get(getPosition());
 //                Map questionData = questions.getData();
