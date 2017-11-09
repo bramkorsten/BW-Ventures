@@ -81,7 +81,8 @@ public class QuestionsFragment extends Fragment {
     private StorageReference storageReference;
 
     private FloatingActionButton recordFAB;
-    private String mFileName = null;
+    private String mLocalFileName = null;
+    private String mRemoteStorageFileName = null;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private boolean isRecording;
@@ -159,8 +160,8 @@ public class QuestionsFragment extends Fragment {
 
         setViews();
 
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/recorded_audio.3gp";
+        mLocalFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mLocalFileName += "/recorded_audio.aac";
 
         recordFAB.bringToFront();
         recordFAB.setOnClickListener(new View.OnClickListener() {
@@ -213,9 +214,9 @@ public class QuestionsFragment extends Fragment {
     private void startRecording() {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        mRecorder.setOutputFile(mLocalFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
         try {
             mRecorder.prepare();
@@ -235,17 +236,26 @@ public class QuestionsFragment extends Fragment {
     }
 
     private void uploadAudio() {
+        Uri uri = Uri.fromFile(new File(mLocalFileName));
+        mRemoteStorageFileName = new Timestamp(System.currentTimeMillis()) + ".aac";
+
         storageReference = firebaseStorage.getReference()
                 .child("Recordings")
                 .child(getLocalTesterId())
-                .child(new Timestamp(System.currentTimeMillis()) + ".3gp");
+                .child(mRemoteStorageFileName);
 
-        Uri uri = Uri.fromFile(new File(mFileName));
-
+        // When recording file is successfully uploaded to the storage of the Firebase database
         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // reference naar dit bestand in de database zetten
+                // Create a reference to this file at Experiments > people > 'recording'
+                DocumentReference testerRef = firestoreDb.collection("Startups").document(getLocalVentureId()).collection("Experiments").document(getLocalExperimentId()).collection("people").document(getLocalTesterId());
+                testerRef.update("recording", mRemoteStorageFileName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Updating of recording field in people is done
+                    }
+                });
             }
         });
     }
