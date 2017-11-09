@@ -9,6 +9,8 @@ public class Question {
     public Question(int index, String name) {
         this.questionNumber = index;
         this.question = name;
+        this.answer = "";
+        this.notes = "";
     }
 
     public void setQuestion(String question) {

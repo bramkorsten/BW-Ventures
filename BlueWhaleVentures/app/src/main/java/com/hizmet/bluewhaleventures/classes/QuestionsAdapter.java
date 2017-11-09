@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder> implements PopupMenu.OnMenuItemClickListener {
+public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder> {
 
     private QuestionsFragment questionsFragment;
     private ClickListener listener;
@@ -67,7 +68,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     }
 
     @Override
-    public void onBindViewHolder(QuestionViewHolder holder, int position) {
+    public void onBindViewHolder(final QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
         holder.title.setText(question.getQuestion());
         holder.number.setText(question.getIndex() + ".");
@@ -75,8 +76,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
         }
         else {
+            holder.questionAnswerButton.setText("Change Answer");
             holder.answerTxt.setText(question.getAnswer());
-            holder.answerTxt.setVisibility(View.VISIBLE);
+            holder.answerEditText.setText(question.getAnswer());
+            holder.editSwitch.setVisibility(View.VISIBLE);
         }
 
         if (Objects.equals(question.getNotes(), "")){
@@ -86,41 +89,34 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             holder.notesTxt.setText(question.getNotes());
             holder.notesLayout.setVisibility(View.VISIBLE);
         }
+        holder.editSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            addAnswer(holder.getAdapterPosition(), holder.answerEditText.getText().toString(), questionsList.get(holder.getAdapterPosition()));
+            holder.editSaveLayout.setVisibility(View.GONE);
+            holder.editSwitch.showNext();
+            holder.answerEditText.clearFocus();
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
 
+        holder.editDiscardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.editSaveLayout.setVisibility(View.GONE);
+                holder.answerEditText.setText(holder.answerTxt.getText());
+                holder.editSwitch.showNext();
+                holder.answerEditText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return questionsList.size();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.edit:
-                Log.d("ventures", "onMenuItemClick: EDIT");
-                return true;
-
-            case R.id.delete:
-                AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(context);
-
-                builder.setTitle("Delete Question")
-                    .setMessage("Are you sure you want to delete this question? This cannot be undone!")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    });
-                builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                return true;
-        }
-        return false;
     }
 
     private void addAnswer(final int index, final String answer, final Question question) {
@@ -185,10 +181,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
     public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView title, number, notesTxt, answerTxt;
-        private EditText answer;
-        private Button questionAnswerButton;
+        private EditText answer, answerEditText;
+        private Button questionAnswerButton, editDiscardButton, editSaveButton;
         private ImageButton answerSaveButton;
-        private View answerView, notesLayout;
+        private ViewSwitcher editSwitch;
+        private View answerView, notesLayout, editSaveLayout;
         private WeakReference<ClickListener> listenerRef;
         private boolean isValidAnswer = false;
 
@@ -201,9 +198,14 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             notesTxt = itemView.findViewById(R.id.noteTxt);
             answerTxt = itemView.findViewById(R.id.answerTxt);
             answer = itemView.findViewById(R.id.answerTxtinput);
+            answerEditText = itemView.findViewById(R.id.answerEditTxt);
             answerView = itemView.findViewById(R.id.answerLayout);
+            editSaveLayout = itemView.findViewById(R.id.editSaveLayout);
+            editSwitch = itemView.findViewById(R.id.editSwitch);
             notesLayout = itemView.findViewById(R.id.notesLayout);
             questionAnswerButton = itemView.findViewById(R.id.questionAnswerButton);
+            editDiscardButton = itemView.findViewById(R.id.editDiscardButton);
+            editSaveButton = itemView.findViewById(R.id.editSaveButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
 
             itemView.setOnClickListener(this);
@@ -240,24 +242,41 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         @Override
         public void onClick(View view) {
             if (view.getId() == questionAnswerButton.getId()) {
-                // get the center for the clipping circle
-                int cy = answerView.getMeasuredHeight() / 2;
+                if (editSwitch.getVisibility() == View.VISIBLE) {
+                    answerEditText.setSelection(answerEditText.length());
+                    editSwitch.showNext();
+                    if (answerEditText.getVisibility() == View.VISIBLE) {
+                        editSaveLayout.setVisibility(View.VISIBLE);
+                        answerEditText.requestFocus();
+                        InputMethodManager lManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        lManager.showSoftInput(answerEditText, 0);
 
-                // get the final radius for the clipping circle
-                int finalRadius = Math.max(answerView.getWidth(), answerView.getHeight());
+                    } else {
+                        answerEditText.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    }
+                }
+                else {
+                    // get the center for the clipping circle
+                    int cy = answerView.getMeasuredHeight() / 2;
 
-                // create the animator for this view (the start radius is zero)
-                Animator anim =
-                        ViewAnimationUtils.createCircularReveal(answerView, 300, cy, 0, finalRadius);
+                    // get the final radius for the clipping circle
+                    int finalRadius = Math.max(answerView.getWidth(), answerView.getHeight());
 
-                // make the view visible and start the animation
-                answerView.setVisibility(View.VISIBLE);
-                anim.start();
-                answer.setFocusableInTouchMode(true);
-                answer.requestFocus();
+                    // create the animator for this view (the start radius is zero)
+                    Animator anim =
+                            ViewAnimationUtils.createCircularReveal(answerView, 300, cy, 0, finalRadius);
 
-                InputMethodManager lManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                lManager.showSoftInput(answer, 0);
+                    // make the view visible and start the animation
+                    answerView.setVisibility(View.VISIBLE);
+                    anim.start();
+                    answer.setFocusableInTouchMode(true);
+                    answer.requestFocus();
+
+                    InputMethodManager lManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    lManager.showSoftInput(answer, 0);
+                }
 
 //                Toast.makeText(view.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
 //                question = questionsList.get(getPosition());
