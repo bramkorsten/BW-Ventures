@@ -29,9 +29,13 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         if (dyConsumed > 0) {
             CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
             int fab_bottomMargin = layoutParams.bottomMargin;
-            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new AccelerateInterpolator()).start();
+//            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new AccelerateInterpolator()).start();
+            child.animate().scaleX(0).setInterpolator(new AccelerateInterpolator()).start();
+            child.animate().scaleY(0).setInterpolator(new AccelerateInterpolator()).start();
         } else if (dyConsumed < 0) {
-            child.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+//            child.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+            child.animate().scaleX(1).setInterpolator(new DecelerateInterpolator()).start();
+            child.animate().scaleY(1).setInterpolator(new DecelerateInterpolator()).start();
         }
     }
 }
