@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -385,8 +386,12 @@ public class QuestionsFragment extends Fragment {
                                 String questionAnswer = questionData.get("answer");
                                 String questionNotes = questionData.get("notes");
                                 Question question = new Question(i + 1, questionTitle);
-                                question.setAnswer(questionAnswer);
-                                question.setNotes(questionNotes);
+                                if (!Objects.equals(questionAnswer, "")){
+                                    question.setAnswer(questionAnswer);
+                                }
+                                if (!Objects.equals(questionNotes, "")){
+                                    question.setNotes(questionNotes);
+                                }
                                 questionsList.add(question);
                                 i++;
                             }

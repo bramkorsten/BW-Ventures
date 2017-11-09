@@ -12,10 +12,7 @@
         android:id="@+id/deviderLine"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/colorBackgroundGrey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorBackgroundGrey">
 
     </FrameLayout>
 
@@ -52,22 +49,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deviderLine" />
 
-    <TextView
-        android:id="@+id/answerTxt"
+    <ViewSwitcher
+        android:id="@+id/editSwitch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/montserrat"
-        android:lineSpacingExtra="5sp"
-        android:singleLine="false"
-        android:text="My favorite way to order things online is to go to google and search for the cheapest website that has the item I want."
-        android:textColor="@color/colorTextGrey"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
-        app:layout_constraintTop_toBottomOf="@+id/question_title" />
+        app:layout_constraintTop_toBottomOf="@+id/question_title">
+
+        <TextView
+            android:id="@+id/answerTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:fontFamily="@font/montserrat"
+            android:lineSpacingExtra="5sp"
+            android:singleLine="false"
+            android:text="My favorite way to order things online is to go to google and search for the cheapest website that has the item I want."
+            android:textColor="@color/colorTextGrey"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
+            tools:layout_editor_absoluteY="86dp" />
+
+        <EditText
+            android:id="@+id/answerEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:background="@android:color/transparent"
+            android:cursorVisible="true"
+            android:fontFamily="@font/montserrat"
+            android:lineSpacingExtra="5dp"
+            android:singleLine="false"
+            android:text="My favorite way to order things online is to go to google and search for the cheapest website that has the item I want."
+            android:textColor="@color/colorPrimary"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
+            tools:layout_editor_absoluteY="86dp" />
+
+    </ViewSwitcher>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/notesLayout"
@@ -77,9 +108,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/square_border_background"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/questionNumberTxt"
-        app:layout_constraintTop_toBottomOf="@+id/answerTxt">
+        app:layout_constraintTop_toBottomOf="@+id/editSwitch">
 
         <ImageView
             android:id="@+id/imageView"
@@ -134,6 +166,42 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/editSaveLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/editDiscardButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="8dp"
+                android:focusable="false"
+                android:text="Discard"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/editSaveButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="42dp"
+                android:layout_marginTop="8dp"
+                android:text="Save"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/answerLayout"
