@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -95,6 +97,8 @@ public class QuestionsFragment extends Fragment {
     private MediaPlayer mPlayer;
     private boolean isRecording;
     private boolean isPlaying;
+    private EditText newQuestionTxt;
+    private View newQuestionView;
 
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -223,23 +227,23 @@ public class QuestionsFragment extends Fragment {
                 }
             }
         });
-        final View newQuesionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
+        newQuestionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
         ImageButton toolbarAddQuestionButton = getView().findViewById(R.id.toolbarAddQuestionButton);
         toolbarAddQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int cx = newQuesionView.getWidth() - 60;
-                int cy = newQuesionView.getMeasuredHeight() / 2;
+                int cx = newQuestionView.getWidth() - 60;
+                int cy = newQuestionView.getMeasuredHeight() / 2;
 
                 // get the final radius for the clipping circle
-                int finalRadius = Math.max(newQuesionView.getWidth(), newQuesionView.getHeight());
+                int finalRadius = Math.max(newQuestionView.getWidth(), newQuestionView.getHeight());
 
                 // create the animator for this view (the start radius is zero)
                 Animator anim =
-                        ViewAnimationUtils.createCircularReveal(newQuesionView, cx, cy, 0, finalRadius);
+                        ViewAnimationUtils.createCircularReveal(newQuestionView, cx, cy, 0, finalRadius);
 
                 // make the view visible and start the animation
-                newQuesionView.setVisibility(View.VISIBLE);
+                newQuestionView.setVisibility(View.VISIBLE);
                 anim.start();
             }
         });
@@ -250,26 +254,42 @@ public class QuestionsFragment extends Fragment {
             public void onClick(View view) {
                 // get the center for the clipping circle
                 int cx = 60;
-                int cy = newQuesionView.getMeasuredHeight() / 2;
+                int cy = newQuestionView.getMeasuredHeight() / 2;
 
                 // get the initial radius for the clipping circle
-                int initialRadius = newQuesionView.getWidth();
+                int initialRadius = newQuestionView.getWidth();
 
                 // create the animation (the final radius is zero)
                 Animator anim =
-                        ViewAnimationUtils.createCircularReveal(newQuesionView, cx, cy, initialRadius, 0);
+                        ViewAnimationUtils.createCircularReveal(newQuestionView, cx, cy, initialRadius, 0);
 
                 // make the view invisible when the animation is done
                 anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        newQuesionView.setVisibility(View.INVISIBLE);
+                        newQuestionView.setVisibility(View.INVISIBLE);
                     }
                 });
 
                 // start the animation
                 anim.start();
+            }
+        });
+
+        ImageButton toolbarSaveQuestionButton = getView().findViewById(R.id.saveNewQuestion);
+        toolbarSaveQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText newQuestionTxt = getView().findViewById(R.id.newQuestionTxt);
+
+                if (!newQuestionTxt.getText().toString().equals("")) {
+                    String questionTxt = newQuestionTxt.getText().toString();
+                    int size = questionsList.size();
+                    addQuestion(size + 1, questionTxt);
+                } else {
+
+                }
             }
         });
 
@@ -363,6 +383,79 @@ public class QuestionsFragment extends Fragment {
         });
     }
 
+    private void addQuestion(final int index, final String questionTxt) {
+
+        final String ventureId = getLocalVentureId();
+        final String experimentId = getLocalExperimentId();
+        final String testerId = getLocalTesterId();
+
+        firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.getData().get("questionData") != null){
+                            Map<String, Map> data = (Map) document.getData().get("questionData");
+                            Map<String, String> singleQuestionData = new HashMap<>();
+                            singleQuestionData.put("question", questionTxt);
+                            singleQuestionData.put("answer", "");
+                            singleQuestionData.put("notes", "");
+                            singleQuestionData.put("questionNumber", String.valueOf(index));
+                            data.put(String.valueOf(index), singleQuestionData);
+
+                            Map<String, Map> databaseData = new HashMap<>();
+
+                            databaseData.put("questionData", data);
+
+                            Log.d("ventures", databaseData.toString());
+
+                            firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId)
+                                    .set(databaseData, SetOptions.merge())
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("ventures", "onComplete: completed!");
+                                            Question newQuestion = new Question(index, questionTxt);
+                                            questionsList.add(newQuestion);
+                                            adapter.notifyItemChanged(index);
+                                            // get the center for the clipping circle
+                                            int cx = newQuestionView.getMeasuredHeight() - 60;
+                                            int cy = newQuestionView.getMeasuredHeight() / 2;
+
+                                            // get the initial radius for the clipping circle
+                                            int initialRadius = newQuestionView.getWidth();
+
+                                            // create the animation (the final radius is zero)
+                                            Animator anim =
+                                                    ViewAnimationUtils.createCircularReveal(newQuestionView, cx, cy, initialRadius, 0);
+
+                                            // make the view invisible when the animation is done
+                                            anim.addListener(new AnimatorListenerAdapter() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    super.onAnimationEnd(animation);
+                                                    newQuestionView.setVisibility(View.INVISIBLE);
+                                                    newQuestionTxt.setText("");
+                                                }
+                                            });
+
+                                            // start the animation
+                                            anim.start();
+
+                                        }
+                                    });
+                        }
+
+                    } else {
+                        Log.d("ventures", "No such document");
+                    }
+                }
+            }
+        });
+
+    }
+
     private void setViews() {
         questionsRecyclerView = getView().findViewById(R.id.QuestionsRecycleView);
         refresherLayout = getView().findViewById(R.id.refreshLayout);
@@ -410,7 +503,6 @@ public class QuestionsFragment extends Fragment {
         String ventureId = getLocalVentureId();
         String experimentId = getLocalExperimentId();
         String testerId = getLocalTesterId();
-//        String questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
         questionsList.clear();
         DocumentReference questionRef = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId);
         questionRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
