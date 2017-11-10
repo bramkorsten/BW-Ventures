@@ -1,6 +1,8 @@
 package com.hizmet.bluewhaleventures.fragments;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +26,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -219,20 +223,60 @@ public class QuestionsFragment extends Fragment {
                 }
             }
         });
+        final View newQuesionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
+        ImageButton toolbarAddQuestionButton = getView().findViewById(R.id.toolbarAddQuestionButton);
+        toolbarAddQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int cx = newQuesionView.getWidth() - 60;
+                int cy = newQuesionView.getMeasuredHeight() / 2;
+
+                // get the final radius for the clipping circle
+                int finalRadius = Math.max(newQuesionView.getWidth(), newQuesionView.getHeight());
+
+                // create the animator for this view (the start radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(newQuesionView, cx, cy, 0, finalRadius);
+
+                // make the view visible and start the animation
+                newQuesionView.setVisibility(View.VISIBLE);
+                anim.start();
+            }
+        });
+
+        ImageButton toolbarDiscardQuestionButton = getView().findViewById(R.id.addQuestionBack);
+        toolbarDiscardQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get the center for the clipping circle
+                int cx = 60;
+                int cy = newQuesionView.getMeasuredHeight() / 2;
+
+                // get the initial radius for the clipping circle
+                int initialRadius = newQuesionView.getWidth();
+
+                // create the animation (the final radius is zero)
+                Animator anim =
+                        ViewAnimationUtils.createCircularReveal(newQuesionView, cx, cy, initialRadius, 0);
+
+                // make the view invisible when the animation is done
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        newQuesionView.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                // start the animation
+                anim.start();
+            }
+        });
 
         setRefreshLayout();
         setQuestionsRecyclerView();
         refreshContent();
         this.context = view.getContext();
-//        ImageButton buttonAddQuestion = getView().findViewById(R.id.toolbarNew);
-//        buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                questionId = ((QuestionActivity) getActivity()).getQuestionIdFromParent();
-//                Intent intent = new Intent(getActivity(), NewQuestionActivity.class);
-//                intent.putExtra("questionId", questionId);
-//                startActivityForResult(intent, 1);
-//            }
-//        });
     }
 
     private void startPlaying() {

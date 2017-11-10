@@ -62,11 +62,83 @@
             android:layout_marginBottom="25dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="25dp"
-            android:background="@color/colorWhite"
+            android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_play_circle_filled_30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/toolbarAddQuestionButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/toolbarAddQuestionButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="25dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_plus_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/toolbarNewQuestionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/saveNewQuestion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="25dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_plus_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/addQuestionBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:adjustViewBounds="false"
+                android:background="?selectableItemBackgroundBorderless"
+                android:cropToPadding="false"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_chevron_links_white" />
+
+            <EditText
+                android:id="@+id/newQuestionTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Enter a new question"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorLineGrey"
+                android:theme="@style/WhiteEditTextTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/saveNewQuestion"
+                app:layout_constraintStart_toEndOf="@+id/addQuestionBack"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

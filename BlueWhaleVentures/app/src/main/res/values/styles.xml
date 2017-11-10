@@ -36,4 +36,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="WhiteEditTextTheme">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">#ececec</item>
+        <item name="colorControlActivated">#FFF</item>
+        <item name="colorControlHighlight">#FFF</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
 </resources>
