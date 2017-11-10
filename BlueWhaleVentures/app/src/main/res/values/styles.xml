@@ -44,4 +44,8 @@
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
 
+    <style name="WhiteAccent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#FFF</item>
+    </style>
+
 </resources>

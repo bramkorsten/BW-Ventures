@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -92,12 +93,13 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         holder.editSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            addAnswer(holder.getAdapterPosition(), holder.answerEditText.getText().toString(), questionsList.get(holder.getAdapterPosition()));
-            holder.editSaveLayout.setVisibility(View.GONE);
-            holder.editSwitch.showNext();
-            holder.answerEditText.clearFocus();
-            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                holder.answerSpinner.setVisibility(View.VISIBLE);
+                addAnswer(holder.getAdapterPosition(), holder.answerEditText.getText().toString(), questionsList.get(holder.getAdapterPosition()), holder.answerSpinner);
+                holder.editSaveLayout.setVisibility(View.GONE);
+                holder.editSwitch.showNext();
+                holder.answerEditText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
 
@@ -119,7 +121,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         return questionsList.size();
     }
 
-    private void addAnswer(final int index, final String answer, final Question question) {
+    private void addAnswer(final int index, final String answer, final Question question, final ProgressBar spinner) {
 
         final String ventureId = getLocalVentureId();
         final String experimentId = getLocalExperimentId();
@@ -151,6 +153,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                                             question.setAnswer(answer);
                                             questionsList.add(index, question);
                                             QuestionsAdapter.this.notifyItemChanged(index);
+                                            spinner.setVisibility(View.GONE);
                                         }
                                     });
                         }
@@ -188,6 +191,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         private View answerView, notesLayout, editSaveLayout;
         private WeakReference<ClickListener> listenerRef;
         private boolean isValidAnswer = false;
+        private ProgressBar answerSpinner;
 
         public QuestionViewHolder(View itemView) {
             super(itemView);
@@ -207,6 +211,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             editDiscardButton = itemView.findViewById(R.id.editDiscardButton);
             editSaveButton = itemView.findViewById(R.id.editSaveButton);
             answerSaveButton = itemView.findViewById(R.id.saveButton);
+            answerSpinner = itemView.findViewById(R.id.answerSpinner);
 
             itemView.setOnClickListener(this);
             questionAnswerButton.setOnClickListener(this);
@@ -288,6 +293,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
             }
 
             else if (view.getId() == answerSaveButton.getId()) {
+                answerSpinner.setVisibility(View.VISIBLE);
                 // get the center for the clipping circle
                 int cx = answerView.getMeasuredWidth() - 50;
                 int cy = answerView.getMeasuredHeight() / 2;
@@ -315,24 +321,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
                 if (isValidAnswer) {
-                    addAnswer(getAdapterPosition(), answer.getText().toString(), questionsList.get(getAdapterPosition()));
+                    addAnswer(getAdapterPosition(), answer.getText().toString(), questionsList.get(getAdapterPosition()), answerSpinner);
                 }
             }
 
-            else {
-//                Toast.makeText(view.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-//                Question questions = questionsList.get(getPosition());
-//                Map questionData = questions.getData();
-//                // Go to People Activity which controls single persons etc.
-//                Intent intent = new Intent(questionsFragment.getActivity(), QuestionActivity.class);
-//                intent.putExtra("map", (Serializable) questionData);
-//                intent.putExtra("id", questions.getQuestion());
-//                setLocalQuestionId(context, question.getQuestion());
-//                questionsFragment.startActivityForResult(intent, 1);
-            }
-
-            //
-            //            listenerRef.get().onPositionClicked(getAdapterPosition());
         }
 
         // onLongClickListener for view

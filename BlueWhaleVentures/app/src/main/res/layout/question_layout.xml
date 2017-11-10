@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@color/colorWhite"
     android:clickable="true"
     android:focusable="true">
@@ -207,6 +208,7 @@
             android:id="@+id/answerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:background="@color/colorPrimary"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -246,6 +248,18 @@
                 app:srcCompat="@drawable/ic_clear_black_24dp" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/answerSpinner"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

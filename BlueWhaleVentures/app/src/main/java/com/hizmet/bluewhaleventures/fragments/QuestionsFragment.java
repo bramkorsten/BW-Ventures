@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -99,6 +100,8 @@ public class QuestionsFragment extends Fragment {
     private boolean isPlaying;
     private EditText newQuestionTxt;
     private View newQuestionView;
+    private ProgressBar newQuestionSpinner;
+    private ImageButton toolbarSaveQuestionButton;
 
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -173,6 +176,8 @@ public class QuestionsFragment extends Fragment {
 
         setViews();
 
+        newQuestionSpinner = getView().findViewById(R.id.newQuestionSpinner);
+        newQuestionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
         mLocalFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mLocalFileName += "/recorded_audio.aac";
 
@@ -227,7 +232,6 @@ public class QuestionsFragment extends Fragment {
                 }
             }
         });
-        newQuestionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
         ImageButton toolbarAddQuestionButton = getView().findViewById(R.id.toolbarAddQuestionButton);
         toolbarAddQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,13 +281,15 @@ public class QuestionsFragment extends Fragment {
             }
         });
 
-        ImageButton toolbarSaveQuestionButton = getView().findViewById(R.id.saveNewQuestion);
+        toolbarSaveQuestionButton = getView().findViewById(R.id.saveNewQuestion);
         toolbarSaveQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText newQuestionTxt = getView().findViewById(R.id.newQuestionTxt);
 
                 if (!newQuestionTxt.getText().toString().equals("")) {
+                    toolbarSaveQuestionButton.setVisibility(View.INVISIBLE);
+                    newQuestionSpinner.setVisibility(View.VISIBLE);
                     String questionTxt = newQuestionTxt.getText().toString();
                     int size = questionsList.size();
                     addQuestion(size + 1, questionTxt);
@@ -417,7 +423,7 @@ public class QuestionsFragment extends Fragment {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Log.d("ventures", "onComplete: completed!");
                                             Question newQuestion = new Question(index, questionTxt);
-                                            questionsList.add(newQuestion);
+                                            questionsList.add(index, newQuestion);
                                             adapter.notifyItemChanged(index);
                                             // get the center for the clipping circle
                                             int cx = newQuestionView.getMeasuredHeight() - 60;
@@ -435,8 +441,11 @@ public class QuestionsFragment extends Fragment {
                                                 @Override
                                                 public void onAnimationEnd(Animator animation) {
                                                     super.onAnimationEnd(animation);
-                                                    newQuestionView.setVisibility(View.INVISIBLE);
                                                     newQuestionTxt.setText("");
+                                                    toolbarSaveQuestionButton.setVisibility(View.VISIBLE);
+                                                    newQuestionSpinner.setVisibility(View.INVISIBLE);
+                                                    newQuestionView.setVisibility(View.INVISIBLE);
+
                                                 }
                                             });
 
@@ -477,6 +486,7 @@ public class QuestionsFragment extends Fragment {
 
     public void refreshContent() {
         refresherLayout.setRefreshing(true);
+        questionsList.clear();
         getQuestionData();
     }
 
@@ -528,7 +538,8 @@ public class QuestionsFragment extends Fragment {
                                 if (!Objects.equals(questionNotes, "")){
                                     question.setNotes(questionNotes);
                                 }
-                                questionsList.add(question);
+                                questionsList.add(i, question);
+                                adapter.notifyItemChanged(i);
                                 i++;
                             }
                         } catch (Exception e) {
@@ -537,7 +548,7 @@ public class QuestionsFragment extends Fragment {
 
                         Log.d("ventures", String.valueOf(questionsData.size()));
 
-                        adapter.notifyDataSetChanged();
+                        //adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
 
                     } else {
