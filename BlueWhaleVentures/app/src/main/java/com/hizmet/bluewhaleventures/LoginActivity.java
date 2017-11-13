@@ -1,10 +1,12 @@
 package com.hizmet.bluewhaleventures;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,12 +31,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private FirebaseAuth mAuth;
+    private View view;
     private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
-
+        view = findViewById(R.id.loginlayout);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -59,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    final ProgressBar spinner = findViewById(R.id.loginspinner);
+                    spinner.setVisibility(View.VISIBLE);
+                    buttonLogin.setVisibility(View.INVISIBLE);
                     mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -67,21 +74,19 @@ public class LoginActivity extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "signInWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
-                                        //updateUI(user);
-                                        Toast.makeText(LoginActivity.this, "Authentication successful!",
-                                                Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                         startActivity(intent);
+                                        spinner.setVisibility(View.INVISIBLE);
+                                        buttonLogin.setVisibility(View.VISIBLE);
                                         finish();
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-                                        //updateUI(null);
+                                        Snackbar snackbar = Snackbar.make(buttonLogin, "Your credentials are incorrect", Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                        spinner.setVisibility(View.INVISIBLE);
+                                        buttonLogin.setVisibility(View.VISIBLE);
                                     }
-
-                                    // ...
                                 }
                             });
                 }
