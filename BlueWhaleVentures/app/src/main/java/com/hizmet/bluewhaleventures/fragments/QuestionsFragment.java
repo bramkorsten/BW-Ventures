@@ -345,31 +345,69 @@ public class QuestionsFragment extends Fragment {
                                     e.printStackTrace();
                                 }
 
+                                // Seekbar
+                                int recordingDuration = mPlayer.getDuration();
+                                mSeekBar.setMax(recordingDuration / 1000);
+
+                                    final Handler mediaControlHandler = new Handler();
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (mPlayer != null) {
+                                                int mCurrentPosition = mPlayer.getCurrentPosition();
+                                                mSeekBar.setProgress(mCurrentPosition / 1000);
+                                                textviewProgress.setText(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(mCurrentPosition),
+                                                        TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition) % TimeUnit.HOURS.toMinutes(1),
+                                                        TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition) % TimeUnit.MINUTES.toSeconds(1)));
+                                            }
+                                            mediaControlHandler.postDelayed(this, 1000);
+                                        }
+                                });
+
+                                mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                    @Override
+                                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                        if(mPlayer != null && b){
+                                            mPlayer.seekTo(i * 1000);
+                                            int mCurrentPosition = mPlayer.getCurrentPosition();
+                                            textviewProgress.setText(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(mCurrentPosition),
+                                                    TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition) % TimeUnit.HOURS.toMinutes(1),
+                                                    TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition) % TimeUnit.MINUTES.toSeconds(1)));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onStartTrackingTouch(SeekBar seekBar) {
+                                        mPlayer.pause();
+                                    }
+
+                                    @Override
+                                    public void onStopTrackingTouch(SeekBar seekBar) {
+                                        mPlayer.start();
+                                        int mCurrentPosition = mPlayer.getCurrentPosition();
+                                        mSeekBar.setProgress(mCurrentPosition / 1000);
+                                    }
+                                });
+
+                                final ImageButton pausePlay = getView().findViewById(R.id.imageButtonPausePlay);
+                                pausePlay.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (mPlayer.isPlaying()) {
+                                            mPlayer.pause();
+                                            pausePlay.setImageResource(R.drawable.ic_play_arrow_blue_24dp);
+                                        } else {
+                                            mPlayer.start();
+                                            pausePlay.setImageResource(R.drawable.ic_pause_blue_24dp);
+                                        }
+                                    }
+                                });
+
                                 mPlayer.start();
                                 slider.show();
                                 recordFAB.hide();
                                 isPlaying = true;
                                 playRecording.setImageResource(R.drawable.ic_stop_30dp);
-
-                                // Seekbar
-                                int recordingDuration = mPlayer.getDuration();
-                                mSeekBar.setMax(recordingDuration);
-                                textviewProgress.setText(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(recordingDuration),
-                                        TimeUnit.MILLISECONDS.toMinutes(recordingDuration) % TimeUnit.HOURS.toMinutes(1),
-                                        TimeUnit.MILLISECONDS.toSeconds(recordingDuration) % TimeUnit.MINUTES.toSeconds(1)));
-
-                                // Making sure Seekbar is updated on UI thread
-                                final Handler mHandler = new Handler();
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (mPlayer != null) {
-                                            int mCurrentPosition = mPlayer.getCurrentPosition() / 1000;
-                                            mSeekBar.setProgress(mCurrentPosition);
-                                        }
-                                        mHandler.postDelayed(this, 1000);
-                                    }
-                                });
 
 
                                 mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
