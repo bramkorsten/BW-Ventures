@@ -24,6 +24,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -45,10 +46,13 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Question;
 import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
+import com.mancj.slideup.SlideUp;
+import com.mancj.slideup.SlideUpBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,6 +106,7 @@ public class QuestionsFragment extends Fragment {
     private View newQuestionView;
     private ProgressBar newQuestionSpinner;
     private ImageButton toolbarSaveQuestionButton;
+    private SlideUp slider;
 
     private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -175,6 +180,23 @@ public class QuestionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setViews();
+
+        View slideView = getView().findViewById(R.id.mediaControllerView);
+        slider = new SlideUpBuilder(slideView)
+                .withStartState(SlideUp.State.HIDDEN)
+                .withStartGravity(Gravity.BOTTOM)
+                .withListeners(new SlideUp.Listener.Events() {
+                    @Override
+                    public void onSlide(float percent) {
+
+                    }
+
+                    @Override
+                    public void onVisibilityChanged(int visibility) {
+
+                    }
+                })
+                .build();
 
         newQuestionSpinner = getView().findViewById(R.id.newQuestionSpinner);
         newQuestionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
@@ -319,6 +341,8 @@ public class QuestionsFragment extends Fragment {
                                 }
 
                                 mPlayer.start();
+                                slider.show();
+                                recordFAB.hide();
                                 isPlaying = true;
                                 playRecording.setImageResource(R.drawable.ic_stop_30dp);
 
@@ -327,6 +351,8 @@ public class QuestionsFragment extends Fragment {
                                     @Override
                                     public void onCompletion(MediaPlayer mp) {
                                         isPlaying = false;
+                                        slider.hide();
+                                        recordFAB.show();
                                         playRecording.setImageResource(R.drawable.ic_play_circle_filled_30dp);
                                     }
                                 });
@@ -353,7 +379,8 @@ public class QuestionsFragment extends Fragment {
 
     private void stopPlaying() {
 
-
+        slider.hide();
+        recordFAB.show();
         isPlaying = false;
     }
 

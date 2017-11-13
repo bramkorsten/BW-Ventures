@@ -3,11 +3,14 @@ package com.hizmet.bluewhaleventures;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.hizmet.bluewhaleventures.fragments.PersonFragment;
 import com.hizmet.bluewhaleventures.fragments.QuestionsFragment;
@@ -18,6 +21,8 @@ import java.util.Map;
 public class PersonActivity extends AppCompatActivity {
     private Map personData;
     private String personId, experimentId;
+    private BottomNavigationView mBottomNavigationView;
+    private LinearLayout contentView;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -51,6 +56,7 @@ public class PersonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
+        contentView = findViewById(R.id.content);
 
         Intent intent = getIntent();
         personData = (Map) intent.getSerializableExtra("map");
@@ -58,7 +64,7 @@ public class PersonActivity extends AppCompatActivity {
         experimentId = intent.getStringExtra("experimentId");
 
         // Bottom navigation
-        BottomNavigationView mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationPerson);
+        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationPerson);
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_questions);
