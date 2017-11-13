@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:fontFamily="@font/montserrat"
-            android:text="No questions yet"
-            android:textColor="@color/colorLightBlack"
-            android:textSize="18sp"
+            android:text="Could not get any data, \nthere might not be any"
+            android:textColor="@color/colorTextGrey"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

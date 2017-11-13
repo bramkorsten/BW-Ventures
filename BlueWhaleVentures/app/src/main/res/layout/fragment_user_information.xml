@@ -69,6 +69,7 @@
                     android:id="@+id/experiment_created_txt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/montserrat"
                     android:maxLines="2"
