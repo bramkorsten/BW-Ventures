@@ -28,19 +28,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,7 +52,6 @@ import com.hizmet.bluewhaleventures.classes.QuestionsAdapter;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +73,7 @@ public class QuestionsFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     // Recording
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+    String recordingFileName;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -84,18 +85,17 @@ public class QuestionsFragment extends Fragment {
     private SwipeRefreshLayout refresherLayout;
     private Context context;
     private String questionId;
-
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
     private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private StorageReference storageReference;
-
     private ImageButton playRecording;
     private FloatingActionButton recordFAB;
     private String mLocalFileName = null;
     private String mRemoteStorageFileName = null;
-    String recordingFileName;
+    private Uri uriToFile = null;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
+    private int mRecordingDuration;
     private boolean isRecording;
     private boolean isPlaying;
     private EditText newQuestionTxt;
@@ -179,7 +179,7 @@ public class QuestionsFragment extends Fragment {
         newQuestionSpinner = getView().findViewById(R.id.newQuestionSpinner);
         newQuestionView = getView().findViewById(R.id.toolbarNewQuestionLayout);
         mLocalFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mLocalFileName += "/recorded_audio.aac";
+        mLocalFileName += "/" + getLocalExperimentId() + "-" + getLocalTesterId() + ".aac";
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,22 +192,14 @@ public class QuestionsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!isRecording) {
-//                    try {
                     startRecording();
                     Snackbar.make(view, "Recording...", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                     recordFAB.setImageResource(R.drawable.ic_stop_24dp);
-//                    } catch (Exception ex) {
-//                        Log.d("ventures", "onClick FAB: Could not start recording " + ex);
-//                    }
                 } else {
-//                    try {
                     stopRecording();
                     uploadAudio();
                     Toast.makeText(context, "Saved recording.", Toast.LENGTH_LONG).show();
                     recordFAB.setImageResource(R.drawable.ic_mic_24dp);
-//                    } catch (Exception ex) {
-//                        Log.d("ventures", "onClick FAB: Could not stop recording " + ex);
-//                    }
                 }
             }
         });
@@ -216,19 +208,10 @@ public class QuestionsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!isPlaying) {
-//                    try {
                     startPlaying();
-
-//                    } catch (Exception ex) {
-//                        Log.d("ventures", "onClick playRecording: Could not start playing " + ex);
-//                    }
                 } else {
-//                    try {
                     stopPlaying();
                     playRecording.setImageResource(R.drawable.ic_play_circle_filled_30dp);
-//                    } catch (Exception ex) {
-//                        Log.d("ventures", "onClick FAB: Could not stop recording " + ex);
-//                    }
                 }
             }
         });
@@ -316,15 +299,46 @@ public class QuestionsFragment extends Fragment {
                 try {
                     storageReference = firebaseStorage.getReference().child("Recordings").child(getLocalTesterId()).child(recordingFileName);
                     try {
-                        File file = File.createTempFile(getLocalTesterId(), ".aac");
-                        Uri uri = Uri.fromFile(file);
-                        MediaPlayer mediaPlayer = new MediaPlayer();
-                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        mediaPlayer.setDataSource(getContext(), uri);
-                        mediaPlayer.prepare();
-                        mediaPlayer.start();
-                        isPlaying = true;
-                        playRecording.setImageResource(R.drawable.ic_stop_30dp);
+                        mPlayer = new MediaPlayer();
+                        mPlayer.reset();
+
+                        // Get file from storage
+                        File localFile = new File(mLocalFileName);
+                        uriToFile = Uri.fromFile(localFile);
+
+                        storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                // Local temp file had been created
+                                mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                                try {
+                                    mPlayer.setDataSource(getContext(), uriToFile);
+                                    mPlayer.prepare();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                mPlayer.start();
+                                isPlaying = true;
+                                playRecording.setImageResource(R.drawable.ic_stop_30dp);
+
+
+                                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        isPlaying = false;
+                                        playRecording.setImageResource(R.drawable.ic_play_circle_filled_30dp);
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle any errors
+                                isPlaying = false;
+                                Toast.makeText(context, "Could not find recording for this tester", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -369,7 +383,11 @@ public class QuestionsFragment extends Fragment {
 
     private void uploadAudio() {
         Uri uri = Uri.fromFile(new File(mLocalFileName));
-        mRemoteStorageFileName = new Timestamp(System.currentTimeMillis()) + ".aac";
+        Log.d("ventures", "uploadAudio: " + uri);
+        // Use current timestamp as filename
+//        mRemoteStorageFileName = new Timestamp(System.currentTimeMillis()) + ".aac";
+        // Use experimentid and testerid as filename
+        mRemoteStorageFileName = getLocalExperimentId() + "-" + getLocalTesterId() + ".aac";
 
         storageReference = firebaseStorage.getReference().child("Recordings").child(getLocalTesterId()).child(mRemoteStorageFileName);
 
@@ -401,7 +419,7 @@ public class QuestionsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if (document.getData().get("questionData") != null){
+                        if (document.getData().get("questionData") != null) {
                             Map<String, Map> data = (Map) document.getData().get("questionData");
                             Map<String, String> singleQuestionData = new HashMap<>();
                             singleQuestionData.put("question", questionTxt);
@@ -532,10 +550,10 @@ public class QuestionsFragment extends Fragment {
                                 String questionAnswer = questionData.get("answer");
                                 String questionNotes = questionData.get("notes");
                                 Question question = new Question(i + 1, questionTitle);
-                                if (!Objects.equals(questionAnswer, "")){
+                                if (!Objects.equals(questionAnswer, "")) {
                                     question.setAnswer(questionAnswer);
                                 }
-                                if (!Objects.equals(questionNotes, "")){
+                                if (!Objects.equals(questionNotes, "")) {
                                     question.setNotes(questionNotes);
                                 }
                                 questionsList.add(i, question);
