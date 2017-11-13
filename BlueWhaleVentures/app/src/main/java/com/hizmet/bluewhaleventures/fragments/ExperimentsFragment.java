@@ -32,6 +32,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
@@ -235,7 +236,7 @@ public class ExperimentsFragment extends Fragment {
         if (ventureId.isEmpty()) {
             return;
         } else {
-            CollectionReference experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments");
+            Query experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").orderBy("DateCreated", Query.Direction.ASCENDING);
             experiments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

@@ -71,6 +71,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     @Override
     public void onBindViewHolder(final QuestionViewHolder holder, int position) {
         final Question question = questionsList.get(position);
+        Log.d("ventures", question.toString());
         holder.title.setText(question.getQuestion());
         holder.number.setText(question.getIndex() + ".");
         if (Objects.equals(question.getAnswer(), "")){
@@ -151,9 +152,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Log.d("ventures", "onComplete: completed!");
                                             question.setAnswer(answer);
+                                            questionsList.remove(index);
                                             questionsList.add(index, question);
                                             QuestionsAdapter.this.notifyItemChanged(index);
                                             spinner.setVisibility(View.GONE);
+                                            QuestionsAdapter.this.notifyDataSetChanged();
                                         }
                                     });
                         }
