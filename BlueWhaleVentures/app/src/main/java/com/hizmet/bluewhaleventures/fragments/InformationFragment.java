@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.R;
 
 
@@ -37,8 +43,9 @@ public class InformationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Typeface Montserrat;
-
+    private TextView age;
     private OnFragmentInteractionListener mListener;
+    private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
 
     public InformationFragment() {
         // Required empty public constructor
@@ -117,7 +124,7 @@ public class InformationFragment extends Fragment {
         getUserInfo();
     }
 
-    private void getUserInfo(){
+    private FirebaseUser getUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             fillUserInfo(user);
@@ -125,24 +132,24 @@ public class InformationFragment extends Fragment {
         } else {
             // No user is signed in
         }
+        return user;
     }
 
-    private void fillUserInfo(FirebaseUser user){
+    private void fillUserInfo(FirebaseUser user) {
         String name = user.getDisplayName();
         String nameCharacters;
         String email = user.getEmail();
 
         String lastName = "";
-        String firstName= "";
+        String firstName = "";
 
-        if(name.split("\\w+").length>1){
+        if (name.split("\\w+").length > 1) {
 
-            lastName = name.substring(name.lastIndexOf(" ")+1);
+            lastName = name.substring(name.lastIndexOf(" ") + 1);
             firstName = name.substring(0, name.lastIndexOf(' '));
-            nameCharacters = firstName.substring(0,1) + lastName.substring(0,1);
-        }
-        else{
-            nameCharacters = firstName.substring(0,1);
+            nameCharacters = firstName.substring(0, 1) + lastName.substring(0, 1);
+        } else {
+            nameCharacters = firstName.substring(0, 1);
         }
 
         TextDrawable drawable = TextDrawable.builder()
@@ -153,11 +160,33 @@ public class InformationFragment extends Fragment {
                 .endConfig()
                 .buildRound(nameCharacters, Color.parseColor("#0099ff"));
 
-        ImageView image = (ImageView) getView().findViewById(R.id.userImage);
-        image.setImageDrawable(drawable);
 
-        TextView userName = (TextView) getView().findViewById(R.id.userName);
-        TextView userEmail = (TextView) getView().findViewById(R.id.userEmail);
+        setViews(name, email, drawable);
+
+//        getAndSetUserDetails();
+    }
+
+    private void getAndSetUserDetails() {
+        DocumentReference userRef = firestoreDb.collection("users").document(getUserInfo().getUid());
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        age.setText(document.getData().get("Age").toString());
+                    }
+                }
+            }
+        });
+    }
+
+    private void setViews(String name, String email, TextDrawable drawable) {
+        ImageView image = getView().findViewById(R.id.userImage);
+        image.setImageDrawable(drawable);
+        TextView userName = getView().findViewById(R.id.userName);
+        TextView userEmail = getView().findViewById(R.id.userEmail);
+        age = getView().findViewById(R.id.age);
 
         userName.setText(name);
         userEmail.setText(email);
