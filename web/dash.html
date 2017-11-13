@@ -6,8 +6,10 @@
     <link rel="icon" type="image/png" href="assets/img/logo_fav.png" />
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500|Roboto:400" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
     setTimeout(function(){
@@ -20,19 +22,8 @@
     // }, 3800);
     }, 10);
 
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyAcs8FGJQ64vgvhvwf2wOgj_fwSVhD_2SU",
-        authDomain: "blue-whale-ventures.firebaseapp.com",
-        databaseURL: "https://blue-whale-ventures.firebaseio.com",
-        projectId: "blue-whale-ventures",
-        storageBucket: "blue-whale-ventures.appspot.com",
-        messagingSenderId: "573936868876"
-      };
-      firebase.initializeApp(config);
-
     </script>
-    <script src="assets/js/bluewhale.js"></script>
+
   </head>
   <body id="body" class="dashboard-body">
     <div id="loadscreen-wrap" class="loadscreen-wrap">
@@ -45,12 +36,12 @@
         <div class="close-btn-wrap">
           <i onClick="startNewCompany();" class="fa fa-times" aria-hidden="true"></i>
         </div>
-        <h3>New Company</h3>
+        <h3>New Startup</h3>
         <div class="seperation-border"></div>
         <div id="new-company-form" class="new-company-form">
-          <label for="input-company-name" class="new-company-label">Company Name</label>
+          <label for="input-company-name" class="new-company-label">Startup Name</label>
           <input type="text" id="input-company-name" class="new-company-input" autocomplete="off" placeholder="" required>
-          <label for="input-company-location" class="new-company-label">Company Location</label>
+          <label for="input-company-location" class="new-company-label">Startup Location</label>
           <input type="text" id="input-company-location" class="new-company-input" autocomplete="off" placeholder="" required>
           <label for="input-company-street" class="new-company-label">Streetname + Number</label>
           <input type="text" id="input-company-street" class="new-company-input" autocomplete="off" placeholder="" required>
@@ -58,13 +49,13 @@
           <input type="text" id="input-company-zip" class="new-company-input" autocomplete="off" placeholder="" required>
         </div>
         <div id="company-success" class="new-company-form form-not-yet-here gone-form">
-          <p id="success-title" class="success-title">[COMPANY] succesfully created!</p>
+          <p id="success-title" class="success-title">succesfully created!</p>
           <p id="success-code" class="success-code">PH4T4S5</p>
           <p class="send-email">We can send an email containing the code for you. Enter up to 5 email adresses below.</p>
           <label for="input-emails" class="new-company-label">Enter email addresses</label>
           <input type="text" id="input-emails" class="new-company-input" autocomplete="off" placeholder="" required>
         </div>
-        <div id="create-company-div" class="create-company-div" onClick="verifyCompany();">CREATE COMPANY</div>
+        <div id="create-company-div" class="create-company-div" onClick="verifyCompany();">CREATE STARTUP</div>
       </div>
     </div>
 
@@ -133,7 +124,7 @@
             <i class="fa fa-ellipsis-v" aria-hidden="true" onClick="setBubble();"></i>
             <div id="dropdown-bubble" class="dropdown-bubble bubble-gone">
               <!-- <div class="bubble-item">Edit profile</div> -->
-              <div class="bubble-item">Logout</div>
+              <div class="bubble-item" onClick="logout();">Logout</div>
             </div>
           </div>
           <div class="profile-titles-contain">
@@ -142,14 +133,21 @@
           </div>
         </div>
       </div>
+
+      <div id="load-spinner-wrap" class="load-spinner-wrap">
+        <svg class="spinner" width="50px" height="50px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+           <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+        </svg>
+      </div>
+
       <div id="left-side-wrap" class="left-side-wrap">
         <div id="cards-clients-contain" class="cards-contain">
           <div id="cards-wrap-clients" class="cards-wrap">
-            <div onClick="setExperiments();" class="single-card"><span class="card-circle circle-active">S</span><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
+            <!-- <div onClick="setExperiments();" class="single-card"><span class="card-circle circle-active">S</span><h3 class="card-company-name">Swapido</h3><div class="projects-amount-wrap"><span class="projects-number">4</span></div></div>
             <div class="single-card"><span class="card-circle circle-active">B</span><h3 class="card-company-name">Blue Whale Ventures</h3><div class="projects-amount-wrap"><span class="projects-number">2</span></div></div>
             <div class="single-card"><span class="card-circle circle-active">S</span><h3 class="card-company-name">Studio 077</h3><div class="projects-amount-wrap"><span class="projects-number">16</span></div></div>
             <div class="single-card"><span class="card-circle circle-active">M</span><h3 class="card-company-name">Maatwerk</h3><div class="projects-amount-wrap"><span class="projects-number">420</span></div></div>
-            <div class="single-card"><span class="card-circle circle-active">F</span><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div>
+            <div class="single-card"><span class="card-circle circle-active">F</span><h3 class="card-company-name">Fontys</h3><div class="projects-amount-wrap"><span class="projects-number">12</span></div></div> -->
             <div class="single-card card-plus" onClick="startNewCompany();"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
           </div>
         </div>
@@ -158,65 +156,96 @@
           <div id="experiments-company-name" class="experiments-company-name">
             <div id="experiments-company-name-wrap" class="experiments-company-name-wrap">
               <!-- <span class="experiments-back-arrow"><i onClick="backToClients();" class="fa fa-chevron-left" aria-hidden="true"></i></span> -->
-              <span class="experiments-banner-name">Swapido - Experiments</span>
+              <span id="experiments-banner-name" class="experiments-banner-name">Experiments</span>
               <span class="experiments-days">Day <span class="single-day">12</span> / 100 </span>
             </div>
           </div>
           <div id="cards-wrap-experiments" class="cards-wrap">
             <!-- <div class="single-card"><span class="card-circle">1</span><h3 class="card-company-name">The First Experiment</h3><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div> -->
-            <div class="single-card" onClick="getQuestions();"><span class="card-circle card-circle-experiments">1</span><div class="experiments-info"><span class="experiments-info-name">The First Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results positive-results">Positive results</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true" onClick= "getExperimentSettings();"></i></div></div>
+            <!-- <div class="single-card" onClick="getQuestions();"><span class="card-circle card-circle-experiments">1</span><div class="experiments-info"><span class="experiments-info-name">The First Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results positive-results">Positive results</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true" onClick= "getExperimentSettings();"></i></div></div>
             <div class="single-card"><span class="card-circle card-circle-experiments">2</span><div class="experiments-info"><span class="experiments-info-name">The Second Experiment</span><span class="experiments-info-sub">Second time we're doing this</span><span class="experiments-info-results negative-results">Negative results</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
             <div class="single-card"><span class="card-circle card-circle-experiments">3</span><div class="experiments-info"><span class="experiments-info-name">Figuring out stuff</span><span class="experiments-info-sub">How does everything work?</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
             <div class="single-card"><span class="card-circle card-circle-experiments">4</span><div class="experiments-info"><span class="experiments-info-name">Going further in experimenting</span><span class="experiments-info-sub">We got a pretty good grasp of this now</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
-            <div class="single-card"><span class="card-circle card-circle-experiments circle-active">5</span><div class="experiments-info"><span class="experiments-info-name">The Fifth Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div>
+            <div class="single-card"><span class="card-circle card-circle-experiments circle-active">5</span><div class="experiments-info"><span class="experiments-info-name">The Fifth Experiment</span><span class="experiments-info-sub">Description of this experiment</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div></div> -->
           </div>
           <div id="experiment-questions-wrap" class="questions-wrap questions-gone">
             <div id="dropdown-names" class="dropdown-names bubble-gone">
-              <div class="dropdown-name" onClick="getQuestionsFromName();">John Doe</div>
+              <!-- <div class="dropdown-name" onClick="getQuestionsFromName();">John Doe</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Jane Doe</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Arne Reijntjes</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Donald Trump</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Barack Obama</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Loet Koreman</div>
               <div class="dropdown-name" onClick="getQuestionsFromName();">Dylan van Heugten</div>
-              <div class="dropdown-name" onClick="getQuestionsFromName();">Big Shaq</div>
+              <div class="dropdown-name" onClick="getQuestionsFromName();">Big Shaq</div> -->
             </div>
 
             <h3 id="questions-wrap-experiment-title">Experiment 1</h3>
             <h4 id="questions-wrap-experiment-name">Target Audience Research</h4>
             <h5>Person interviewed:</h5>
 
-            <div class="person-name-wrap" onClick="dropdownNames();"><i class="fa fa-chevron-left" aria-hidden="true"></i> <span id="person-name">John Doe</span> <i class="fa fa-chevron-right" aria-hidden="true"></i></div>
-            <div class="stepper-wrap">
-              <div class="single-stepper">
-                <div class="stepper-number">1</div>
-                <div class="stepper-question">Question 1?</div>
-              </div>
-              <div class="stepper-answer">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</div>
+            <div class="person-name-wrap" onClick="dropdownNames();"><i class="fa fa-chevron-left" aria-hidden="true"></i> <span id="person-name">No person selected</span><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+            <div id="stepper-wrap" class="stepper-wrap">
 
-              <div class="single-stepper">
-                <div class="stepper-number">2</div>
-                <div class="stepper-question">Is this a question?</div>
+              <div id="single-stepper-wrap1" class="single-stepper-wrap">
+                <div class="single-stepper">
+                  <div id="stepper-number1" class="stepper-number">1</div>
+                  <div class="stepper-question">Question 1?</div>
+                  <div id="stepper-comment1" class="stepper-comment" onClick="setComment(1);"><i id="question-pencil1" class="fa fa-pencil" aria-hidden="true"></i></div>
+                </div>
+                <div class="stepper-answer">
+                  Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                  <textarea id="textarea-question1" class="stepper-textarea"></textarea>
+                </div>
               </div>
-              <div class="stepper-answer">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.</div>
 
-              <div class="single-stepper">
-                <div class="stepper-number">3</div>
-                <div class="stepper-question">How does this work?</div>
+              <!--<div id="single-stepper-wrap2" class="single-stepper-wrap">
+                <div class="single-stepper">
+                  <div id="stepper-number2" class="stepper-number">2</div>
+                  <div class="stepper-question">Is this a question?</div>
+                  <div id="stepper-comment2" class="stepper-comment" onClick="setComment(2);"><i id="question-pencil2" class="fa fa-pencil" aria-hidden="true"></i></div>
+                </div>
+                <div class="stepper-answer">
+                  One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
+                  <textarea id="textarea-question2" class="stepper-textarea"></textarea>
+                </div>
               </div>
-              <div class="stepper-answer">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</div>
 
-              <div class="single-stepper">
-                <div class="stepper-number">4</div>
-                <div class="stepper-question">What happens now?</div>
+              <div id="single-stepper-wrap3" class="single-stepper-wrap">
+                <div class="single-stepper">
+                  <div id="stepper-number3" class="stepper-number">3</div>
+                  <div class="stepper-question">How does this work?</div>
+                  <div id="stepper-comment3" class="stepper-comment" onClick="setComment(3);"><i id="question-pencil3" class="fa fa-pencil" aria-hidden="true"></i></div>
+                </div>
+                <div class="stepper-answer">
+                  Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                  <textarea id="textarea-question3" class="stepper-textarea"></textarea>
+                </div>
               </div>
-              <div class="stepper-answer">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</div>
 
-              <div class="single-stepper">
-                <div class="stepper-number">5</div>
-                <div class="stepper-question">Halfway already!</div>
+              <div id="single-stepper-wrap4" class="single-stepper-wrap">
+                <div class="single-stepper">
+                  <div id="stepper-number4" class="stepper-number">4</div>
+                  <div class="stepper-question">What happens now?</div>
+                  <div id="stepper-comment4" class="stepper-comment" onClick="setComment(4);"><i id="question-pencil4" class="fa fa-pencil" aria-hidden="true"></i></div>
+                </div>
+                <div class="stepper-answer">
+                  Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                  <textarea id="textarea-question4" class="stepper-textarea"></textarea>
+                </div>
               </div>
-              <div class="stepper-answer">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</div>
+
+              <div id="single-stepper-wrap5" class="single-stepper-wrap">
+                <div class="single-stepper">
+                  <div id="stepper-number5" class="stepper-number">5</div>
+                  <div class="stepper-question">Halfway already!</div>
+                  <div id="stepper-comment5" class="stepper-comment" onClick="setComment(5);"><i id="question-pencil5" class="fa fa-pencil" aria-hidden="true"></i></div>
+                </div>
+                <div class="stepper-answer">
+                  Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                  <textarea id="textarea-question5" class="stepper-textarea"></textarea>
+                </div>
+              </div> -->
 
             </div>
           </div>
@@ -224,11 +253,12 @@
       </div>
 
       <div id="cards-wrap-people" class="cards-contain projects-right">
-        <div class="single-person"><span class="card-circle circle-active person-circle">LK</span><div class="single-person-name">Loet Koreman<span class="person-email">loet@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div>
+        <!-- <div class="single-person"><span class="card-circle circle-active person-circle">LK</span><div class="single-person-name">Loet Koreman<span class="person-email">loet@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div>
         <div class="single-person"><span class="card-circle circle-active person-circle">AR</span><div class="single-person-name">Arne Reijntjes<span class="person-email">arne@fontys.nl</span></div><span class="single-person-company">Fontys</span></div>
         <div class="single-person"><span class="card-circle circle-active person-circle">BK</span><div class="single-person-name">Bram Korsten<span class="person-email">bram@hizmet.nl</span></div><span class="single-person-company">Hizmet</span></div>
-        <div class="single-person"><span class="card-circle circle-active person-circle">SL</span><div class="single-person-name">Sam Lebens<span class="person-email">sam@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div>
+        <div class="single-person"><span class="card-circle circle-active person-circle">SL</span><div class="single-person-name">Sam Lebens<span class="person-email">sam@bwventures.nl</span></div><span class="single-person-company">BW-Ventures</span></div> -->
       </div>
     </div>
+    <script src="assets/js/bluewhale.js"></script>
   </body>
 </html>

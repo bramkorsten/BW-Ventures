@@ -434,7 +434,7 @@ DASHBOARD
   top: 50px;
   right: -15px;
   border: 1px solid #d6d7d9;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .bubble-gone {
@@ -644,10 +644,12 @@ DASHBOARD
   font-family: 'Montserrat';
   color: #34495E;
   position: relative;
+  transition: box-shadow 0.3s;
 }
 
 .single-card:hover {
-  /*cursor: pointer;*/
+  cursor: pointer;
+  box-shadow: 0px 0px 30px -20px rgba(0,0,0,0.75);
 }
 
 .card-circle {
@@ -1017,6 +1019,11 @@ input[type=text].new-company-input:focus{
   display: inline-block;
   float: left;
   margin-right: 20px;
+  transition: 0.3s;
+}
+
+.stepper-number-inactive {
+  background: #000;
 }
 
 .stepper-question {
@@ -1024,10 +1031,47 @@ input[type=text].new-company-input:focus{
   float: left;
   font-family: 'Montserrat';
   font-weight: 400;
-  max-width: calc(100% - 100px);
+  max-width: calc(100% - 150px);
+  max-height: 50px;
+  overflow: hidden;
   position: relative;
   top: 25px;
   transform: translateY(-50%);
+}
+
+.stepper-comment {
+  width: 40px;
+  height: 40px;
+  margin-top: 5px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #ececec;
+  float: right;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stepper-comment:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.75);
+}
+
+.stepper-comment-inactive {
+  display: none;
+}
+
+.single-stepper-wrap:hover .stepper-comment {
+  background: #0099ff;
+}
+
+.single-stepper-wrap {
+  transition: 0.3s;
+}
+
+.single-stepper-wrap-inactive {
+  opacity: 0.3;
 }
 
 .stepper-answer {
@@ -1038,6 +1082,28 @@ input[type=text].new-company-input:focus{
   padding: 0 20px 20px 43px;
   border-left: 3px solid #ececec;
   color: #929292;
+}
+
+.stepper-textarea {
+  resize: none;
+  width: 100%;
+  border: 1px solid #ececec;
+  border-radius: 2px;
+  font-family: 'Roboto';
+  font-size: 12px;
+  padding: 0 5px;
+  opacity: 0;
+  height: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.stepper-textarea-open {
+  margin-top: 10px;
+  padding: 5px;
+  opacity: 1;
+  height: 150px;
+  pointer-events: auto;
 }
 
 .person-name-wrap {
@@ -1139,6 +1205,10 @@ input[type=text].new-company-input:focus{
     padding: 10px 20px;
   }
 
+  .single-card:hover {
+    background: #f4f4f4;
+  }
+
   .card-company-name {
     display: inline-block;
     line-height: 55px;
@@ -1232,6 +1302,7 @@ input[type=text].new-company-input:focus{
   color: #fff;
   border-radius: 50%;
   background: #0099ff;
+  text-transform: uppercase;
 }
 
 .negative-results {
@@ -1242,23 +1313,54 @@ input[type=text].new-company-input:focus{
   color: #7ae57a;
 }
 
-h3.experiment-data-title {
-  font-size: 16px;
-}
-
-.experiment-data {
-  font-family: 'Montserrat';
-  font-size: 12px;
-  padding: 0 30px;
+.load-spinner-wrap {
+  width: 100%;
+  position: absolute;
+  min-height: 100%;
+  background: #fff;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
   box-sizing: border-box;
 }
 
-.data-string {
-  color: #929292;
-  margin-top: 10px;
+.spinner {
+  animation: rotator 1.4s linear infinite;
+  stroke: #0099ff;
 }
 
-.data-value {
-  text-align: right;
-  margin-top: -10px;
+.spinner-gone {
+  z-index: -100;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
 }
