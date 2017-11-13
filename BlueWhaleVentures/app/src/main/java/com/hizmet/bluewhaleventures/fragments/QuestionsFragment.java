@@ -13,6 +13,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +49,6 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hizmet.bluewhaleventures.PersonActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.classes.ClickListener;
 import com.hizmet.bluewhaleventures.classes.Question;
@@ -99,6 +101,8 @@ public class QuestionsFragment extends Fragment {
     private Uri uriToFile = null;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
+    private SeekBar mSeekBar;
+    private TextView textviewProgress;
     private int mRecordingDuration;
     private boolean isRecording;
     private boolean isPlaying;
@@ -346,13 +350,26 @@ public class QuestionsFragment extends Fragment {
                                 isPlaying = true;
                                 playRecording.setImageResource(R.drawable.ic_stop_30dp);
 
+                                int recordingDuration = mPlayer.getDuration();
+                                final Handler mHandler = new Handler();
+                                mSeekBar.setMax(recordingDuration);
+                                textviewProgress.setText(recordingDuration);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (mPlayer != null) {
+                                            int mCurrentPosition = mPlayer.getCurrentPosition() / 1000;
+                                            mSeekBar.setProgress(mCurrentPosition);
+                                        }
+                                        mHandler.postDelayed(this, 1000);
+                                    }
+                                });
+
 
                                 mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                     @Override
                                     public void onCompletion(MediaPlayer mp) {
-                                        isPlaying = false;
-                                        slider.hide();
-                                        recordFAB.show();
+                                        stopPlaying();
                                         playRecording.setImageResource(R.drawable.ic_play_circle_filled_30dp);
                                     }
                                 });
@@ -378,9 +395,14 @@ public class QuestionsFragment extends Fragment {
     }
 
     private void stopPlaying() {
-
         slider.hide();
         recordFAB.show();
+
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+        }
         isPlaying = false;
     }
 
@@ -517,6 +539,8 @@ public class QuestionsFragment extends Fragment {
         backButton = getView().findViewById(R.id.toolbarBack);
         recordFAB = getView().findViewById(R.id.fab);
         playRecording = getView().findViewById(R.id.toolbarPlayRecording);
+        mSeekBar = getView().findViewById(R.id.seekBar);
+        textviewProgress = getView().findViewById(R.id.textViewProgress);
     }
 
     private void setRefreshLayout() {
