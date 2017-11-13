@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -233,36 +232,42 @@ public class ExperimentsFragment extends Fragment {
     private void getExperimentData() {
         experimentsList.clear();
         adapter.notifyDataSetChanged();
-        if (ventureId.isEmpty()) {
-            return;
-        } else {
-            Query experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").orderBy("DateCreated", Query.Direction.ASCENDING);
-            experiments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        experimentCount = 0;
-                        for (DocumentSnapshot document : task.getResult()) {
-                            if (document.exists()) {
-                                Map experimentData = document.getData();
-                                Log.d("ventures", document.getId() + " => " + document.getData());
-                                experimentCount++;
-                                Experiment experiment = new Experiment(experimentData);
-                                experiment.setExperimentId(document.getId());
-                                experimentsList.add(experiment);
+        try {
+            if (ventureId.isEmpty()) {
+                return;
+            } else {
+                Query experiments = firestoreDb.collection("Startups").document(ventureId).collection("Experiments").orderBy("DateCreated", Query.Direction.ASCENDING);
+                experiments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            experimentCount = 0;
+                            for (DocumentSnapshot document : task.getResult()) {
+                                if (document.exists()) {
+                                    Map experimentData = document.getData();
+                                    Log.d("ventures", document.getId() + " => " + document.getData());
+                                    experimentCount++;
+                                    Experiment experiment = new Experiment(experimentData);
+                                    experiment.setExperimentId(document.getId());
+                                    experimentsList.add(experiment);
 
+                                }
                             }
+                            Collections.reverse(experimentsList);
+                            numberOfExperiments = experimentCount;
+                            adapter.notifyDataSetChanged();
+                            refresherLayout.setRefreshing(false);
+                        } else {
+                            Log.d("ventures", "Error getting documents: ", task.getException());
                         }
-                        Collections.reverse(experimentsList);
-                        numberOfExperiments = experimentCount;
-                        adapter.notifyDataSetChanged();
-                        refresherLayout.setRefreshing(false);
-                    } else {
-                        Log.d("ventures", "Error getting documents: ", task.getException());
                     }
-                }
-            });
+                });
+            }
+        } catch (Exception e) {
+            // ventureId is null
+            e.printStackTrace();
         }
+
     }
 
     private void setLocalVentureId(Context context, String ventureId) {

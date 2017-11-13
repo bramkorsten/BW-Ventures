@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -340,7 +341,7 @@ public class QuestionsFragment extends Fragment {
                                 try {
                                     mPlayer.setDataSource(getContext(), uriToFile);
                                     mPlayer.prepare();
-                                } catch (IOException e) {
+                                } catch (IOException | IllegalStateException e) {
                                     e.printStackTrace();
                                 }
 
@@ -350,10 +351,13 @@ public class QuestionsFragment extends Fragment {
                                 isPlaying = true;
                                 playRecording.setImageResource(R.drawable.ic_stop_30dp);
 
+                                // Seekbar
                                 int recordingDuration = mPlayer.getDuration();
                                 final Handler mHandler = new Handler();
                                 mSeekBar.setMax(recordingDuration);
-                                textviewProgress.setText(recordingDuration);
+                                textviewProgress.setText(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(recordingDuration),
+                                        TimeUnit.MILLISECONDS.toMinutes(recordingDuration) % TimeUnit.HOURS.toMinutes(1),
+                                        TimeUnit.MILLISECONDS.toSeconds(recordingDuration) % TimeUnit.MINUTES.toSeconds(1)));
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
