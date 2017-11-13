@@ -63,7 +63,7 @@
                                         <rect key="frame" x="0.0" y="23" width="247" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRI-LT-pfs">
                                         <rect key="frame" x="0.0" y="61" width="247" height="15"/>
@@ -75,7 +75,7 @@
                                         <rect key="frame" x="0.0" y="84" width="247" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="8vT-uU-PtD" userLabel="SubForm">
                                         <rect key="frame" x="0.0" y="122" width="247" height="27"/>
@@ -198,30 +198,42 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="F2Q-QW-JZU">
                                                     <rect key="frame" x="16" y="16" width="343" height="50"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BW-Ventures-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="s1s-eF-Bpw" userLabel="Image">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OIy-ne-yTQ" userLabel="ImageView">
                                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Nm-Bz-Pjb">
+                                                                    <rect key="frame" x="21.5" y="16.5" width="8" height="17.5"/>
+                                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="50" id="nty-qF-WJy"/>
-                                                                <constraint firstAttribute="width" constant="50" id="p3q-Xd-eYu"/>
+                                                                <constraint firstAttribute="height" constant="50" id="Auq-Xa-gva"/>
+                                                                <constraint firstItem="2Nm-Bz-Pjb" firstAttribute="centerY" secondItem="OIy-ne-yTQ" secondAttribute="centerY" id="Eed-A9-nja"/>
+                                                                <constraint firstAttribute="width" constant="50" id="Hl7-J1-MUU"/>
+                                                                <constraint firstItem="2Nm-Bz-Pjb" firstAttribute="centerX" secondItem="OIy-ne-yTQ" secondAttribute="centerX" id="Ya3-N4-x8O"/>
                                                             </constraints>
-                                                        </imageView>
+                                                        </view>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-vI-IdH" userLabel="Labels">
                                                             <rect key="frame" x="66" y="0.0" width="241" height="50"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" text="Business Orientation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-Dv-G3D">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="241" height="22"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-Dv-G3D">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="241" height="25"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="Starting experiment to set general direction." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcd-oc-NMe">
-                                                                    <rect key="frame" x="0.0" y="22" width="241" height="15"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcd-oc-NMe">
+                                                                    <rect key="frame" x="0.0" y="25" width="241" height="0.0"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="positive results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-SS-tny">
-                                                                    <rect key="frame" x="0.0" y="40" width="241" height="10"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-SS-tny">
+                                                                    <rect key="frame" x="0.0" y="25" width="241" height="25"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="8"/>
                                                                     <color key="textColor" red="0.47843137254901957" green="0.89803921568627454" blue="0.47843137254901957" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -256,7 +268,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="experimentDescription" destination="jcd-oc-NMe" id="Brl-zA-ovZ"/>
-                                            <outlet property="experimentNumber" destination="s1s-eF-Bpw" id="keU-cr-AfM"/>
+                                            <outlet property="experimentNumber" destination="OIy-ne-yTQ" id="dwi-1Q-RGf"/>
+                                            <outlet property="experimentNumberLabel" destination="2Nm-Bz-Pjb" id="6QR-Ot-2qn"/>
                                             <outlet property="experimentOptions" destination="tAu-45-ZD5" id="dge-b4-leU"/>
                                             <outlet property="experimentResults" destination="gFq-SS-tny" id="Vvs-vA-CCO"/>
                                             <outlet property="experimentTitle" destination="RyH-Dv-G3D" id="4qk-a9-CIE"/>
@@ -280,11 +293,171 @@
                     <tabBarItem key="tabBarItem" title="Experiments" image="vlemke_gray" selectedImage="vlemke_blue" id="Qf7-3F-owm"/>
                     <connections>
                         <outlet property="experimentsTableView" destination="kqd-yC-WvY" id="Tj6-ez-8bB"/>
+                        <segue destination="0gV-Bb-a2m" kind="show" identifier="singleExperimentSegue" id="dXz-iq-XW3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLP-Jo-j6K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2072.8000000000002" y="-597.75112443778119"/>
+        </scene>
+        <!--People-->
+        <scene sceneID="YDL-VT-HKS">
+            <objects>
+                <viewController id="ycR-CA-lvP" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rf6-A4-M4W"/>
+                        <viewControllerLayoutGuide type="bottom" id="MGD-Nr-wAa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IDE-eJ-Hh7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="People" image="miense_gray" selectedImage="miense_blue" id="Oki-hw-9qQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zZh-Xk-DUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4098" y="-1372"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="t3n-Hd-xyd">
+            <objects>
+                <viewController id="2Sv-zR-7Y1" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mwP-1a-3pA"/>
+                        <viewControllerLayoutGuide type="bottom" id="KXT-Gp-VjB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="flW-KJ-hMo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="cog_gray" selectedImage="cog_blue" id="e3j-b8-5Kb"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wsk-Ew-1e3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4098" y="-596"/>
+        </scene>
+        <!--Experiment-->
+        <scene sceneID="O0H-iG-Ux5">
+            <objects>
+                <viewController id="zlX-9Z-GX4" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4sh-g9-nvB"/>
+                        <viewControllerLayoutGuide type="bottom" id="lI7-1B-u6X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LHp-0s-s0B">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8i0-f8-k2S" userLabel="NavigationBar">
+                                <rect key="frame" x="0.0" y="20" width="375" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqS-yf-oKt" userLabel="Back Button">
+                                        <rect key="frame" x="16" y="27.5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="69i-ry-5sl"/>
+                                            <constraint firstAttribute="width" constant="25" id="FC4-qH-KXx"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="chevron_left_blue"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="experiment" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJI-EU-kjE">
+                                        <rect key="frame" x="73" y="32.5" width="104" height="16"/>
+                                        <fontDescription key="fontDescription" name="Intro" family="Intro " pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0m-Sg-ci7" userLabel="Settings Button">
+                                        <rect key="frame" x="334" y="27.5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="dGu-dX-QS6"/>
+                                            <constraint firstAttribute="height" constant="25" id="qxg-MP-VQw"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="blukskes_gray"/>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nQx-l3-qlK" userLabel="Border">
+                                        <rect key="frame" x="0.0" y="78" width="375" height="2"/>
+                                        <color key="backgroundColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="8Kg-Ol-aeV"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="N6X-av-6pn"/>
+                                    <constraint firstItem="iJI-EU-kjE" firstAttribute="leading" secondItem="dqS-yf-oKt" secondAttribute="trailing" constant="32" id="TUz-EN-U3d"/>
+                                    <constraint firstItem="a0m-Sg-ci7" firstAttribute="centerY" secondItem="8i0-f8-k2S" secondAttribute="centerY" id="XUh-CF-Emv"/>
+                                    <constraint firstItem="iJI-EU-kjE" firstAttribute="centerY" secondItem="8i0-f8-k2S" secondAttribute="centerY" id="aGF-6c-g37"/>
+                                    <constraint firstItem="nQx-l3-qlK" firstAttribute="leading" secondItem="8i0-f8-k2S" secondAttribute="leading" id="al9-dM-Ufv"/>
+                                    <constraint firstAttribute="bottom" secondItem="nQx-l3-qlK" secondAttribute="bottom" id="dJH-jt-yRh"/>
+                                    <constraint firstAttribute="trailing" secondItem="nQx-l3-qlK" secondAttribute="trailing" id="fd3-el-dmO"/>
+                                    <constraint firstItem="dqS-yf-oKt" firstAttribute="leading" secondItem="8i0-f8-k2S" secondAttribute="leading" constant="16" id="jnS-DC-His"/>
+                                    <constraint firstItem="dqS-yf-oKt" firstAttribute="centerY" secondItem="8i0-f8-k2S" secondAttribute="centerY" id="p0g-3v-l8K"/>
+                                    <constraint firstAttribute="trailing" secondItem="a0m-Sg-ci7" secondAttribute="trailing" constant="16" id="y3F-9d-4Sx"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bCa-me-5MO">
+                                <rect key="frame" x="16" y="100" width="343" height="100"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BW-Ventures-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="c7J-5X-SXY">
+                                        <rect key="frame" x="0.0" y="17.5" width="65" height="65"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="65" id="WvR-wC-n5B"/>
+                                            <constraint firstAttribute="width" constant="65" id="ZW0-cp-Bxh"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Experiment Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vrq-2D-d4g">
+                                        <rect key="frame" x="81" y="39" width="147.5" height="22"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="c7J-5X-SXY" firstAttribute="centerY" secondItem="bCa-me-5MO" secondAttribute="centerY" id="9Fj-9j-6QO"/>
+                                    <constraint firstItem="Vrq-2D-d4g" firstAttribute="leading" secondItem="c7J-5X-SXY" secondAttribute="trailing" constant="16" id="MeD-hA-XMz"/>
+                                    <constraint firstItem="Vrq-2D-d4g" firstAttribute="centerY" secondItem="bCa-me-5MO" secondAttribute="centerY" id="O61-iX-9TE"/>
+                                    <constraint firstItem="c7J-5X-SXY" firstAttribute="leading" secondItem="bCa-me-5MO" secondAttribute="leading" id="dY5-eq-S1o"/>
+                                    <constraint firstAttribute="height" constant="100" id="lSX-iW-LMc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bCa-me-5MO" firstAttribute="leading" secondItem="LHp-0s-s0B" secondAttribute="leading" constant="16" id="0M0-im-2in"/>
+                            <constraint firstAttribute="trailing" secondItem="bCa-me-5MO" secondAttribute="trailing" constant="16" id="8hP-vI-xCB"/>
+                            <constraint firstItem="8i0-f8-k2S" firstAttribute="top" secondItem="4sh-g9-nvB" secondAttribute="bottom" id="AMM-tq-bPP"/>
+                            <constraint firstAttribute="trailing" secondItem="8i0-f8-k2S" secondAttribute="trailing" id="NSN-Ji-HYN"/>
+                            <constraint firstItem="bCa-me-5MO" firstAttribute="top" secondItem="8i0-f8-k2S" secondAttribute="bottom" id="Rt5-WF-CQN"/>
+                            <constraint firstItem="8i0-f8-k2S" firstAttribute="leading" secondItem="LHp-0s-s0B" secondAttribute="leading" id="pAL-OA-aJy"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Experiment" image="vlemke_gray" selectedImage="vlemke_blue" id="9qy-SX-tZV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cf8-Y6-I1d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4096.8000000000002" y="-2144.0779610194904"/>
+        </scene>
+        <!--Single Experiment-->
+        <scene sceneID="ix9-Ti-Xpb">
+            <objects>
+                <tabBarController title="Single Experiment" id="0gV-Bb-a2m" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="jke-JN-dtV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="zlX-9Z-GX4" kind="relationship" relationship="viewControllers" id="Pys-Os-qpF"/>
+                        <segue destination="ycR-CA-lvP" kind="relationship" relationship="viewControllers" id="AeY-PK-gZ9"/>
+                        <segue destination="2Sv-zR-7Y1" kind="relationship" relationship="viewControllers" id="RjP-OE-Zdr"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bVC-Z9-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3068" y="-598"/>
         </scene>
         <!--Settings-->
         <scene sceneID="4Gu-pQ-3fA">
@@ -348,10 +521,13 @@
     <resources>
         <image name="BW-Ventures-Logo" width="256" height="256"/>
         <image name="blukskes_gray" width="6" height="25"/>
+        <image name="chevron_left_blue" width="25" height="25"/>
         <image name="cog_blue" width="25" height="25"/>
         <image name="cog_gray" width="25" height="25"/>
         <image name="kearel_blue" width="25" height="25"/>
         <image name="kearel_gray" width="25" height="25"/>
+        <image name="miense_blue" width="25" height="25"/>
+        <image name="miense_gray" width="25" height="25"/>
         <image name="pluske_gray" width="25" height="25"/>
         <image name="vlemke_blue" width="25" height="25"/>
         <image name="vlemke_gray" width="25" height="25"/>

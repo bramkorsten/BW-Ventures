@@ -10,16 +10,16 @@ import UIKit
 
 class Experiment: NSObject {
     
-    var CustomerLocation: String?
-    var CustomerSegment: String?
-    var DateCreated: Date?
-    var ExperimentName: String?
-    var ExperimentNumber: String?
-    var ExperimentSubtitle: String?
-    var FailCondition: String?
-    var LearningGoal: String?
-    var NumberInterviews: Int?
-    var ProblemHypothesis: String?
-    var StopCondition: String?
+    var customerLocation: String?
+    var customerSegment: String?
+    var dateCreated: Date?
+    var experimentName: String?
+    var experimentNumber: Int?
+    var experimentSubtitle: String?
+    var failCondition: String?
+    var learningGoal: String?
+    var numberInterviews: Int?
+    var problemHypothesis: String?
+    var stopCondition: String?
     
 }

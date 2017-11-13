@@ -11,7 +11,8 @@ import Firebase
 
 class ExperimentCell: UITableViewCell {
     
-    @IBOutlet weak var experimentNumber: UIImageView?
+    @IBOutlet weak var experimentNumberLabel: UILabel!
+    @IBOutlet weak var experimentNumber: UIView!
     @IBOutlet weak var experimentOptions: UIImageView?
     @IBOutlet weak var experimentTitle: UILabel!
     @IBOutlet weak var experimentDescription: UILabel!
@@ -23,8 +24,14 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
 
     @IBOutlet weak var experimentsTableView: UITableView!
     
+    let resultsRed = UIColor(red: 229/255, green: 92/255, blue: 92/255, alpha: 1.0)
+    let resultsGreen = UIColor(red: 55/255, green: 237/255, blue: 55/255, alpha: 1.0)
+    let resultsGray = UIColor(red: 191/255, green: 191/255, blue: 191/255, alpha: 1.0)
+    let numberGray = UIColor(red: 146/255, green: 146/255, blue: 146/255, alpha: 1.0)
+    let numberBlue = UIColor(red: 0/255, green: 151/255, blue: 237/255, alpha: 1.0)
+    let cellGray = UIColor(red: 249/255, green: 249/255, blue: 251/255, alpha: 1.0)
+    
     var db:Firestore!
-    var experimentCount = 1
     var experimentList = [Experiment]()
 
     override func viewDidLoad() {
@@ -38,8 +45,7 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
         experimentsTableView.delegate = self
         
         //////////////////////
-        collectExperiments()
-    
+        getExperiments()
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,44 +55,58 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
     
     }
     
-    func collectExperiments() {
-    
-        let userDef = UserDefaults.standard
-        let ventureid = userDef.string(forKey: "ventureid")
-        let docRef = db.collection("Startups").document(ventureid!).collection("Experiments")
+    func getExperiments() {
         
+        let userDef = UserDefaults.standard
+        let ventureid = userDef.string(forKey: "ventureID")
+        let docRef = db.collection("Startups").document(ventureid!).collection("Experiments").order(by: "DateCreated", descending: true)
         docRef.getDocuments() { (snapshot, error) in
+            
             if error != nil {
-            
+                
                 print("Error getting documents: \(error)")
-            
+                
             } else {
-            
-                for experiment in (snapshot?.documents)! {
+                
+                for experiment in (snapshot!.documents) {
                     
-//                    let str = experiment.data()["ExperimentNumber"] as? Int
-//                    let obj = experiment.data()
-//                    print("\(str)")
-//                    print(obj)
-//                    self.experimentCount += 1
-                    print(experiment.data())
-
                     let exp = Experiment()
-                    exp.setValuesForKeys(experiment.data())
+                    exp.customerLocation = experiment.data()["CustomerLocation"] as! String?
+                    exp.customerSegment = experiment.data()["CustomerSegment"] as! String?
+                    exp.dateCreated = experiment.data()["DateCreated"] as! Date?
+                    exp.experimentName = experiment.data()["ExperimentName"] as! String?
+                    exp.experimentNumber = experiment.data()["ExperimentNumber"] as! Int?
+                    exp.experimentSubtitle = experiment.data()["ExperimentSubtitle"] as! String?
+                    exp.failCondition = experiment.data()["FailCondition"] as! String?
+                    exp.learningGoal = experiment.data()["LearningGoal"] as! String?
+                    exp.numberInterviews = experiment.data()["NumberInterviews"] as! Int?
+                    exp.problemHypothesis = experiment.data()["ProblemHypothesis"] as! String?
+                    exp.stopCondition = experiment.data()["StopCondition"] as! String?
+                    
                     self.experimentList.append(exp)
-                    self.experimentsTableView.reloadData()
+                    
+                    DispatchQueue.main.async {
+                        self.experimentsTableView.reloadData()
+                    }
                     
                 }
             }
         }
+        
     }
     
     // MARK: - Table View
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     
-        return experimentList.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return experimentList.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(experimentList[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,15 +114,37 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
         // Create cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExperimentCellID", for: indexPath) as! ExperimentCell
         
-        cell.experimentTitle.text = "null"
-        cell.experimentDescription.text = "null"
-        cell.experimentResults.text = "null"
+        cell.selectionStyle = .none
+        cell.experimentNumber.layer.cornerRadius = 25
+        let number = experimentList[indexPath.row].experimentNumber
+        cell.experimentNumberLabel.text = String(number!)
+        cell.experimentTitle.text = experimentList[indexPath.row].experimentName
+        cell.experimentDescription.text = experimentList[indexPath.row].experimentSubtitle
+        cell.experimentResults.text = "negative results"
         
+        // Change NUMBER backgroundcolor
+        if experimentList.count == experimentList[indexPath.row].experimentNumber {
+            cell.experimentNumber.backgroundColor = numberBlue
+        }
         
-//        // Fill cell with dummy data
-//        cell.experimentTitle.text = "Hello"
-//        cell.experimentDescription.text = "This is a sample text."
-//        cell.experimentResults.text = "Negative results"
+        // Change RESULTS color
+        if cell.experimentResults.text == "negative results" {
+            cell.experimentResults.textColor = resultsRed
+        } else if cell.experimentResults.text == "positive results" {
+            cell.experimentResults.textColor = resultsGreen
+        } else {
+            cell.experimentResults.textColor = resultsGray
+        }
+        
+//        for item in experimentList {
+//            cell.experimentTitle.text = item.experimentName
+//            cell.experimentDescription.text = item.experimentSubtitle
+//            cell.experimentResults.text = "Results"
+//        }
+        
+//        DispatchQueue.main.async {
+//            self.experimentsTableView.reloadData()
+//        }
         
         return cell
     

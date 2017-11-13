@@ -22,15 +22,18 @@ class LoginScreen: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        Auth.auth().addStateDidChangeListener { (auth, user) in
-//            if user != nil {
-//                let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
-//                self.present(nextViewController, animated: true, completion: nil)
-//            }
-//        }
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                let userDef = UserDefaults.standard
+                let name = userDef.string(forKey: "Name")! + " " + userDef.string(forKey: "Surname")!
+                print("Signed in user: \(name)")
+                let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
+                self.present(nextViewController, animated: true, completion: nil)
+            }
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -64,13 +67,14 @@ class LoginScreen: UIViewController {
                             // Create instance of UserDefaults
                             let userDef = UserDefaults.standard
                             // Storing values
-                            userDef.set(document.data()["age"], forKey: "age")
-                            userDef.set(document.data()["email"], forKey: "email")
-                            userDef.set(document.data()["gender"], forKey: "gender")
-                            userDef.set(document.data()["name"], forKey: "name")
-                            userDef.set(document.data()["phoneNumber"], forKey: "phoneNumber")
+                            userDef.set(document.data()["Age"], forKey: "Age")
+                            userDef.set(document.data()["Email"], forKey: "Email")
+                            userDef.set(document.data()["Gender"], forKey: "Gender")
+                            userDef.set(document.data()["Name"], forKey: "Name")
+                            userDef.set(document.data()["Phone"], forKey: "Phone")
+                            userDef.set(document.data()["Surname"], forKey: "Surname")
                             userDef.set(document.data()["uid"], forKey: "uid")
-                            userDef.set(document.data()["ventureID"], forKey: "ventureid")
+                            userDef.set(document.data()["ventureID"], forKey: "ventureID")
                         } else {
                             print("Document does not exist")
                         }
