@@ -67,6 +67,19 @@
         app:layout_constraintTop_toBottomOf="@+id/appToolbar"
         app:layout_constraintVertical_bias="0.0">
 
+        <TextView
+            android:id="@+id/noElementsYetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/montserrat"
+            android:text="No experiments yet"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="0dp"
