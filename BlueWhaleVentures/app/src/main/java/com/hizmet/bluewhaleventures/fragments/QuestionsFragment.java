@@ -316,6 +316,7 @@ public class QuestionsFragment extends Fragment {
     }
 
     private void startPlaying() {
+        // TODO: 11/13/2017 We should really save files locally if they have already be downloaded once. It could cost a lot of data otherwise... 
         // get firebase field with recording filename
         DocumentReference testerRef = firestoreDb.collection("Startups").document(getLocalVentureId()).collection("Experiments").document(getLocalExperimentId()).collection("people").document(getLocalTesterId());
         testerRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -453,10 +454,13 @@ public class QuestionsFragment extends Fragment {
 
     private void startRecording() {
         mRecorder = new MediaRecorder();
+        // 4.2Kb per second is about 14.5Mb per hour
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
         mRecorder.setOutputFile(mLocalFileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mRecorder.setAudioSamplingRate(44100);
+        mRecorder.setAudioEncodingBitRate(30000);
 
         try {
             mRecorder.prepare();
