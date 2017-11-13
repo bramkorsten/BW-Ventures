@@ -353,11 +353,13 @@ public class QuestionsFragment extends Fragment {
 
                                 // Seekbar
                                 int recordingDuration = mPlayer.getDuration();
-                                final Handler mHandler = new Handler();
                                 mSeekBar.setMax(recordingDuration);
                                 textviewProgress.setText(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(recordingDuration),
                                         TimeUnit.MILLISECONDS.toMinutes(recordingDuration) % TimeUnit.HOURS.toMinutes(1),
                                         TimeUnit.MILLISECONDS.toSeconds(recordingDuration) % TimeUnit.MINUTES.toSeconds(1)));
+
+                                // Making sure Seekbar is updated on UI thread
+                                final Handler mHandler = new Handler();
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
