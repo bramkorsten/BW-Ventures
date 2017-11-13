@@ -404,6 +404,7 @@ public class QuestionsFragment extends Fragment {
                                 });
 
                                 mPlayer.start();
+                                pausePlay.setImageResource(R.drawable.ic_pause_blue_24dp);
                                 slider.show();
                                 recordFAB.hide();
                                 isPlaying = true;
