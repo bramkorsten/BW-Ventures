@@ -16,11 +16,10 @@ class ExperimentCell: UITableViewCell {
     @IBOutlet weak var experimentOptions: UIImageView?
     @IBOutlet weak var experimentTitle: UILabel!
     @IBOutlet weak var experimentDescription: UILabel!
-    @IBOutlet weak var experimentResults: UILabel!
     
 }
 
-class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ExperimentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var experimentsTableView: UITableView!
     
@@ -34,9 +33,15 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
     var db:Firestore!
     var experimentList = [Experiment]()
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        getExperiments()
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         // Declare Firestore
         db = Firestore.firestore()
         
@@ -45,7 +50,6 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
         experimentsTableView.delegate = self
         
         //////////////////////
-        getExperiments()
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,15 +102,21 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
     // MARK: - Table View
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return experimentList.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(experimentList[indexPath.row])
+        
+        let nextVC = SingleExperimentViewController()
+        print(experimentList[indexPath.row].experimentNumber!)
+        nextVC.experimentVar = experimentList[indexPath.row].experimentNumber!
+        self.performSegue(withIdentifier: "singleSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -120,31 +130,11 @@ class ExperimentsClass: UIViewController, UITableViewDataSource, UITableViewDele
         cell.experimentNumberLabel.text = String(number!)
         cell.experimentTitle.text = experimentList[indexPath.row].experimentName
         cell.experimentDescription.text = experimentList[indexPath.row].experimentSubtitle
-        cell.experimentResults.text = "negative results"
         
         // Change NUMBER backgroundcolor
         if experimentList.count == experimentList[indexPath.row].experimentNumber {
             cell.experimentNumber.backgroundColor = numberBlue
         }
-        
-        // Change RESULTS color
-        if cell.experimentResults.text == "negative results" {
-            cell.experimentResults.textColor = resultsRed
-        } else if cell.experimentResults.text == "positive results" {
-            cell.experimentResults.textColor = resultsGreen
-        } else {
-            cell.experimentResults.textColor = resultsGray
-        }
-        
-//        for item in experimentList {
-//            cell.experimentTitle.text = item.experimentName
-//            cell.experimentDescription.text = item.experimentSubtitle
-//            cell.experimentResults.text = "Results"
-//        }
-        
-//        DispatchQueue.main.async {
-//            self.experimentsTableView.reloadData()
-//        }
         
         return cell
     

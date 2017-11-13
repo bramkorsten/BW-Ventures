@@ -25,9 +25,6 @@ class LoginScreen: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
-                let userDef = UserDefaults.standard
-                let name = userDef.string(forKey: "Name")! + " " + userDef.string(forKey: "Surname")!
-                print("Signed in user: \(name)")
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let nextViewController = storyboard.instantiateViewController(withIdentifier: "tabBarID")
                 self.present(nextViewController, animated: true, completion: nil)

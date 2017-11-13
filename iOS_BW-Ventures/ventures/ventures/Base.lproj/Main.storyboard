@@ -138,7 +138,7 @@
         <!--Experiments-->
         <scene sceneID="x8n-7Y-0b8">
             <objects>
-                <viewController storyboardIdentifier="experimentID" title="Experiments" id="vf3-3h-kpL" customClass="ExperimentsClass" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="experimentID" title="Experiments" id="vf3-3h-kpL" customClass="ExperimentsViewController" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KfT-ny-wJQ"/>
                         <viewControllerLayoutGuide type="bottom" id="Zgi-de-9yn"/>
@@ -217,25 +217,19 @@
                                                                 <constraint firstItem="2Nm-Bz-Pjb" firstAttribute="centerX" secondItem="OIy-ne-yTQ" secondAttribute="centerX" id="Ya3-N4-x8O"/>
                                                             </constraints>
                                                         </view>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-vI-IdH" userLabel="Labels">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-vI-IdH" userLabel="Labels">
                                                             <rect key="frame" x="66" y="0.0" width="241" height="50"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-Dv-G3D">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="249" text="Whoops" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-Dv-G3D">
                                                                     <rect key="frame" x="0.0" y="0.0" width="241" height="25"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcd-oc-NMe">
-                                                                    <rect key="frame" x="0.0" y="25" width="241" height="0.0"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="There aren't any experiments yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcd-oc-NMe">
+                                                                    <rect key="frame" x="0.0" y="25" width="241" height="25"/>
                                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                                     <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFq-SS-tny">
-                                                                    <rect key="frame" x="0.0" y="25" width="241" height="25"/>
-                                                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="8"/>
-                                                                    <color key="textColor" red="0.47843137254901957" green="0.89803921568627454" blue="0.47843137254901957" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
@@ -271,7 +265,6 @@
                                             <outlet property="experimentNumber" destination="OIy-ne-yTQ" id="dwi-1Q-RGf"/>
                                             <outlet property="experimentNumberLabel" destination="2Nm-Bz-Pjb" id="6QR-Ot-2qn"/>
                                             <outlet property="experimentOptions" destination="tAu-45-ZD5" id="dge-b4-leU"/>
-                                            <outlet property="experimentResults" destination="gFq-SS-tny" id="Vvs-vA-CCO"/>
                                             <outlet property="experimentTitle" destination="RyH-Dv-G3D" id="4qk-a9-CIE"/>
                                         </connections>
                                     </tableViewCell>
@@ -293,7 +286,7 @@
                     <tabBarItem key="tabBarItem" title="Experiments" image="vlemke_gray" selectedImage="vlemke_blue" id="Qf7-3F-owm"/>
                     <connections>
                         <outlet property="experimentsTableView" destination="kqd-yC-WvY" id="Tj6-ez-8bB"/>
-                        <segue destination="0gV-Bb-a2m" kind="show" identifier="singleExperimentSegue" id="dXz-iq-XW3"/>
+                        <segue destination="0gV-Bb-a2m" kind="showDetail" identifier="singleExperimentSegue" id="Ptw-GX-3rG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLP-Jo-j6K" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -317,7 +310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zZh-Xk-DUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4098" y="-1372"/>
+            <point key="canvasLocation" x="4063" y="-599"/>
         </scene>
         <!--Settings-->
         <scene sceneID="t3n-Hd-xyd">
@@ -336,12 +329,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsk-Ew-1e3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4098" y="-596"/>
+            <point key="canvasLocation" x="4062" y="-1370"/>
         </scene>
         <!--Experiment-->
         <scene sceneID="O0H-iG-Ux5">
             <objects>
-                <viewController id="zlX-9Z-GX4" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="singleExperimentID" id="zlX-9Z-GX4" customClass="SingleExperimentViewController" customModule="ventures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4sh-g9-nvB"/>
                         <viewControllerLayoutGuide type="bottom" id="lI7-1B-u6X"/>
@@ -400,27 +393,37 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bCa-me-5MO">
                                 <rect key="frame" x="16" y="100" width="343" height="100"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BW-Ventures-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="c7J-5X-SXY">
-                                        <rect key="frame" x="0.0" y="17.5" width="65" height="65"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ErM-xk-3Ou" userLabel="LogoText">
+                                        <rect key="frame" x="0.0" y="18" width="64" height="64"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ET" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="icz-jW-Bkx" userLabel="LogoTextLabel">
+                                                <rect key="frame" x="15" y="15.5" width="34.5" height="34.5"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="28"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="65" id="WvR-wC-n5B"/>
-                                            <constraint firstAttribute="width" constant="65" id="ZW0-cp-Bxh"/>
+                                            <constraint firstItem="icz-jW-Bkx" firstAttribute="centerY" secondItem="ErM-xk-3Ou" secondAttribute="centerY" id="JeA-ej-cjH"/>
+                                            <constraint firstAttribute="width" constant="64" id="LAl-U9-Wn9"/>
+                                            <constraint firstItem="icz-jW-Bkx" firstAttribute="centerX" secondItem="ErM-xk-3Ou" secondAttribute="centerX" id="Wbo-kI-pBG"/>
+                                            <constraint firstAttribute="height" constant="64" id="m9r-93-MAX"/>
                                         </constraints>
-                                    </imageView>
+                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Experiment Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vrq-2D-d4g">
-                                        <rect key="frame" x="81" y="39" width="147.5" height="22"/>
+                                        <rect key="frame" x="80" y="39" width="147.5" height="22"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="c7J-5X-SXY" firstAttribute="centerY" secondItem="bCa-me-5MO" secondAttribute="centerY" id="9Fj-9j-6QO"/>
-                                    <constraint firstItem="Vrq-2D-d4g" firstAttribute="leading" secondItem="c7J-5X-SXY" secondAttribute="trailing" constant="16" id="MeD-hA-XMz"/>
+                                    <constraint firstItem="Vrq-2D-d4g" firstAttribute="leading" secondItem="ErM-xk-3Ou" secondAttribute="trailing" constant="16" id="1p9-8p-z2P"/>
+                                    <constraint firstItem="ErM-xk-3Ou" firstAttribute="leading" secondItem="bCa-me-5MO" secondAttribute="leading" id="GpP-oK-hyJ"/>
                                     <constraint firstItem="Vrq-2D-d4g" firstAttribute="centerY" secondItem="bCa-me-5MO" secondAttribute="centerY" id="O61-iX-9TE"/>
-                                    <constraint firstItem="c7J-5X-SXY" firstAttribute="leading" secondItem="bCa-me-5MO" secondAttribute="leading" id="dY5-eq-S1o"/>
                                     <constraint firstAttribute="height" constant="100" id="lSX-iW-LMc"/>
+                                    <constraint firstItem="ErM-xk-3Ou" firstAttribute="centerY" secondItem="bCa-me-5MO" secondAttribute="centerY" id="pfG-iF-Z95"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -435,15 +438,19 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Experiment" image="vlemke_gray" selectedImage="vlemke_blue" id="9qy-SX-tZV"/>
+                    <connections>
+                        <outlet property="LogoText" destination="ErM-xk-3Ou" id="YFU-rD-Ecy"/>
+                        <outlet property="LogoTextLabel" destination="icz-jW-Bkx" id="jXh-Qs-qUm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cf8-Y6-I1d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4096.8000000000002" y="-2144.0779610194904"/>
+            <point key="canvasLocation" x="4062" y="-2122"/>
         </scene>
         <!--Single Experiment-->
         <scene sceneID="ix9-Ti-Xpb">
             <objects>
-                <tabBarController title="Single Experiment" id="0gV-Bb-a2m" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="singleExperimentTabBar" title="Single Experiment" id="0gV-Bb-a2m" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="jke-JN-dtV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -457,7 +464,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVC-Z9-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3068" y="-598"/>
+            <point key="canvasLocation" x="3060" y="-598"/>
         </scene>
         <!--Settings-->
         <scene sceneID="4Gu-pQ-3fA">
@@ -519,7 +526,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BW-Ventures-Logo" width="256" height="256"/>
         <image name="blukskes_gray" width="6" height="25"/>
         <image name="chevron_left_blue" width="25" height="25"/>
         <image name="cog_blue" width="25" height="25"/>
