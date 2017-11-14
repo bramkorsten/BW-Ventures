@@ -517,7 +517,59 @@ public class QuestionsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if (document.getData().get("questionData") != null) {
+                        if (document.getData().get("questionData") == null) {
+                            Map<String, Map> data = new HashMap<>();
+                            Map<String, String> singleQuestionData = new HashMap<>();
+                            singleQuestionData.put("question", questionTxt);
+                            singleQuestionData.put("answer", "");
+                            singleQuestionData.put("notes", "");
+                            singleQuestionData.put("questionNumber", "1");
+                            data.put("1", singleQuestionData);
+
+                            Map<String, Map> databaseData = new HashMap<>();
+
+                            databaseData.put("questionData", data);
+
+                            firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId).collection("people").document(testerId)
+                                    .set(databaseData, SetOptions.merge())
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("ventures", "onComplete: completed!");
+                                            Question newQuestion = new Question(index, questionTxt);
+                                            questionsList.add(0, newQuestion);
+                                            adapter.notifyDataSetChanged();
+                                            // get the center for the clipping circle
+                                            int cx = newQuestionView.getMeasuredHeight() - 60;
+                                            int cy = newQuestionView.getMeasuredHeight() / 2;
+
+                                            // get the initial radius for the clipping circle
+                                            int initialRadius = newQuestionView.getWidth();
+
+                                            // create the animation (the final radius is zero)
+                                            Animator anim =
+                                                    ViewAnimationUtils.createCircularReveal(newQuestionView, cx, cy, initialRadius, 0);
+
+                                            // make the view invisible when the animation is done
+                                            anim.addListener(new AnimatorListenerAdapter() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    super.onAnimationEnd(animation);
+                                                    newQuestionTxt.setText("");
+                                                    toolbarSaveQuestionButton.setVisibility(View.VISIBLE);
+                                                    newQuestionSpinner.setVisibility(View.INVISIBLE);
+                                                    newQuestionView.setVisibility(View.INVISIBLE);
+
+                                                }
+                                            });
+
+                                            // start the animation
+                                            anim.start();
+
+                                        }
+                                    });
+                        }
+                        else {
                             Map<String, Map> data = (Map) document.getData().get("questionData");
                             Map<String, String> singleQuestionData = new HashMap<>();
                             singleQuestionData.put("question", questionTxt);
@@ -540,7 +592,7 @@ public class QuestionsFragment extends Fragment {
                                             Log.d("ventures", "onComplete: completed!");
                                             Question newQuestion = new Question(index, questionTxt);
                                             questionsList.add(index, newQuestion);
-                                            adapter.notifyItemChanged(index);
+                                            adapter.notifyDataSetChanged();
                                             // get the center for the clipping circle
                                             int cx = newQuestionView.getMeasuredHeight() - 60;
                                             int cy = newQuestionView.getMeasuredHeight() / 2;
@@ -590,6 +642,7 @@ public class QuestionsFragment extends Fragment {
         playRecording = getView().findViewById(R.id.toolbarPlayRecording);
         mSeekBar = getView().findViewById(R.id.seekBar);
         textviewProgress = getView().findViewById(R.id.textViewProgress);
+        newQuestionTxt = getView().findViewById(R.id.newQuestionTxt);
     }
 
     private void setRefreshLayout() {
