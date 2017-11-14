@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hizmet.bluewhaleventures.ExperimentActivity;
+import com.hizmet.bluewhaleventures.NewExperimentActivity;
 import com.hizmet.bluewhaleventures.R;
 import com.hizmet.bluewhaleventures.fragments.ExperimentsFragment;
 
@@ -94,7 +95,14 @@ public class ExperimentAdapter extends RecyclerView.Adapter<ExperimentAdapter.My
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.edit:
-                Log.d("ventures", "onMenuItemClick: EDIT");
+                Intent intent = new Intent(experimentsFragment.getActivity(), NewExperimentActivity.class);
+                intent.putExtra("id", experiment.getExperimentId());
+                Map experimentData = experiment.getData();
+                intent.putExtra("experimentToEdit", (Serializable) experimentData);
+                intent.putExtra("isEdit", true);
+                experimentsFragment.startActivityForResult(intent, 1);
+
+
                 return true;
 
             case R.id.delete:

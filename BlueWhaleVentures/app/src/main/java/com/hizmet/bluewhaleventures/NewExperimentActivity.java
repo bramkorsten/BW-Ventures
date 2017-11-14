@@ -3,7 +3,9 @@ package com.hizmet.bluewhaleventures;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -38,6 +41,9 @@ public class NewExperimentActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String ventureId;
     private int experimentNumber;
+    private Map experimentData;
+    private String experimentId;
+    private boolean isEdit = false;
     ProgressDialog dialog;
 
     @Override
@@ -45,12 +51,18 @@ public class NewExperimentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_experiment);
         Intent intent = getIntent();
-        experimentNumber = intent.getIntExtra("numberOfExperiments", 0) + 1;
-        Log.d("ventures", "onCreate: " + experimentNumber);
-        setViews();
+        if (intent.getBooleanExtra("isEdit", false)) {
+            isEdit = true;
+            experimentData = (Map) intent.getSerializableExtra("experimentToEdit");
+            experimentId = intent.getStringExtra("id");
+        } else {
+            experimentNumber = intent.getIntExtra("numberOfExperiments", 0) + 1;
+        }
+        setViews(isEdit);
+
     }
 
-    private void setViews() {
+    private void setViews(boolean isEdit) {
         name = findViewById(R.id.textContainerName);
         desc = findViewById(R.id.textContainerDesc);
         segment = findViewById(R.id.textContainerSegment);
@@ -61,6 +73,21 @@ public class NewExperimentActivity extends AppCompatActivity {
         interviews = findViewById(R.id.numberinterviews);
         fail = findViewById(R.id.textContainerFail);
         stop = findViewById(R.id.textContainerStop);
+
+        if (isEdit) {
+            name.getEditText().setText(experimentData.get("ExperimentName").toString());
+            desc.getEditText().setText(experimentData.get("ExperimentSubtitle").toString());
+            segment.getEditText().setText(experimentData.get("CustomerSegment").toString());
+            find.getEditText().setText(experimentData.get("CustomerLocation").toString());
+            problem.getEditText().setText(experimentData.get("ProblemHypothesis").toString());
+            goal.getEditText().setText(experimentData.get("LearningGoal").toString());
+            interviewBar.setProgress(Integer.valueOf(experimentData.get("NumberInterviews").toString()));
+            String txt = String.valueOf(experimentData.get("NumberInterviews").toString()) + " Interviews";
+            interviews.setText(txt);
+            fail.getEditText().setText(experimentData.get("FailCondition").toString());
+            stop.getEditText().setText(experimentData.get("StopCondition").toString());
+
+        }
 
         interviewBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -108,30 +135,6 @@ public class NewExperimentActivity extends AppCompatActivity {
         } else {
             desc.setError(null);
         }
-        if (segment.getEditText().getText().toString().length() > 30 || segment.getEditText().getText().toString().length() == 0) {
-            segment.setError("Please enter a correct length text");
-            hasError = true;
-        } else {
-            segment.setError(null);
-        }
-        if (find.getEditText().getText().toString().length() > 40 || find.getEditText().getText().toString().length() == 0) {
-            find.setError("Please enter a correct length text");
-            hasError = true;
-        } else {
-            find.setError(null);
-        }
-        if (problem.getEditText().getText().toString().length() > 40 || problem.getEditText().getText().toString().length() == 0) {
-            problem.setError("Please enter a correct length text");
-            hasError = true;
-        } else {
-            problem.setError(null);
-        }
-        if (goal.getEditText().getText().toString().length() > 100 || goal.getEditText().getText().toString().length() == 0) {
-            goal.setError("Please enter a correct length text");
-            hasError = true;
-        } else {
-            goal.setError(null);
-        }
         if (fail.getEditText().getText().toString().length() > 100 || fail.getEditText().getText().toString().length() == 0) {
             fail.setError("Please enter a correct length text");
             hasError = true;
@@ -156,56 +159,80 @@ public class NewExperimentActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
-        DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        ventureId = (String) task.getResult().getData().get("ventureID");
-                        saveExperiment();
-                    } else {
-                        Log.d("ventures", "No such document");
-                    }
-                }
-            }
-        });
+        ventureId = getLocalVentureId();
+        saveExperiment();
+
+
+//        DocumentReference docRef = firestoreDb.collection("users").document(user.getUid());
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        ventureId = (String) task.getResult().getData().get("ventureID");
+//                        saveExperiment();
+//                    } else {
+//                        Log.d("ventures", "No such document");
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void saveExperiment() {
-        Map<String, Object> experimentData = new HashMap<>();
-        experimentData.put("ExperimentName", name.getEditText().getText().toString().trim());
-        experimentData.put("ExperimentSubtitle", desc.getEditText().getText().toString().trim());
-        experimentData.put("CustomerSegment", segment.getEditText().getText().toString().trim());
-        experimentData.put("CustomerLocation", find.getEditText().getText().toString().trim());
-        experimentData.put("ProblemHypothesis", problem.getEditText().getText().toString().trim());
-        experimentData.put("LearningGoal", goal.getEditText().getText().toString().trim());
-        experimentData.put("NumberInterviews", numOfInterviews);
-        experimentData.put("FailCondition", fail.getEditText().getText().toString().trim());
-        experimentData.put("StopCondition", stop.getEditText().getText().toString().trim());
+        Map<String, Object> newExperimentData = new HashMap<>();
+        newExperimentData.put("ExperimentName", name.getEditText().getText().toString().trim());
+        newExperimentData.put("ExperimentSubtitle", desc.getEditText().getText().toString().trim());
+        newExperimentData.put("CustomerSegment", segment.getEditText().getText().toString().trim());
+        newExperimentData.put("CustomerLocation", find.getEditText().getText().toString().trim());
+        newExperimentData.put("ProblemHypothesis", problem.getEditText().getText().toString().trim());
+        newExperimentData.put("LearningGoal", goal.getEditText().getText().toString().trim());
+        newExperimentData.put("NumberInterviews", numOfInterviews);
+        newExperimentData.put("FailCondition", fail.getEditText().getText().toString().trim());
+        newExperimentData.put("StopCondition", stop.getEditText().getText().toString().trim());
 
-        experimentData.put("ExperimentNumber", experimentNumber);
-        experimentData.put("DateCreated", Calendar.getInstance().getTime());
+        newExperimentData.put("ExperimentNumber", experimentNumber);
+        newExperimentData.put("DateCreated", Calendar.getInstance().getTime());
 
-        firestoreDb.collection("Startups").document(ventureId).collection("Experiments")
-                .add(experimentData)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("ventures", "Experiment was saved with ID: " + documentReference.getId());
-                        dialog.dismiss();
-                        Intent data = new Intent();
-                        setResult(1, data);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("ventures", "Error adding document", e);
-                    }
-                });
+        if (isEdit) {
+            newExperimentData.put("ExperimentNumber", experimentData.get("ExperimentNumber"));
+            newExperimentData.put("DateCreated", experimentData.get("DateCreated"));
+            firestoreDb.collection("Startups").document(ventureId).collection("Experiments").document(experimentId)
+                    .set(newExperimentData, SetOptions.merge())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            dialog.dismiss();
+                            Intent data = new Intent();
+                            setResult(1, data);
+                            finish();
+                        }
+                    });
+        }
+
+        else {
+            firestoreDb.collection("Startups").document(ventureId).collection("Experiments")
+                    .add(newExperimentData)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d("ventures", "Experiment was saved with ID: " + documentReference.getId());
+                            dialog.dismiss();
+                            Intent data = new Intent();
+                            setResult(1, data);
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("ventures", "Error adding document", e);
+                        }
+                    });
+        }
+
+
     }
 
     public void goBack(View v) {
@@ -226,6 +253,11 @@ public class NewExperimentActivity extends AppCompatActivity {
                 });
         builder.show().getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
 
+    }
+
+    private String getLocalVentureId(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("VentureId", "NULL");
     }
 
 
