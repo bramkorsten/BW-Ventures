@@ -79,13 +79,6 @@ public class PersonActivity extends AppCompatActivity {
                     currentFragment = settingsFragment;
                     return true;
             }
-
-            List<Fragment> list =  fragmentManager.getFragments();
-            int i = 0;
-            while ( i < list.size()) {
-                Log.d("ventures", list.get(i).getTag());
-                i++;
-            }
             return false;
         }
     };
