@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="Network">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="useMobileDataKey"
+            android:summary="Use data for getting recordings"
+            android:title="Use Data" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="saveLocalKey"
+            android:summary="Save data by storing recorded files locally"
+            android:title="Save Recordings Locally" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="User Information">
 
         <Preference
