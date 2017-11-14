@@ -403,7 +403,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:counterEnabled="true"
-                    app:counterMaxLength="30"
+                    app:counterMaxLength="60"
                     app:counterOverflowTextAppearance="@style/OverflowAppearance">
 
                     <EditText
@@ -442,7 +442,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:counterEnabled="true"
-                    app:counterMaxLength="50"
+                    app:counterMaxLength="100"
                     app:counterOverflowTextAppearance="@style/OverflowAppearance">
 
                     <EditText
@@ -481,7 +481,7 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     app:counterEnabled="true"
-                    app:counterMaxLength="30"
+                    app:counterMaxLength="60"
                     app:counterOverflowTextAppearance="@style/OverflowAppearance">
 
                     <EditText
@@ -521,7 +521,7 @@
                     android:animateLayoutChanges="true"
                     android:orientation="vertical"
                     app:counterEnabled="true"
-                    app:counterMaxLength="40"
+                    app:counterMaxLength="70"
                     app:counterOverflowTextAppearance="@style/OverflowAppearance">
 
                     <EditText
@@ -561,7 +561,7 @@
                     android:animateLayoutChanges="true"
                     android:orientation="vertical"
                     app:counterEnabled="true"
-                    app:counterMaxLength="40"
+                    app:counterMaxLength="100"
                     app:counterOverflowTextAppearance="@style/OverflowAppearance">
 
                     <EditText
