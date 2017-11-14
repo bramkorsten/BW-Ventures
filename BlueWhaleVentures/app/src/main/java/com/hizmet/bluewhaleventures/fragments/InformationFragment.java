@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -44,6 +46,10 @@ public class InformationFragment extends Fragment {
     private String mParam2;
     private Typeface Montserrat;
     private TextView age;
+    private TextView gender;
+    private TextView phone;
+    private ProgressBar spinner;
+    private ConstraintLayout spinnerLayout;
     private OnFragmentInteractionListener mListener;
     private FirebaseFirestore firestoreDb = FirebaseFirestore.getInstance();
 
@@ -124,7 +130,7 @@ public class InformationFragment extends Fragment {
         getUserInfo();
     }
 
-    private FirebaseUser getUserInfo() {
+    private void getUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             fillUserInfo(user);
@@ -132,7 +138,6 @@ public class InformationFragment extends Fragment {
         } else {
             // No user is signed in
         }
-        return user;
     }
 
     private void fillUserInfo(FirebaseUser user) {
@@ -160,14 +165,12 @@ public class InformationFragment extends Fragment {
                 .endConfig()
                 .buildRound(nameCharacters, Color.parseColor("#0099ff"));
 
-
         setViews(name, email, drawable);
-
-//        getAndSetUserDetails();
+        getAndSetUserDetails(user.getUid());
     }
 
-    private void getAndSetUserDetails() {
-        DocumentReference userRef = firestoreDb.collection("users").document(getUserInfo().getUid());
+    private void getAndSetUserDetails(String userId) {
+        DocumentReference userRef = firestoreDb.collection("users").document(userId);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -175,10 +178,19 @@ public class InformationFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         age.setText(document.getData().get("Age").toString());
+                        gender.setText(document.getData().get("Gender").toString());
+                        phone.setText(document.getData().get("Phone").toString());
+
+                        setSpinnerInvisible();
                     }
                 }
             }
         });
+    }
+
+    private void setSpinnerInvisible() {
+        spinner.setVisibility(View.INVISIBLE);
+        spinnerLayout.setVisibility(View.INVISIBLE);
     }
 
     private void setViews(String name, String email, TextDrawable drawable) {
@@ -187,6 +199,10 @@ public class InformationFragment extends Fragment {
         TextView userName = getView().findViewById(R.id.userName);
         TextView userEmail = getView().findViewById(R.id.userEmail);
         age = getView().findViewById(R.id.age);
+        gender = getView().findViewById(R.id.gender);
+        phone = getView().findViewById(R.id.phone);
+        spinner = getView().findViewById(R.id.answerSpinner2);
+        spinnerLayout = getView().findViewById(R.id.spinnerLayout);
 
         userName.setText(name);
         userEmail.setText(email);
