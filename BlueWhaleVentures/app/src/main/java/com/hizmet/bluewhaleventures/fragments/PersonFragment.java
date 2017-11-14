@@ -3,6 +3,7 @@ package com.hizmet.bluewhaleventures.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -126,6 +127,31 @@ public class PersonFragment extends Fragment implements PopupMenu.OnMenuItemClic
                 popup.setOnMenuItemClickListener(PersonFragment.this);
                 popup.show();
 
+            }
+        });
+
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View viewIn) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + PersonData.get("Phone").toString()));
+                    startActivity(intent);
+                } catch (Exception except) {
+
+                }
+            }
+        });
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View viewIn) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + PersonData.get("Email").toString()));
+                    startActivity(intent);
+                } catch (Exception except) {
+
+                }
             }
         });
 

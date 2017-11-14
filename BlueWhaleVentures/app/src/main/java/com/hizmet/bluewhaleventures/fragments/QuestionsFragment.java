@@ -591,7 +591,7 @@ public class QuestionsFragment extends Fragment {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Log.d("ventures", "onComplete: completed!");
                                             Question newQuestion = new Question(index, questionTxt);
-                                            questionsList.add(index, newQuestion);
+                                            questionsList.add(index - 1, newQuestion);
                                             adapter.notifyDataSetChanged();
                                             // get the center for the clipping circle
                                             int cx = newQuestionView.getMeasuredHeight() - 60;
