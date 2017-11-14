@@ -1,6 +1,5 @@
 package com.hizmet.bluewhaleventures;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,9 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(LoginActivity.this, "Please fill in all fields",
                             Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
                     final ProgressBar spinner = findViewById(R.id.loginspinner);
                     spinner.setVisibility(View.VISIBLE);
                     buttonLogin.setVisibility(View.INVISIBLE);

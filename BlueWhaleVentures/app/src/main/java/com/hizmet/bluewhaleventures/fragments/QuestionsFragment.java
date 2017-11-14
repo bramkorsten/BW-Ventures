@@ -639,36 +639,41 @@ public class QuestionsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Map<String, Map> questionsData = (Map) document.getData().get("questionData");
-                        Log.d("ventures", questionsData.toString());
-                        int numberOfQuestions = questionsData.size();
                         try {
-                            int i = 0;
-                            while (i < numberOfQuestions) {
-                                Map<String, String> questionData = questionsData.get(String.valueOf(i + 1));
-                                String questionTitle = questionData.get("question");
-                                String questionAnswer = questionData.get("answer");
-                                String questionNotes = questionData.get("notes");
-                                Question question = new Question(i + 1, questionTitle);
-                                if (!Objects.equals(questionAnswer, "")) {
-                                    question.setAnswer(questionAnswer);
+                            Map<String, Map> questionsData = (Map) document.getData().get("questionData");
+                            Log.d("ventures", questionsData.toString());
+                            int numberOfQuestions = questionsData.size();
+                            try {
+                                int i = 0;
+                                while (i < numberOfQuestions) {
+                                    Map<String, String> questionData = questionsData.get(String.valueOf(i + 1));
+                                    String questionTitle = questionData.get("question");
+                                    String questionAnswer = questionData.get("answer");
+                                    String questionNotes = questionData.get("notes");
+                                    Question question = new Question(i + 1, questionTitle);
+                                    if (!Objects.equals(questionAnswer, "")) {
+                                        question.setAnswer(questionAnswer);
+                                    }
+                                    if (!Objects.equals(questionNotes, "")) {
+                                        question.setNotes(questionNotes);
+                                    }
+                                    questionsList.add(i, question);
+                                    adapter.notifyItemChanged(i);
+                                    i++;
                                 }
-                                if (!Objects.equals(questionNotes, "")) {
-                                    question.setNotes(questionNotes);
-                                }
-                                questionsList.add(i, question);
-                                adapter.notifyItemChanged(i);
-                                i++;
+                            } catch (Exception e) {
+                                Log.d("ventures", "error: " + e);
                             }
-                        } catch (Exception e) {
-                            Log.d("ventures", "error: " + e);
-                        }
 
-                        Log.d("ventures", String.valueOf(questionsData.size()));
+                            Log.d("ventures", String.valueOf(questionsData.size()));
+
+
+                        } catch (NullPointerException e) {
+                            // No questions for this experiment
+                        }
 
                         //adapter.notifyDataSetChanged();
                         refresherLayout.setRefreshing(false);
-
                     } else {
                         Log.d("ventures", "No such document");
                     }
