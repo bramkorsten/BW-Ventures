@@ -50,50 +50,61 @@
         </div>
         <div id="company-success" class="new-company-form form-not-yet-here gone-form">
           <p id="success-title" class="success-title">succesfully created!</p>
-          <p id="success-code" class="success-code">PH4T4S5</p>
-          <p class="send-email">We can send an email containing the code for you. Enter up to 5 email adresses below.</p>
+          <p id="success-code" class="success-code"><!--PH4T4S5--></p>
+          <p class="send-email">We can send an email containing this code for you. Enter up to 5 email adresses below.</p>
           <label for="input-emails" class="new-company-label">Enter email addresses</label>
           <input type="text" id="input-emails" class="new-company-input" autocomplete="off" placeholder="" required>
+          <i onClick="setEmail();" class="fa fa-arrow-right next-email" aria-hidden="true"></i>
+          <div id="emails-wrap" class="emails-wrap">
+            <!-- <span>arne123@live.nl</span>
+            <span>arne123@live.nl</span>
+            <span>arne123@live.nl</span>
+            <span>arne123@live.nl</span>
+            <span>arne123@live.nl</span> -->
+          </div>
         </div>
+        <div id="send-email-div" class="create-company-div create-company-down" onClick="sendEmail();">SEND EMAIL</div>
         <div id="create-company-div" class="create-company-div" onClick="verifyCompany();">CREATE STARTUP</div>
       </div>
     </div>
 
     <div id="popup-background2" class="popup-background">
-      <div class="popup-wrap">
+      <div class="popup-wrap popup-wrap2">
         <div class="close-btn-wrap">
-          <i onClick="getExperimentSettings();" class="fa fa-times" aria-hidden="true"></i>
+          <i onClick="closeExperimentSettings();" class="fa fa-times" aria-hidden="true"></i>
         </div>
         <h3 id="experiment-data-title" class="experiment-data-title">Experiment 2</h3>
-        <div class="experiment-data data-string">Customer Location</div>
-        <div class="experiment-data data-value">Colleges and universities</div>
+        <div id="experiment-data-data">
+          <!-- <div class="experiment-data data-string">Customer Location</div>
+          <div class="experiment-data data-value">Colleges and universities</div>
 
-        <div class="experiment-data data-string">Customer Segment</div>
-        <div class="experiment-data data-value">Colleges and university students</div>
+          <div class="experiment-data data-string">Customer Segment</div>
+          <div class="experiment-data data-value">Colleges and university students</div>
 
-        <div class="experiment-data data-string">Date Created</div>
-        <div class="experiment-data data-value">2017-10-25 21:29:50</div>
+          <div class="experiment-data data-string">Date Created</div>
+          <div class="experiment-data data-value">2017-10-25 21:29:50</div>
 
-        <div class="experiment-data data-string">Experiment Name</div>
-        <div class="experiment-data data-value">The First Experiment</div>
+          <div class="experiment-data data-string">Experiment Name</div>
+          <div class="experiment-data data-value">The First Experiment</div>
 
-        <div class="experiment-data data-string">Experiment Subtitle</div>
-        <div class="experiment-data data-value">Description of this experiment</div>
+          <div class="experiment-data data-string">Experiment Subtitle</div>
+          <div class="experiment-data data-value">Description of this experiment</div>
 
-        <div class="experiment-data data-string">Fail Condition</div>
-        <div class="experiment-data data-value">When we can't find 10 people to interview</div>
+          <div class="experiment-data data-string">Fail Condition</div>
+          <div class="experiment-data data-value">When we can't find 10 people to interview</div>
 
-        <div class="experiment-data data-string">Learning Goal</div>
-        <div class="experiment-data data-value">Knowing our specific target audience</div>
+          <div class="experiment-data data-string">Learning Goal</div>
+          <div class="experiment-data data-value">Knowing our specific target audience</div>
 
-        <div class="experiment-data data-string">Number of interviews</div>
-        <div class="experiment-data data-value">10</div>
+          <div class="experiment-data data-string">Number of interviews</div>
+          <div class="experiment-data data-value">10</div>
 
-        <div class="experiment-data data-string">Problem Hypothesis</div>
-        <div class="experiment-data data-value">Finding the specific target audience</div>
+          <div class="experiment-data data-string">Problem Hypothesis</div>
+          <div class="experiment-data data-value">Finding the specific target audience</div>
 
-        <div class="experiment-data data-string">Stop Condition</div>
-        <div class="experiment-data data-value">5 or more of the interviewed are not interested</div>
+          <div class="experiment-data data-string">Stop Condition</div>
+          <div class="experiment-data data-value">5 or more of the interviewed are not interested</div> -->
+        </div>
       </div>
     </div>
 
@@ -114,11 +125,11 @@
 
       <div class="profile-bar-contain">
         <div class="profile-bar-wrap">
-          <span class="profile-letters profile-letters-big">MK</span>
-          <div class="profile-info-wrap">
-            <h2 class="profile-info-name">Maarten van Kroonenburg</h2>
-            <span class="profile-info-function">CEO</span>
-            <span class="profile-info-company">Blue Whale Ventures</span>
+          <span id="profile-letters-big" class="profile-letters profile-letters-big"></span>
+          <div id="profile-info-wrap" class="profile-info-wrap">
+            <h2 class="profile-info-name"></h2>
+            <span class="profile-info-function"></span>
+            <span class="profile-info-company"></span>
           </div>
           <div class="right-icons-wrap">
             <i class="fa fa-ellipsis-v" aria-hidden="true" onClick="setBubble();"></i>
@@ -157,7 +168,7 @@
             <div id="experiments-company-name-wrap" class="experiments-company-name-wrap">
               <!-- <span class="experiments-back-arrow"><i onClick="backToClients();" class="fa fa-chevron-left" aria-hidden="true"></i></span> -->
               <span id="experiments-banner-name" class="experiments-banner-name">Experiments</span>
-              <span class="experiments-days">Day <span class="single-day">12</span> / 100 </span>
+              <span class="experiments-days">Day <span id="single-day" class="single-day"></span> / 100 </span>
             </div>
           </div>
           <div id="cards-wrap-experiments" class="cards-wrap">
@@ -248,6 +259,7 @@
               </div> -->
 
             </div>
+            <div id="full-audio-wrap"></div>
           </div>
         </div>
       </div>

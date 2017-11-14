@@ -15,9 +15,29 @@ header {
   height: 100%;
 }
 
+@font-face {
+    font-family: Intro;
+    src: url('../fonts/Intro.otf');
+}
+
 /*===================================================================================================
 LOGIN
 ===================================================================================================*/
+
+.white-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 100;
+  top: 0;
+  transition: opacity 0.2s;
+}
+
+.overlay-gone {
+  z-index: -100;
+  opacity: 0;
+}
 
 .background-img {
   width: calc(100% + 30px);
@@ -140,6 +160,11 @@ input[type=password].input-text {
   padding-bottom: 3px;
 }
 
+input:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0px 10px #0099ff inset;
+   -webkit-text-fill-color: #fff;
+}
+
 .input-text::-webkit-input-placeholder {
   color: rgba(255,255,255,0.6);
 }
@@ -203,7 +228,7 @@ DASHBOARD
 .loadscreen-wrap {
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
@@ -764,7 +789,7 @@ DASHBOARD
 
 .popup-background-vis {
   opacity: 1;
-  z-index: 15;
+  z-index: 1001;
 }
 
 .popup-wrap {
@@ -777,6 +802,10 @@ DASHBOARD
   top: 50%;
   transform: translateY(-50%);
   overflow: hidden;
+}
+
+.popup-wrap2 {
+  overflow: auto;
 }
 
 .close-btn-wrap {
@@ -799,6 +828,10 @@ DASHBOARD
   font-size: 30px;
   font-weight: 300;
   margin: 20px;
+}
+
+.popup-wrap2 h3 {
+  font-size: 22px;
 }
 
 .seperation-border {
@@ -894,7 +927,7 @@ input[type=text].new-company-input:focus{
 }
 
 .success-code {
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -902,6 +935,57 @@ input[type=text].new-company-input:focus{
   margin: 15px 0 30px 0;
   font-weight: 500;
   font-size: 12px;
+}
+
+.next-email {
+  float: right;
+  position: relative;
+  top: -30px;
+  color: #929292;
+  transition: 0.3s;
+}
+
+.next-email:hover {
+  cursor: pointer;
+  color: #0099ff;
+}
+
+.emails-wrap {
+  position: relative;
+  color: #929292;
+  text-align: center;
+  font-size: 10px;
+  width: 100%;
+  font-family: 'Montserrat';
+}
+
+.emails-wrap span {
+  display: block;
+  line-height: 20px;
+  border-bottom: 1px solid #929292;
+  width: 150px;
+  margin: auto;
+}
+
+.emails-wrap span:hover {
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.experiment-data {
+  font-family: 'Montserrat';
+}
+
+.data-string {
+  color: #000;
+  font-size: 10px;
+  margin: 0 20px;
+}
+
+.data-value {
+  color: #929292;
+  font-size: 11px;
+  margin: 0 20px 5px 20px
 }
 
 @media screen and (max-width: 420px) {
@@ -1153,6 +1237,86 @@ input[type=text].new-company-input:focus{
   cursor: pointer;
 }
 
+.audio-controls {
+  height: 40px;
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  border: 2px solid #ececec;
+  box-sizing: border-box;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  line-height: 40px;
+}
+
+.audio-timeline {
+  height: 3px;
+  width: calc(100% - 100px);
+  margin: auto;
+  position: absolute;
+  background: #ececec;
+  left: 50%;
+  transform: translate(-50%);
+  top: 50%;
+}
+
+.playhead {
+  width: 12px;
+  height: 12px;
+  background: #0099ff;
+  position: relative;
+  left: 100%;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.audio-timeline-subwrap {
+  width: 0;
+  height: 100%;
+  background: #0099ff;
+  transition: 0.3s;
+}
+
+.audio-controls i {
+  color: #929292;
+  font-size: 15px;
+  margin: 0 20px;
+}
+
+/*.play-audio-button {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  background: #929292;
+  color: #fff;
+  text-align: center;
+  transition: 0.3s;
+  border-radius: 50%;
+  font-size: 20px;
+  right: 0;
+  bottom: 0;
+  margin: 50px;
+}
+
+.play-audio-button:hover {
+  background: #0099ff;
+  cursor: pointer;
+}*/
+
+/*.audioplayer {
+  position: fixed;
+  bottom: 0;
+  margin: auto;
+  max-width: 500px;
+  width: 100%;
+  display: block;
+}*/
+
 @media screen and (max-width: 690px) {
   .profile-info-name {
     font-size: 16px;
@@ -1318,7 +1482,7 @@ input[type=text].new-company-input:focus{
   position: absolute;
   min-height: 100%;
   background: #fff;
-  z-index: 1000;
+  z-index: 500;
   display: flex;
   justify-content: center;
   padding-top: 100px;

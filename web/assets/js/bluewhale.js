@@ -10,8 +10,50 @@ var config = {
 firebase.initializeApp(config);
 var db = firebase.firestore();
 
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+//INITIALISEER STORAGE. ALLEEN DOEN ALS DIT NODIG IS!!!!!!!!!
+var storage = firebase.storage(); //---------------------------
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+
+
+var loggedInUser;
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+  console.log(user);
+  loggedInUser = user.uid;
+  if (document.getElementById('login-wrap')) {
+      goodLogin();
+      getClass();
+    }
+
+    else {
+      //GET LOGGED IN USER
+      db.collection("users").doc(loggedInUser.toString()).get().then(function(doc) {
+        console.log(doc.data());
+        var nameLetterLoginGiven = doc.data().Name.charAt(0);
+        var nameLetterLoginSur = doc.data().Surname.split(" ").pop().charAt(0);
+        document.getElementById('profile-letters-big').innerHTML = nameLetterLoginGiven + nameLetterLoginSur;
+        document.getElementById('profile-info-wrap').innerHTML = '<h2 class="profile-info-name">' + doc.data().Name + ' ' + doc.data().Surname + '</h2><span class="profile-info-function">CEO</span><span class="profile-info-company">Blue Whale Ventures</span>';
+      });
+    }
+  }
+else {
+  if (document.getElementById('popup-background')) {
+    window.location = "index.html";
+  }
+}
+});
+
 var allPeople = [];
 var allVentures = [];
+
+
 
 
 //GET ALL STARTUPS
@@ -108,22 +150,6 @@ function tryLogin() {
 
 }
 
-
-      firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        if (document.getElementById('login-wrap')) {
-            goodLogin();
-            getClass();
-            console.log(user);
-          }
-        }
-      else {
-        if (document.getElementById('popup-background')) {
-          window.location = "index.html";
-        }
-      }
-      });
-
 function logout() {
   firebase.auth().signOut().then(function() {
     location.reload();
@@ -150,9 +176,14 @@ function hasClass(element, cls) {
 function goodLogin() {
     document.getElementById("login-form").classList.toggle('form-login-succes');
     document.getElementById("form-logo").classList.toggle('form-logo-center');
+
+    setTimeout(function() {
+      document.getElementById("white-overlay").classList.toggle('overlay-gone');
+    }, 300);
+
     setTimeout(function() {
       window.location = "dash.html";
-    }, 300);
+    }, 500);
 }
 
 
@@ -207,16 +238,39 @@ function getTab(x) {
     goPeople();
   }
 }
-
 function startNewCompany() {
   document.getElementById('popup-background').classList.toggle('popup-background-vis');
 }
+
+var currentHash;
 
 function verifyCompany() {
   newStartupName=document.getElementById('input-company-name').value;
   newStartupLocation=document.getElementById('input-company-location').value;
   newStartupStreet=document.getElementById('input-company-street').value;
   newStartupZip=document.getElementById('input-company-zip').value;
+
+  db.collection("Startups").add({
+    Name: newStartupName,
+    hash: "emptyhash",
+    hashValid: true
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+      document.getElementById('success-code').innerHTML = docRef.id;
+      currentHash = docRef.id;
+      db.collection("Startups").doc(docRef.id).update({
+        Name: newStartupName,
+        hash: docRef.id,
+        hashValid: true,
+        startupLocation: newStartupLocation,
+        street: newStartupStreet,
+        ZIPcode: newStartupZip
+      });
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
 
   document.getElementById('success-title').innerHTML = newStartupName + ' succesfully created!';
 
@@ -232,6 +286,67 @@ function verifyCompany() {
   }, 50);
 }
 
+var emails = [];
+
+function setEmail() {
+  if (emails.length < 5) {
+    document.getElementById('emails-wrap').innerHTML='';
+    enteredEmail = document.getElementById('input-emails').value;
+    curEmails = emails.length;
+    emails[curEmails] = enteredEmail;
+    for (emailCounter = 0; emailCounter < emails.length; emailCounter++) {
+      document.getElementById('emails-wrap').innerHTML+='<span onClick="removeEmail(' + emailCounter + ')">' + emails[emailCounter] + '</span>';
+    }
+  }
+  if (emails.length > 0) {
+    document.getElementById('send-email-div').classList.remove('create-company-down');
+  }
+}
+
+function removeEmail(x) {
+  emails.splice(x, 1);
+  if (emails.length < 1) {
+    document.getElementById('send-email-div').classList.add('create-company-down');
+  }
+  document.getElementById('emails-wrap').innerHTML='';
+  for (emailCounter = 0; emailCounter < emails.length; emailCounter++) {
+    document.getElementById('emails-wrap').innerHTML+='<span onClick="removeEmail(' + emailCounter + ')">' + emails[emailCounter] + '</span>';
+  }
+}
+
+function sendEmail() {
+    method = "post";
+
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "sendemail.php");
+
+    for(var key in emails) {
+        if(emails.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", emails[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+    var inputField = document.createElement("input");
+    inputField.setAttribute("type", "hidden");
+    inputField.setAttribute("name", "hash");
+    inputField.setAttribute("value", currentHash);
+    form.appendChild(inputField);
+
+    var inputField2 = document.createElement("input");
+    inputField2.setAttribute("type", "hidden");
+    inputField2.setAttribute("name", "startupname");
+    inputField2.setAttribute("value", newStartupName);
+    form.appendChild(inputField2);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function goPeople() {
   // document.getElementById('cards-wrap-clients').className='cards-wrap clients-left';
   document.getElementById('left-side-wrap').className='left-side-wrap clients-left';
@@ -243,11 +358,13 @@ function goClients() {
   //document.getElementById('cards-wrap-people').className='cards-contain projects-right';
   document.getElementById('left-side-wrap').className='left-side-wrap';
   document.getElementById('cards-wrap-people').className='cards-contain projects-right';
+  doneLoad();
 }
 
 function setBubble() {
   document.getElementById('dropdown-bubble').classList.toggle('bubble-gone');
 }
+
 
 function setExperiments(startupHash, startupName) {
   startLoad();
@@ -258,6 +375,7 @@ function setExperiments(startupHash, startupName) {
   document.getElementById('profile-title-active').className='title-border-center';
   document.getElementById('cards-wrap-experiments').className='cards-wrap';
   document.getElementById('experiment-questions-wrap').className='questions-wrap questions-gone';
+  //checkAudioPlayer();
 
   document.getElementById('cards-wrap-experiments').innerHTML='';
   document.getElementById('experiments-banner-name').innerHTML = startupName + ' - Experiments';
@@ -278,9 +396,17 @@ function setExperiments(startupHash, startupName) {
     byNumber.sort(function(a,b) {
         return a.ExperimentNumber - b.ExperimentNumber;
     });
-    // console.log(byNumber);
+    startDate = new Date(byNumber[0]['DateCreated']);
+    curDate = new Date();
+    console.log(startDate);
+    console.log(curDate);
+    var diff = Math.abs(startDate-curDate);
+    diff = Math.round(diff / (1000*3600*24));
+    console.log(diff);
+    document.getElementById('single-day').innerHTML=diff;
+
     for (experimentIndex = 0; experimentIndex < byNumber.length; experimentIndex++) {
-      document.getElementById('cards-wrap-experiments').innerHTML+= '<div class="single-card" onClick="getQuestions(\'' + startupHash + '\', \'' + byNumber[experimentIndex]['id'] + '\');"><span class="card-circle card-circle-experiments">' + byNumber[experimentIndex]['ExperimentNumber'] + '</span><div class="experiments-info"><span class="experiments-info-name">' + byNumber[experimentIndex]['ExperimentName'] + '</span><span class="experiments-info-sub">' + byNumber[experimentIndex]['ExperimentSubtitle'] + '</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true" onClick= "getExperimentSettings();"></i></div></div>';
+      document.getElementById('cards-wrap-experiments').innerHTML+= '<div class="single-card" onClick="getQuestions(\'' + startupHash + '\', \'' + byNumber[experimentIndex]['id'] + '\');"><span class="card-circle card-circle-experiments">' + byNumber[experimentIndex]['ExperimentNumber'] + '</span><div class="experiments-info"><span class="experiments-info-name">' + byNumber[experimentIndex]['ExperimentName'] + '</span><span class="experiments-info-sub">' + byNumber[experimentIndex]['ExperimentSubtitle'] + '</span><span class="experiments-info-results">No results yet</span></div><div class="projects-amount-wrap experiments-ellipsis-wrap"><i class="fa fa-ellipsis-v" aria-hidden="true" onClick= "getExperimentSettings(\'' + startupHash + '\', \'' + byNumber[experimentIndex]['id'] + '\');"></i></div></div>';
       doneLoad();
     }
   });
@@ -293,20 +419,53 @@ function backToClients() {
   document.getElementById('cards-experiments-contain').className='cards-contain experiments-cards-gone';
 }
 
-function getExperimentSettings() {
+function getExperimentSettings(startupHash, projectId) {
+  document.getElementById('popup-background2').classList.toggle('popup-background-vis');
+  document.getElementById('experiment-data-title').innerHTML='';
+  document.getElementById('experiment-data-data').innerHTML='';
+
+  db.collection("Startups").doc(startupHash).collection('Experiments').doc(projectId).get().then(function(doc) {
+    console.log(doc.data());
+    document.getElementById('experiment-data-title').innerHTML='Experiment ' + doc.data().ExperimentNumber;
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Experiment Name</div><div class="experiment-data data-value">' + doc.data().ExperimentName + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Experiment Subtitle</div><div class="experiment-data data-value">' + doc.data().ExperimentSubtitle + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Date Created</div><div class="experiment-data data-value">' + doc.data().DateCreated + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Problem Hypothesis</div><div class="experiment-data data-value">' + doc.data().ProblemHypothesis + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Number of Interviews</div><div class="experiment-data data-value">' + doc.data().NumberInterviews + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Customer Location</div><div class="experiment-data data-value">' + doc.data().CustomerLocation + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Customer Segment</div><div class="experiment-data data-value">' + doc.data().CustomerSegment + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Learning Goal</div><div class="experiment-data data-value">' + doc.data().LearningGoal + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Fail Condition</div><div class="experiment-data data-value">' + doc.data().FailCondition + '</div>';
+    document.getElementById('experiment-data-data').innerHTML+='<div class="experiment-data data-string">Stop Condition</div><div class="experiment-data data-value">' + doc.data().StopCondition + '</div>';
+  });
+}
+
+function closeExperimentSettings() {
   document.getElementById('popup-background2').classList.toggle('popup-background-vis');
 }
 
 function getQuestions(startupHash, projectId) {
+  if (document.getElementById('popup-background2').classList.contains('popup-background-vis')) {
+    return;
+  }
   startLoad();
   document.getElementById('cards-wrap-experiments').classList.toggle('experiments-cards-gone');
   document.getElementById('experiment-questions-wrap').classList.toggle('questions-gone');
+  document.getElementById('full-audio-wrap').innerHTML='';
+
+  // document.getElementById('experiment-questions-wrap').innerHTML='';
+  // document.getElementById('experiment-questions-wrap').innerHTML+='<div id="dropdown-names" class="dropdown-names bubble-gone"></div>';
+  // document.getElementById('experiment-questions-wrap').innerHTML+='<h3 id="questions-wrap-experiment-title"></h3><h4 id="questions-wrap-experiment-name"></h4><h5>Person interviewed:</h5>';
+  // document.getElementById('experiment-questions-wrap').innerHTML+='<div class="person-name-wrap" onClick="dropdownNames();"><i class="fa fa-chevron-left" aria-hidden="true"></i> <span id="person-name">No person selected</span><i class="fa fa-chevron-right" aria-hidden="true"></i></div>';
+  // document.getElementById('experiment-questions-wrap').innerHTML+='<div id="stepper-wrap" class="stepper-wrap"></div>';
 
   document.getElementById('dropdown-names').innerHTML='';
   document.getElementById('questions-wrap-experiment-title').innerHTML='';
   document.getElementById('questions-wrap-experiment-name').innerHTML='';
   document.getElementById('stepper-wrap').innerHTML='';
   document.getElementById('person-name').innerHTML='No person selected';
+
+  //checkAudioPlayer();
 
   db.collection("Startups").doc(startupHash).collection('Experiments').doc(projectId).get().then(function(doc) {
     //console.log(doc.data());
@@ -339,10 +498,16 @@ function dropdownNames() {
   document.getElementById('dropdown-names').classList.toggle('bubble-gone');
 }
 
+var audioPlayer;
+var durationAudio;
+
 function getQuestionsFromName(startupHash, projectId, personId) {
   startLoad();
   document.getElementById('stepper-wrap').innerHTML='';
   document.getElementById('dropdown-names').classList.add('bubble-gone');
+  document.getElementById('full-audio-wrap').innerHTML='';
+
+  //checkAudioPlayer();
 
   db.collection("Startups").doc(startupHash).collection('Testers').doc(personId).get().then(function(doc) {
     //console.log(doc.data());
@@ -369,7 +534,8 @@ function getQuestionsFromName(startupHash, projectId, personId) {
 
   db.collection("Startups").doc(startupHash).collection('Experiments').doc(projectId).collection('people').doc(personId).get().then(function(doc) {
       questionData = doc.data().questionData;
-      console.log(questionData);
+      //console.log(questionData);
+      console.log(doc.data());
 
 
 
@@ -433,7 +599,83 @@ function getQuestionsFromName(startupHash, projectId, personId) {
 //   }
 
   });
+
+  //AUDIO RECORDING HIER
+  var pathReference = storage.ref('Recordings/' + personId);
+  pathReference.child(projectId + '-' + personId + '.aac').getDownloadURL().then(function(url) {
+    console.log(url);
+    document.getElementById('full-audio-wrap').innerHTML+='<audio id="audioplayer" class="audioplayer"><source src="' + url + '" type="audio/aac"></audio>';
+    document.getElementById('full-audio-wrap').innerHTML+='<div id="audio-controls" class="audio-controls"><i id="pButton" class="fa fa-play" aria-hidden="true"></i><div class="audio-timeline"><div id="audio-timeline-subwrap" class="audio-timeline-subwrap"><div class="playhead"></div></div></div></div>';
+    // document.getElementById('audioplayer').addEventListener('ended', function() {
+    //   document.getElementById('audioplayer').currentTime=0;
+    //   document.getElementById('play-btn').className='fa fa-play';
+    // });
+    audioPlayer = document.getElementById('audioplayer');
+    durationAudio = document.getElementById('audioplayer').duration;
+    //console.log(durationAudio);
+      var controlInterval = setInterval(function(){ checkDuration() }, 100);
+
+      function checkDuration() {
+        durationAudio = document.getElementById('audioplayer').duration;
+        if (durationAudio > 0) {
+          clearInterval(controlInterval);
+          setAudioPlayer();
+        }
+        else {
+          console.log(durationAudio);
+        }
+      }
+
+
+  }).catch(function(error) {
+    // Handle any errors
+  });
 }
+
+function setAudioPlayer() {
+  pButton = document.getElementById('pButton');
+  playHead = document.getElementById('audio-timeline-subwrap');
+  timeline = document.getElementById('audio-timeline');
+
+  pButton.addEventListener("click", playAudio);
+  audioPlayer.addEventListener("timeupdate", timeUpdate, false);
+
+  function timeUpdate() {
+    var playPercent = 100 * (audioPlayer.currentTime / durationAudio);
+    console.log(playPercent);
+    playHead.style.width = playPercent + "%";
+    if (playPercent == 100) {
+      pButton.className = "fa fa-play";
+    }
+  }
+
+  audioPlayer.addEventListener("canplaythrough", function () {
+     duration = audioPlayer.duration;
+   }, false);
+
+
+  function playAudio() {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      pButton.className = "fa fa-pause";
+    } else {
+      audioPlayer.pause();
+      pButton.className = "fa fa-play";
+    }
+}
+}
+
+// function playAudio() {
+//   if (document.getElementById('play-btn').className=='fa fa-play') {
+//     document.getElementById('audioplayer').play();
+//     document.getElementById('play-btn').className='fa fa-stop';
+//   }
+//   else if (document.getElementById('play-btn').className=='fa fa-stop') {
+//     document.getElementById('audioplayer').pause();
+//     document.getElementById('audioplayer').currentTime=0;
+//     document.getElementById('play-btn').className='fa fa-play';
+//   }
+// }
 
 function setComment(startupHash, projectId, personId, x) {
   if (document.getElementById('question-pencil' + x).className=='fa fa-pencil') {
