@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class ExperimentActivity extends AppCompatActivity {
     PeopleFragment peopleFragment;
     ExperimentFragment experimentFragment;
     SettingsFragment settingsFragment;
+    Fragment currentFragment;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -33,16 +35,37 @@ public class ExperimentActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_people:
-                    // Go to the People Fragment
-                    transaction.replace(R.id.content, peopleFragment).commit();
+
+                    if (fragmentManager.findFragmentByTag(peopleFragment.getTag()) == null) {
+                        transaction.add(R.id.content, peopleFragment, peopleFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(peopleFragment);
+                    transaction.commit();
+                    currentFragment = peopleFragment;
                     return true;
                 case R.id.navigation_experimentdetail:
-                    // Go to the Experiment Fragment
-                    transaction.replace(R.id.content, experimentFragment).commit();
+
+                    if (fragmentManager.findFragmentByTag(experimentFragment.getTag()) == null) {
+                        transaction.add(R.id.content, experimentFragment, experimentFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(experimentFragment);
+                    transaction.commit();
+                    currentFragment = experimentFragment;
                     return true;
                 case R.id.navigation_settings:
-                    // Go to the Settings Fragment
-                    transaction.replace(R.id.content, settingsFragment).commit();
+
+                    if (fragmentManager.findFragmentByTag(settingsFragment.getTag()) == null) {
+                        transaction.add(R.id.content, settingsFragment, settingsFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(settingsFragment);
+                    transaction.commit();
+                    currentFragment = settingsFragment;
                     return true;
             }
             return false;
@@ -74,7 +97,8 @@ public class ExperimentActivity extends AppCompatActivity {
         settingsFragment = new SettingsFragment();
 
         // Go directly to the People Fragment
-        transaction.replace(R.id.content, peopleFragment).commit();
+        transaction.add(R.id.content, peopleFragment, peopleFragment.getClass().getSimpleName()).show(peopleFragment).commit();
+        currentFragment = peopleFragment;
     }
 
     public Map getExperimentDataFromParent() {

@@ -5,17 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.hizmet.bluewhaleventures.fragments.ExperimentsFragment;
+import com.hizmet.bluewhaleventures.fragments.InformationFragment;
 import com.hizmet.bluewhaleventures.fragments.PersonFragment;
 import com.hizmet.bluewhaleventures.fragments.QuestionsFragment;
 import com.hizmet.bluewhaleventures.fragments.SettingsFragment;
 
+import java.util.List;
 import java.util.Map;
 
 public class PersonActivity extends AppCompatActivity {
@@ -23,6 +28,11 @@ public class PersonActivity extends AppCompatActivity {
     private String personId, experimentId;
     private BottomNavigationView mBottomNavigationView;
     private LinearLayout contentView;
+
+    QuestionsFragment questionsFragment;
+    PersonFragment personFragment;
+    SettingsFragment settingsFragment;
+    Fragment currentFragment;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -32,18 +42,41 @@ public class PersonActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+
             switch (item.getItemId()) {
+
                 case R.id.navigation_questions:
-                    // Go to the Questions Fragment
-                    transaction.replace(R.id.content, new QuestionsFragment()).commit();
+
+                    if (fragmentManager.findFragmentByTag(questionsFragment.getTag()) == null) {
+                        transaction.add(R.id.content, questionsFragment, questionsFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(questionsFragment);
+                    transaction.commit();
+                    currentFragment = questionsFragment;
                     return true;
                 case R.id.navigation_persondetail:
-                    // Go to the Person Fragment
-                    transaction.replace(R.id.content, new PersonFragment()).commit();
+
+                    if (fragmentManager.findFragmentByTag(personFragment.getTag()) == null) {
+                        transaction.add(R.id.content, personFragment, personFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(personFragment);
+                    transaction.commit();
+                    currentFragment = personFragment;
                     return true;
                 case R.id.navigation_settings:
-                    // Go to the Settings Fragment
-                    transaction.replace(R.id.content, new SettingsFragment()).commit();
+
+                    if (fragmentManager.findFragmentByTag(settingsFragment.getTag()) == null) {
+                        transaction.add(R.id.content, settingsFragment, settingsFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(settingsFragment);
+                    transaction.commit();
+                    currentFragment = settingsFragment;
                     return true;
             }
             return false;
@@ -70,11 +103,16 @@ public class PersonActivity extends AppCompatActivity {
         MenuItem navItem2 = mBottomNavigationView.getMenu().findItem(R.id.navigation_questions);
         navItem2.setChecked(true);
 
+        questionsFragment = QuestionsFragment.newInstance("", "");
+        personFragment = PersonFragment.newInstance("", "");
+        settingsFragment = new SettingsFragment();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         // Go to the Questions Fragment
-        transaction.replace(R.id.content, new QuestionsFragment()).commit();
+        transaction.add(R.id.content, questionsFragment, questionsFragment.getClass().getSimpleName()).show(questionsFragment).commit();
+        currentFragment = questionsFragment;
     }
 
     public Map getPersonDataFromParent() {

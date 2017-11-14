@@ -3,6 +3,7 @@ package com.hizmet.bluewhaleventures;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     ExperimentsFragment experimentsFragment;
     InformationFragment informationFragment;
     SettingsFragment settingsFragment;
+    Fragment currentFragment;
 
     // Bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -28,19 +30,37 @@ public class HomeActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_information:
-                    // Go to the Information Fragment
-                    transaction.replace(R.id.content, informationFragment);
+
+                    if (fragmentManager.findFragmentByTag(informationFragment.getTag()) == null) {
+                        transaction.add(R.id.content, informationFragment, informationFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(informationFragment);
                     transaction.commit();
+                    currentFragment = informationFragment;
                     return true;
                 case R.id.navigation_experiments:
-                    // Go to the Experiments Fragment
-                    transaction.replace(R.id.content, experimentsFragment);
+
+                    if (fragmentManager.findFragmentByTag(experimentsFragment.getTag()) == null) {
+                        transaction.add(R.id.content, experimentsFragment, experimentsFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(experimentsFragment);
                     transaction.commit();
+                    currentFragment = experimentsFragment;
                     return true;
                 case R.id.navigation_settings:
-                    // Go to the Settings Fragment
-                    transaction.replace(R.id.content, settingsFragment);
+
+                    if (fragmentManager.findFragmentByTag(settingsFragment.getTag()) == null) {
+                        transaction.add(R.id.content, settingsFragment, settingsFragment.getClass().getSimpleName());
+                    }
+
+                    transaction.hide(currentFragment);
+                    transaction.show(settingsFragment);
                     transaction.commit();
+                    currentFragment = settingsFragment;
                     return true;
             }
             return false;
@@ -68,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         informationFragment = new InformationFragment();
         settingsFragment = new SettingsFragment();
 
-        transaction.replace(R.id.content, experimentsFragment);
-        transaction.commit();
+        transaction.add(R.id.content, experimentsFragment, experimentsFragment.getClass().getSimpleName()).show(experimentsFragment).commit();
+        currentFragment = experimentsFragment;
     }
 }
