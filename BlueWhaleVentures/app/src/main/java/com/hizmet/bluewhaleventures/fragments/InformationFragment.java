@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,31 +142,6 @@ public class InformationFragment extends Fragment {
     }
 
     private void fillUserInfo(FirebaseUser user) {
-        String name = user.getDisplayName();
-        String nameCharacters;
-        String email = user.getEmail();
-
-        String lastName = "";
-        String firstName = "";
-
-        if (name.split("\\w+").length > 1) {
-
-            lastName = name.substring(name.lastIndexOf(" ") + 1);
-            firstName = name.substring(0, name.lastIndexOf(' '));
-            nameCharacters = firstName.substring(0, 1) + lastName.substring(0, 1);
-        } else {
-            nameCharacters = firstName.substring(0, 1);
-        }
-
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .useFont(Montserrat)
-                .fontSize(50) /* size in px */
-                .toUpperCase()
-                .endConfig()
-                .buildRound(nameCharacters, Color.parseColor("#0099ff"));
-
-        setViews(name, email, drawable);
         getAndSetUserDetails(user.getUid());
     }
 
@@ -177,9 +153,38 @@ public class InformationFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        age.setText(document.getData().get("Age").toString());
-                        gender.setText(document.getData().get("Gender").toString());
-                        phone.setText(document.getData().get("Phone").toString());
+                        String age = document.getData().get("Age").toString();
+                        String gender = document.getData().get("Gender").toString();
+                        String phone = document.getData().get("Phone").toString();
+
+                        String name = document.getData().get("Name").toString();
+                        String surname = document.getData().get("Surname").toString();
+                        String nameCharacters;
+                        String email = document.getData().get("Email").toString();
+
+                        Log.d("ventures", "onComplete: " + name + surname);
+
+                        String lastName = "";
+                        String firstName = "";
+
+                        if (surname.split(" ").length > 0) {
+
+                            lastName = surname.substring(surname.lastIndexOf(" ") + 1);
+                            firstName = name.substring(0, 1);
+                            nameCharacters = firstName.substring(0, 1) + lastName.substring(0, 1);
+                        } else {
+                            nameCharacters = name.substring(0, 1);
+                        }
+
+                        TextDrawable drawable = TextDrawable.builder()
+                                .beginConfig()
+                                .useFont(Montserrat)
+                                .fontSize(50) /* size in px */
+                                .toUpperCase()
+                                .endConfig()
+                                .buildRound(nameCharacters, Color.parseColor("#0099ff"));
+
+                        setViews(name+" "+surname, email, drawable, age, gender, phone);
 
                         setSpinnerInvisible();
                     }
@@ -193,7 +198,7 @@ public class InformationFragment extends Fragment {
         spinnerLayout.setVisibility(View.INVISIBLE);
     }
 
-    private void setViews(String name, String email, TextDrawable drawable) {
+    private void setViews(String name, String email, TextDrawable drawable, String ageS, String genderS, String phoneS) {
         ImageView image = getView().findViewById(R.id.userImage);
         image.setImageDrawable(drawable);
         TextView userName = getView().findViewById(R.id.userName);
@@ -206,6 +211,10 @@ public class InformationFragment extends Fragment {
 
         userName.setText(name);
         userEmail.setText(email);
+
+        age.setText(ageS);
+        gender.setText(genderS);
+        phone.setText(phoneS);
     }
 
     /**
