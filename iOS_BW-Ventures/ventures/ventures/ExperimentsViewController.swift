@@ -32,6 +32,7 @@ class ExperimentsViewController: UIViewController, UITableViewDataSource, UITabl
     
     var db:Firestore!
     var experimentList = [Experiment]()
+    var selectedExperiment: String?
 
     override func viewWillAppear(_ animated: Bool) {
         
@@ -78,6 +79,7 @@ class ExperimentsViewController: UIViewController, UITableViewDataSource, UITabl
                     exp.customerLocation = experiment.data()["CustomerLocation"] as! String?
                     exp.customerSegment = experiment.data()["CustomerSegment"] as! String?
                     exp.dateCreated = experiment.data()["DateCreated"] as! Date?
+                    exp.documentID = experiment.documentID as String?
                     exp.experimentName = experiment.data()["ExperimentName"] as! String?
                     exp.experimentNumber = experiment.data()["ExperimentNumber"] as! Int?
                     exp.experimentSubtitle = experiment.data()["ExperimentSubtitle"] as! String?
@@ -113,10 +115,9 @@ class ExperimentsViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let nextVC = SingleExperimentViewController()
-        print(experimentList[indexPath.row].experimentNumber!)
-        nextVC.experimentVar = experimentList[indexPath.row].experimentNumber!
-        self.performSegue(withIdentifier: "singleSegue", sender: self)
+        selectedExperiment = experimentList[indexPath.row].documentID
+        
+        self.performSegue(withIdentifier: "toExperimentTabBar", sender: self)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,4 +140,15 @@ class ExperimentsViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toExperimentTabBar" {
+            let tabBarC: UITabBarController = segue.destination as! UITabBarController
+            let desView: SingleExperimentViewController = tabBarC.viewControllers!.first as! SingleExperimentViewController
+            
+            desView.experimentId = selectedExperiment
+        }
+    }
 }
+
+

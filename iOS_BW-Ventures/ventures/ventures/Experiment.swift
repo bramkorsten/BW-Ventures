@@ -13,6 +13,7 @@ class Experiment: NSObject {
     var customerLocation: String?
     var customerSegment: String?
     var dateCreated: Date?
+    var documentID: String?
     var experimentName: String?
     var experimentNumber: Int?
     var experimentSubtitle: String?
