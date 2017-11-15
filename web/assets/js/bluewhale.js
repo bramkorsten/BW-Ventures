@@ -45,6 +45,7 @@ if (user) {
   }
 else {
   if (document.getElementById('popup-background')) {
+    //alert('foute inlog');
     window.location = "index.html";
   }
 }

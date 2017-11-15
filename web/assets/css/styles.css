@@ -789,7 +789,7 @@ DASHBOARD
 
 .popup-background-vis {
   opacity: 1;
-  z-index: 1001;
+  z-index: 500;
 }
 
 .popup-wrap {
