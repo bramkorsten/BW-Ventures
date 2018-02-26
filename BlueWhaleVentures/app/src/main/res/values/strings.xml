@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Ventures</string>
+    <string name="chevron_left">Chevron left</string>
+    <string name="nu_starten">Nu starten</string>
+    <string name="tijd_om_vragen_in_te_vullen">Het is tijd om weer een paar vragen in te vullen! \n Geen zorgen, het duurt maar een paar minuten</string>
+    <string name="title_activity_experiments">ExperimentsActivity</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_experiments">Experiments</string>
+    <string name="title_experiment">Experiment</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_people">People</string>
+    <string name="login_textView_hello">Hello!</string>
+    <string name="login_textView_please_login_to_continue">Please login to continue</string>
+    <string name="login_textView_email_address">Email Address</string>
+    <string name="login_textView_password">Password</string>
+    <string name="login_textView_dont_have_an_account">Don\'t have an account?</string>
+    <string name="login_textView_sign_up">Sign up</string>
+    <string name="login_textView_login">Login</string>
+    <string name="login_textView_hey_user">Hey, Maarten!</string>
+    <string name="newExperiment_textView_new_experiment">New Experiment</string>
+    <string name="newExperiment_textView_general">General</string>
+    <string name="newExperiment_textView_target_audience">Target Audience</string>
+    <string name="newExperiment_textView_goals">Goals</string>
+    <string name="newExperiment_textView_give_your_experiment_a_name">Give your experiment a name</string>
+    <string name="newExperiment_textView_add_a_short_description">Add a short description</string>
+    <string name="newExperiment_textView_describe_the_customer_segment">Describe the customer segment</string>
+    <string name="newExperiment_textView_where_do_you_find_these_customers">Where do you find these customers?</string>
+    <string name="newExperiment_textView_describe_the_problem_hypothesis">Describe the problem hypothesis</string>
+    <string name="newExperiment_textView_describe_the_learning_goal_of_this_experiment">Describe the learning goal of this experiment</string>
+    <string name="newExperiment_textView_how_many_people_are_you_going_to_interview">How many people are you going to interview</string>
+    <string name="newExperiment_textView__8_interviews">8 interviews</string>
+    <string name="newExperiment_textView_what_are_your_fail_conditions">What are your fail conditions?</string>
+    <string name="newExperiment_textView_what_are_your_stop_conditions">What are your stop conditions?</string>
+    <string name="newExperiment_textView_save">Save</string>
+    <string name="experimentLayout_experiment_title">User Experiments</string>
+    <string name="experimentLayout_experiment_desc">This is a description of an experiment that could be viewed in the app</string>
+    <string name="fragmentExperiment_toolbar_title">Experiment</string>
+    <string name="fragmentExperiment_experiment_title">User Experiments</string>
+    <string name="fragmentExperiment_textView_experiment">Experiment</string>
+    <string name="fragmentExperiment_textView_day">DAY</string>
+    <string name="fragmentPeople_textView_completed">Completed</string>
+    <string name="fragmentPeople_textView_day">DAY</string>
+    <string name="fragmentExperiments_toolbarTitle">Experiments</string>
+    <string name="fragmentExperiments_experiments">Experiments</string>
+    <string name="fragmentExperiments_100">/ 100</string>
+    <string name="fragmentExperiments_day">DAY</string>
+    <string name="fragmentExperiments_31">31</string>
+    <string name="fragmentUserInformation_toolbarTitle">Profile</string>
+    <string name="fragmentUserInformation_userName">Maarten Van Kroonenburg</string>
+    <string name="fragmentUserInformation_userEmail">Maarten@bluewhale.com</string>
+    <string name="menuMain_item_add_item">Add item</string>
+    <string name="menuMain_item_logOut">Log out</string>
+    <string name="navigation_person_questions">Questions</string>
+    <string name="navigation_person_person">Person</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
